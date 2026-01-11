@@ -14,11 +14,10 @@ class Book(models.Model):
     photo = models.ImageField(upload_to='book_photos/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='books/', blank=True, null=True)  # The eBook
-    is_borrowed = models.BooleanField(default=False)
-    
-    @property
-    def is_borrowed(self):
-        return self.borrows.filter(returned=False).exists()
+    is_borrowed = serializers.SerializerMethodField(method_name='get_currently_borrowed')
+
+    def get_currently_borrowed(self, obj):
+        return obj.currently_borrowed
 
     @property
     def current_borrow(self):
