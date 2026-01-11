@@ -1,0 +1,38 @@
+<app-header></app-header>
+
+<div class="container">
+  <h1>My Borrowed Books</h1>
+
+  <ng-container *ngIf="borrowed$ | async as borrowed; else loading">
+    <table mat-table [dataSource]="borrowed" class="mat-elevation-z8">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let item"> {{item.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef> Author </th>
+        <td mat-cell *matCellDef="let item"> {{item.author}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="borrow_date">
+        <th mat-header-cell *matHeaderCellDef> Borrowed On </th>
+        <td mat-cell *matCellDef="let item"> {{item.borrow_date | date:'mediumDate'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="return_due">
+        <th mat-header-cell *matHeaderCellDef> Due Date </th>
+        <td mat-cell *matCellDef="let item"> {{item.return_due | date:'mediumDate'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <p *ngIf="borrowed.length === 0" class="empty">You haven't borrowed any books yet.</p>
+  </ng-container>
+
+  <ng-template #loading>
+    <p class="loading">Loading your borrowed books...</p>
+  </ng-template>
+</div>

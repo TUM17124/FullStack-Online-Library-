@@ -1,0 +1,62 @@
+<app-header></app-header>
+
+<div class="container">
+  <h1>Available Books</h1>
+
+  <ng-container *ngIf="books$ | async as books; else loading">
+    <table mat-table [dataSource]="books" class="mat-elevation-z8">
+      <ng-container matColumnDef="photo">
+  <th mat-header-cell *matHeaderCellDef> Cover </th>
+  <td mat-cell *matCellDef="let book">
+    <img 
+      [src]="book.photo" 
+      alt="{{book.title}} cover"
+      class="book-cover"
+      (error)="onImageError($event)"
+    >
+  </td>
+</ng-container>
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let book"> {{book.title}} </td>
+      </ng-container>
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef> Author </th>
+        <td mat-cell *matCellDef="let book"> {{book.author}} </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+  <th mat-header-cell *matHeaderCellDef> Action </th>
+  <td mat-cell *matCellDef="let book">
+    <!-- Show Borrow button only if book is NOT borrowed -->
+    <button mat-raised-button color="primary" 
+            *ngIf="!book.is_borrowed"
+            (click)="borrowBook(book.id)">
+      Borrow
+    </button>
+
+    <!-- Show Return + Read if borrowed -->
+    <div *ngIf="book.is_borrowed">
+      <button mat-raised-button color="warn" (click)="returnBook(book.id)">
+        Return
+      </button>
+      <button mat-raised-button color="accent" 
+              *ngIf="book.file_url"
+              (click)="readBook(book.id)">
+        Read
+      </button>
+    </div>
+  </td>
+</ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <p *ngIf="books.length === 0" class="no-books">No books available right now.</p>
+  </ng-container>
+
+  <ng-template #loading>
+    <p class="loading">Loading books...</p>
+  </ng-template>
+</div>

@@ -1,0 +1,29 @@
+
+<app-header></app-header>
+<div class="container">
+  <h1>Overdue Books</h1>
+  
+  <p *ngIf="overdue.length === 0">No overdue books — great job keeping up!</p>
+  
+  <table mat-table [dataSource]="overdue" class="mat-elevation-z8" *ngIf="overdue.length > 0">
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let item"> {{item.title}} </td>
+    </ng-container>
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef> Author </th>
+      <td mat-cell *matCellDef="let item"> {{item.author}} </td>
+    </ng-container>
+    <ng-container matColumnDef="return_due">
+      <th mat-header-cell *matHeaderCellDef> Due Date </th>
+      <td mat-cell *matCellDef="let item"> {{item.return_due | date:'mediumDate'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="days_overdue">
+      <th mat-header-cell *matHeaderCellDef> Days Overdue </th>
+      <td mat-cell *matCellDef="let item" class="overdue-days"> {{item.days_overdue}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
