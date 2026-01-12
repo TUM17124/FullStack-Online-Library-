@@ -150,6 +150,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://online-library-frontend.onrender.com",
     "http://localhost:3000",
+    "http://localhost:4200",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://mindandmoney.onrender.com",
