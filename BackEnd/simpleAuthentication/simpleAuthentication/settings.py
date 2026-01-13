@@ -154,7 +154,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://mindandmoney.onrender.com",
-    "https://online-library-backend-1js2.onrender.com",
 ]
 
 
