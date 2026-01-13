@@ -13,7 +13,7 @@ export interface Book {
   providedIn: 'root'
 })
 export class LibraryService {
-  private baseUrl = 'http://localhost:8000'; // Django backend base URL
+  private baseUrl = 'https://mindandmoney.onrender.com'; // Django backend base URL
 
   constructor(private http: HttpClient) {}
 
