@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://mindandmoney.onrender.com'
+  apiUrl: 'https://online-library-tum.onrender.com'
 };
