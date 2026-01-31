@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build -c production && copy src\\_redirects dist\\library-frontend\\_redirects",
+    "build:prod": "ng build -c production",
+    "postbuild": "npx cpy src/_redirects dist/library-frontend",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:library-frontend": "node dist/library-frontend/server/server.mjs"
@@ -46,6 +47,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "cpy-cli": "^6.0.0",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
