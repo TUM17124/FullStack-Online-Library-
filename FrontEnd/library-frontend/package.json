@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build -c production && cp src/_redirects dist/library-frontend/_redirects",
+    "build:prod": "ng build -c production && copy src\\_redirects dist\\library-frontend\\_redirects",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:library-frontend": "node dist/library-frontend/server/server.mjs"
