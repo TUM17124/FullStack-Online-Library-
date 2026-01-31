@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = [
     "mindandmoney.onrender.com",
-    "https://online-library-backend-1js2.onrender.com",
+    "online-library-tum.onrender.com",
 ]
 
 
@@ -148,12 +148,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS =False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "https://online-library-backend-1js2.onrender.com",
+    "https://online-library-tum.onrender.com",
     "http://localhost:3000",
     "http://localhost:4200",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://mindandmoney.onrender.com",
+    "https://online-library-tum.onrender.com",
+    "http://localhost:3000",
 ]
 
 
