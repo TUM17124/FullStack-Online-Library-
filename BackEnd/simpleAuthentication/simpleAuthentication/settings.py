@@ -153,13 +153,9 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://online-library-tum.onrender.com",
-    "http://localhost:3000",
-    "http://localhost:4200",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://mindandmoney.onrender.com",
-    "https://online-library-tum.onrender.com",
-    "http://localhost:3000",
 ]
 
 
