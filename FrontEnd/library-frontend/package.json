@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ng serve",
     "build:prod": "ng build -c production && node copy-redirects.js",
-     "serve:ssr": "node dist/library-frontend/server/main.js"
+    "serve:ssr": "node dist/library-frontend/server/main.js"
   },
   "dependencies": {
     "@angular/animations": "^21.0.6",
