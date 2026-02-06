@@ -109,6 +109,24 @@ CORS_ALLOW_METHODS = [
     "PUT",
 ]
 
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+# Optional but helpful for debugging
+CORS_EXPOSE_HEADERS = [
+    "content-type",
+    "x-csrftoken",
+]
+
 CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours – reduces OPTIONS requests
 
 CORS_ALLOW_HEADERS = [
