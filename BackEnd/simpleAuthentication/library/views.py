@@ -207,6 +207,9 @@ class RegisterView(APIView):
     authentication_classes = []
     throttle_classes = [OTPThrottle]
 
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     def post(self, request):
         required_fields = ['first_name', 'last_name', 'username', 'email', 'password', 'password2']
         data = {field: request.data.get(field) for field in required_fields}
