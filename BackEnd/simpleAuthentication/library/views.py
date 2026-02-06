@@ -278,7 +278,7 @@ Library Team
                 ''',
                 from_email=EMAIL_HOST_USER,
                 recipient_list=[data['email']],
-                fail_silently=False,
+                fail_silently=True,
             )
 
             return Response({
