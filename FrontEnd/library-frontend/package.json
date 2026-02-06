@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ng serve",
-    "build:prod": "ng build -c production && node copy-redirects.js",
+    "build:prod": "ng build -c production",
     "serve:ssr": "node dist/library-frontend/server/main.js"
   },
   "dependencies": {
