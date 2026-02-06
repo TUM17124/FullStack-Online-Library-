@@ -99,6 +99,18 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",                  # local dev
 ]
 
+# In settings.py
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours – reduces OPTIONS requests
+
 CORS_ALLOW_HEADERS = [
     "accept",
     "authorization",
