@@ -26,7 +26,6 @@ ALLOWED_HOSTS = [
     "localhost",
     ".onrender.com",                    # wildcard for all Render subdomains (recommended)
     "online-library-tum.onrender.com",  # your backend URL
-    "mindandmoney.onrender.com",        # if still needed
 ]
 
 
