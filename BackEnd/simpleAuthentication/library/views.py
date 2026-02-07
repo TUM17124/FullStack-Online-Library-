@@ -241,7 +241,6 @@ class RegisterView(APIView):
 
             user.is_active = False
             user.save()
-
             user.refresh_from_db()
 
             EmailVerificationCode.objects.filter(user=user).delete()
@@ -251,7 +250,7 @@ class RegisterView(APIView):
                 expires_at=timezone.now() + timedelta(minutes=15)
             )
 
-            # Send email with code - wrapped in try/except
+            # EMAIL SENDING – SAFELY WRAPPED
             try:
                 send_mail(
                     subject='Verify Your Account - 6-Digit Code',
@@ -273,11 +272,15 @@ Library Team
                     recipient_list=[data['email']],
                     fail_silently=False,
                 )
+                email_status = "sent"
             except Exception as e:
-                print("Email sending failed:", str(e))  # log to console/logs
+                print(f"Email sending failed: {str(e)}")  # logs to Render console
+                email_status = "failed"
 
             return Response({
-                'message': 'User registered successfully. Please check your email for the verification code.'
+                'message': 'User registered successfully. Please check your email for the verification code.',
+                'email_status': email_status,  # temporary - remove later
+                'verification_code': verification.code  # temporary for testing - remove later
             }, status=status.HTTP_201_CREATED)
 
 @method_decorator(csrf_exempt, name='dispatch')
