@@ -206,64 +206,91 @@ class RegisterView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def post(self, request):
-        required_fields = ['first_name', 'last_name', 'username', 'email', 'password', 'password2']
-        data = {field: request.data.get(field) for field in required_fields}
+    required_fields = ['first_name', 'last_name', 'username', 'email', 'password', 'password2']
+    data = {field: request.data.get(field) for field in required_fields}
 
-        if not all(data.values()):
-            return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
+    if not all(data.values()):
+        return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if data['password'] != data['password2']:
-            return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+    if data['password'] != data['password2']:
+        return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if User.objects.filter(username=data['username']).exists():
-            return Response({'error': 'Username already taken'}, status=status.HTTP_400_BAD_REQUEST)
+    if User.objects.filter(username=data['username']).exists():
+        return Response({'error': 'Username already taken'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if User.objects.filter(email=data['email']).exists():
-            return Response({'error': 'Email already registered'}, status=status.HTTP_400_BAD_REQUEST)
+    if User.objects.filter(email=data['email']).exists():
+        return Response({'error': 'Email already registered'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            validate_password(data['password'])
-        except ValidationError as e:
-            return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        validate_password(data['password'])
+    except ValidationError as e:
+        return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            with transaction.atomic():
-                user = User.objects.create_user(
-                    username=data['username'],
-                    email=data['email'],
-                    password=data['password'],
-                    first_name=data['first_name'],
-                    last_name=data['last_name'],
+    try:
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=data['username'],
+                email=data['email'],
+                password=data['password'],
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+            )
+
+            user.is_active = False
+            user.save()
+            user.refresh_from_db()
+
+            EmailVerificationCode.objects.filter(user=user).delete()
+
+            verification = EmailVerificationCode.objects.create(
+                user=user,
+                expires_at=timezone.now() + timedelta(minutes=15)
+            )
+
+            # EMAIL SENDING - NOW RE-ENABLED WITH SAFE HANDLING
+            email_sent = False
+            email_error = None
+            try:
+                send_mail(
+                    subject='Verify Your Account - 6-Digit Code',
+                    message=f'''
+Hello {data['username']},
+
+Thank you for registering!
+
+Your verification code is: {verification.code}
+
+This code expires in 15 minutes.
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+Library Team
+                    ''',
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[data['email']],
+                    fail_silently=False,
                 )
+                email_sent = True
+            except Exception as e:
+                email_error = str(e)
+                print(f"Email sending failed: {email_error}")
 
-                user.is_active = False
-                user.save()
-                user.refresh_from_db()
+            return Response({
+                'message': 'User registered successfully. Please check your email for the verification code.' if email_sent else 'User registered successfully (email sending failed - check logs).',
+                'email_status': 'sent' if email_sent else 'failed',
+                'email_error': email_error if email_error else None,
+                'verification_code': verification.code if not email_sent else None,  # temporary for testing
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email
+                }
+            }, status=status.HTTP_201_CREATED)
 
-                EmailVerificationCode.objects.filter(user=user).delete()
-
-                verification = EmailVerificationCode.objects.create(
-                    user=user,
-                    expires_at=timezone.now() + timedelta(minutes=15)
-                )
-
-                # EMAIL SENDING IS DISABLED TO PREVENT WORKER CRASH
-                # Do NOT call send_mail() here — it is causing the process to die
-                print(f"Registration success - verification code (email disabled): {verification.code}")
-
-                return Response({
-                    'message': 'User registered successfully. Email sending is disabled for now (use code below to verify manually).',
-                    'verification_code': verification.code,  # temporary — for testing
-                    'user': {
-                        'id': user.id,
-                        'username': user.username,
-                        'email': user.email
-                    }
-                }, status=status.HTTP_201_CREATED)
-
-        except Exception as e:
-            print(f"Registration error: {str(e)}")
-            return Response({'error': 'Registration failed - server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        print(f"Registration error: {str(e)}")
+        return Response({'error': 'Registration failed - server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VerifyEmailView(APIView):
