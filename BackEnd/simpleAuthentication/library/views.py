@@ -202,6 +202,7 @@ class RegisterView(APIView):
     throttle_classes = [OTPThrottle]
 
     def options(self, request, *args, **kwargs):
+        print("OPTIONS request received for /api/register/")
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def post(self, request):
