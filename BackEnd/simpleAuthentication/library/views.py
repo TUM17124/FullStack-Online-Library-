@@ -260,21 +260,20 @@ class RegisterView(APIView):
             )
 
             # Send email with code
-            send_mail(
-                subject='Verify Your Account - 6-Digit Code',
-                message=f'''
-Hello {data['username']},
+ #           send_mail(
+ #               subject='Verify Your Account - 6-Digit Code',
+  #              message=f'''
+#Hello {data['username']},
 
-Thank you for registering!
+#Thank you for registering!
 
-Your verification code is: {verification.code}
+#Your verification code is: {verification.code}
 
-This code expires in 15 minutes.
+#This code expires in 15 minutes.
 
-If you didn't request this, please ignore this email.
+#If you didn't request this, please ignore this email.
 
-Best regards,
-Library Team
+#Best regards,
                 ''',
                 from_email=EMAIL_HOST_USER,
                 recipient_list=[data['email']],
