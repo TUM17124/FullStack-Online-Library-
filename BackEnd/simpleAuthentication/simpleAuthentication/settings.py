@@ -91,13 +91,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
-#CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [
     "https://mindandmoney.onrender.com",      # frontend
     "http://localhost:4200",                  # local dev
-#]
+]
 
 # In settings.py
 CORS_ALLOW_METHODS = [
