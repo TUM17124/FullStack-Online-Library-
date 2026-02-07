@@ -260,30 +260,34 @@ class RegisterView(APIView):
             )
 
             # Send email with code
- #           send_mail(
- #               subject='Verify Your Account - 6-Digit Code',
-  #              message=f'''
-#Hello {data['username']},
+        try    
+            send_mail(
+                subject='Verify Your Account - 6-Digit Code',
+                message=f'''
+Hello {data['username']},
 
-#Thank you for registering!
+Thank you for registering!
 
-#Your verification code is: {verification.code}
+Your verification code is: {verification.code}
 
-#This code expires in 15 minutes.
+This code expires in 15 minutes.
 
-#If you didn't request this, please ignore this email.
+If you didn't request this, please ignore this email.
 
-#Best regards,
+Best regards,
+Library Team
                 ''',
                 from_email=EMAIL_HOST_USER,
                 recipient_list=[data['email']],
-                fail_silently=True,
+                fail_silently=False,
             )
 
             return Response({
                 'message': 'User registered successfully. Please check your email for the verification code.'
             }, status=status.HTTP_201_CREATED)
-
+        except Exception as e:
+            print("Email sending failed:", str(e))  # log to console
+           # continue anyway
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VerifyEmailView(APIView):
