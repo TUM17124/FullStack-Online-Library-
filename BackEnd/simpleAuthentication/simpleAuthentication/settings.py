@@ -136,13 +136,18 @@ CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours – reduces OPTIONS requests
 # EMAIL SETTINGS - USE ENV VARS ONLY
 # ──────────────────────────────────────────────────────────────
 
+# Email configuration - all from environment variables
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')  # ← must be set in Render
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')          # default to Gmail
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 
+# Optional: fail loudly in development if credentials missing
+if not DEBUG and (not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD):
+    raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set in production")
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT
 # ──────────────────────────────────────────────────────────────
