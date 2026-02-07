@@ -202,7 +202,7 @@ class RegisterView(APIView):
     throttle_classes = [OTPThrottle]
 
     def options(self, request, *args, **kwargs):
-        print("OPTIONS request received for /api/register/")
+        print("OPTIONS request received for /api/register/")  # debug log
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def post(self, request):
@@ -247,7 +247,7 @@ class RegisterView(APIView):
                     expires_at=timezone.now() + timedelta(minutes=15)
                 )
 
-                # EMAIL SENDING – SAFELY WRAPPED
+                # EMAIL SENDING - SAFELY WRAPPED AND LOGGED
                 email_sent = False
                 email_error = None
                 try:
@@ -277,7 +277,7 @@ Library Team
                     print(f"Email sending failed: {email_error}")
 
                 return Response({
-                    'message': 'User registered successfully. Please check your email for the verification code.' if email_sent else 'User registered successfully (email sending failed - check logs).',
+                    'message': 'User registered successfully. Please check your email for the verification code.' if email_sent else 'User registered successfully (email sending failed).',
                     'email_status': 'sent' if email_sent else 'failed',
                     'email_error': email_error if email_error else None,
                     'verification_code': verification.code if not email_sent else None,
