@@ -11,9 +11,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from rest_framework import status
-
 from rest_framework import serializers
-from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -28,7 +26,6 @@ import random
 from simpleAuthentication.settings import EMAIL_HOST_USER
 from .models import Book, Borrow, EmailVerificationCode
 from .throttles import OTPThrottle
-
 from .serializers import BookSerializer, BorrowSerializer
 
 
@@ -40,8 +37,6 @@ class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
         print("LOGIN ATTEMPT - Custom serializer is running!")
         print("Username:", attrs.get('username'))
         print("User active status:", self.user.is_active if hasattr(self, 'user') else "User not found yet")
-
-
 
         data = super().validate(attrs)
 
@@ -63,7 +58,6 @@ class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class StrictTokenObtainPairView(TokenObtainPairView):
     serializer_class = StrictTokenObtainPairSerializer
-    
 
 
 # -----------------------------
@@ -222,6 +216,7 @@ class RegisterView(APIView):
 
         if User.objects.filter(username=data['username']).exists():
             return Response({'error': 'Username already taken'}, status=status.HTTP_400_BAD_REQUEST)
+
         if User.objects.filter(email=data['email']).exists():
             return Response({'error': 'Email already registered'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -251,7 +246,7 @@ class RegisterView(APIView):
                     expires_at=timezone.now() + timedelta(minutes=15)
                 )
 
-                # EMAIL SENDING – FULLY PROTECTED
+                # EMAIL SENDING – SAFELY WRAPPED
                 email_sent = False
                 email_error = None
                 try:
@@ -295,6 +290,7 @@ Library Team
         except Exception as e:
             print(f"Registration crashed: {str(e)}")
             return Response({'error': 'Registration failed due to server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VerifyEmailView(APIView):
