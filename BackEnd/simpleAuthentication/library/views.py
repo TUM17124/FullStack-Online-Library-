@@ -247,40 +247,13 @@ class RegisterView(APIView):
                     expires_at=timezone.now() + timedelta(minutes=15)
                 )
 
-                # EMAIL SENDING - SAFELY WRAPPED AND LOGGED
-                email_sent = False
-                email_error = None
-                try:
-                    send_mail(
-                        subject='Verify Your Account - 6-Digit Code',
-                        message=f'''
-Hello {data['username']},
-
-Thank you for registering!
-
-Your verification code is: {verification.code}
-
-This code expires in 15 minutes.
-
-If you didn't request this, please ignore this email.
-
-Best regards,
-Library Team
-                        ''',
-                        from_email=EMAIL_HOST_USER,
-                        recipient_list=[data['email']],
-                        fail_silently=False,
-                    )
-                    email_sent = True
-                except Exception as e:
-                    email_error = str(e)
-                    print(f"Email sending failed: {email_error}")
+                # EMAIL SENDING IS DISABLED TO PREVENT WORKER CRASH
+                # Do NOT call send_mail() here — it is causing the process to die
+                print(f"Registration success - verification code (email disabled): {verification.code}")
 
                 return Response({
-                    'message': 'User registered successfully. Please check your email for the verification code.' if email_sent else 'User registered successfully (email sending failed).',
-                    'email_status': 'sent' if email_sent else 'failed',
-                    'email_error': email_error if email_error else None,
-                    'verification_code': verification.code if not email_sent else None,
+                    'message': 'User registered successfully. Email sending is disabled for now (use code below to verify manually).',
+                    'verification_code': verification.code,  # temporary — for testing
                     'user': {
                         'id': user.id,
                         'username': user.username,
@@ -289,9 +262,8 @@ Library Team
                 }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            print(f"Registration crashed: {str(e)}")
-            return Response({'error': 'Registration failed due to server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+            print(f"Registration error: {str(e)}")
+            return Response({'error': 'Registration failed - server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VerifyEmailView(APIView):
