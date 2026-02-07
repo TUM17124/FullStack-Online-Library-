@@ -214,27 +214,22 @@ class RegisterView(APIView):
         required_fields = ['first_name', 'last_name', 'username', 'email', 'password', 'password2']
         data = {field: request.data.get(field) for field in required_fields}
 
-        # Check all fields are provided
         if not all(data.values()):
             return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Password match
         if data['password'] != data['password2']:
             return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Unique username/email
         if User.objects.filter(username=data['username']).exists():
             return Response({'error': 'Username already taken'}, status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(email=data['email']).exists():
             return Response({'error': 'Email already registered'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Validate password strength
         try:
             validate_password(data['password'])
         except ValidationError as e:
             return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Atomic block to ensure no partial creation
         with transaction.atomic():
             user = User.objects.create_user(
                 username=data['username'],
@@ -244,26 +239,23 @@ class RegisterView(APIView):
                 last_name=data['last_name'],
             )
 
-            # Force inactive regardless of any overrides
             user.is_active = False
             user.save()
 
             user.refresh_from_db()
 
-            # Remove any old verification codes
             EmailVerificationCode.objects.filter(user=user).delete()
 
-            # Create new verification code
             verification = EmailVerificationCode.objects.create(
                 user=user,
                 expires_at=timezone.now() + timedelta(minutes=15)
             )
 
-            # Send email with code
-        try    
-            send_mail(
-                subject='Verify Your Account - 6-Digit Code',
-                message=f'''
+            # Send email with code - wrapped in try/except
+            try:
+                send_mail(
+                    subject='Verify Your Account - 6-Digit Code',
+                    message=f'''
 Hello {data['username']},
 
 Thank you for registering!
@@ -276,18 +268,17 @@ If you didn't request this, please ignore this email.
 
 Best regards,
 Library Team
-                ''',
-                from_email=EMAIL_HOST_USER,
-                recipient_list=[data['email']],
-                fail_silently=False,
-            )
+                    ''',
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[data['email']],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print("Email sending failed:", str(e))  # log to console/logs
 
             return Response({
                 'message': 'User registered successfully. Please check your email for the verification code.'
             }, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            print("Email sending failed:", str(e))  # log to console
-           # continue anyway
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VerifyEmailView(APIView):
