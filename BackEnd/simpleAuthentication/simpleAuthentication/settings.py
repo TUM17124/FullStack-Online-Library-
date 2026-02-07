@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',           # ← FIXED POSITION
+    'corsheaders.middleware.CorsMiddleware',           # must be near top
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -91,15 +91,18 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# ──────────────────────────────────────────────────────────────
+# CORS SETTINGS - FIXED & CLEANED
+# ──────────────────────────────────────────────────────────────
+
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://mindandmoney.onrender.com",      # frontend
-    "http://localhost:4200",                  # local dev
+    "https://mindandmoney.onrender.com",  # production frontend
+    "http://localhost:4200",              # local Angular dev
 ]
 
-# In settings.py
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
@@ -121,22 +124,28 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-# Optional but helpful for debugging
 CORS_EXPOSE_HEADERS = [
     "content-type",
     "x-csrftoken",
+    "authorization",
 ]
 
 CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours – reduces OPTIONS requests
 
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "authorization",
-    "content-type",
-    "origin",
-    "x-csrftoken",
-    "x-requested-with",
-]
+# ──────────────────────────────────────────────────────────────
+# EMAIL SETTINGS - USE ENV VARS ONLY
+# ──────────────────────────────────────────────────────────────
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')  # ← must be set in Render
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# ──────────────────────────────────────────────────────────────
+# REST FRAMEWORK & JWT
+# ──────────────────────────────────────────────────────────────
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -153,13 +162,6 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'USER_AUTHENTICATION_RULE': 'library.auth_rules.active_user_only',
 }
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'tumgodwinkiprotich@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 APPEND_SLASH = True
 
