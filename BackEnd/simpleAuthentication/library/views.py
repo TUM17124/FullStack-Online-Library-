@@ -291,6 +291,8 @@ Library Team
         except Exception as e:
             print(f"Registration error: {str(e)}")
             return Response({'error': 'Registration failed - server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print("EMAIL_HOST_USER:", EMAIL_HOST_USER)
+            print("EMAIL_HOST_PASSWORD length:", len(EMAIL_HOST_PASSWORD) if EMAIL_HOST_PASSWORD else "MISSING")
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VerifyEmailView(APIView):
