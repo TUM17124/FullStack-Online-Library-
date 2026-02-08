@@ -143,12 +143,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "apikey"                  # This must literally be "apikey"
 EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")  # Your single API key
-DEFAULT_FROM_EMAIL = "no-reply@online-library-tum.onrender.com"
+DEFAULT_FROM_EMAIL = "tumgodwinkiprotich@gmail.com"
 EMAIL_TIMEOUT = 10
 
 if not DEBUG and not EMAIL_HOST_PASSWORD:
     raise ValueError("SENDGRID_API_KEY must be set in production")
-
 
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT
