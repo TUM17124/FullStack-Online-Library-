@@ -216,7 +216,7 @@ class VerifyEmailView(APIView):
         if not email or not code:
             return Response({'error': 'Email and code are required'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            user = User.objects.get(email=email, is_active=False)
+            user = User.objects.get(email=email, is_active=True)
             verification = EmailVerificationCode.objects.get(user=user)
         except (User.DoesNotExist, EmailVerificationCode.DoesNotExist):
             return Response({'error': 'Invalid email or verification code'}, status=status.HTTP_400_BAD_REQUEST)
