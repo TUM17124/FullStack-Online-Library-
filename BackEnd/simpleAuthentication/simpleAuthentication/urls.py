@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+#from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.http import JsonResponse
 
 from simpleAuthentication import settings
@@ -27,7 +27,7 @@ urlpatterns = [
      path('', lambda request: JsonResponse({"message": "Library API root"})),
     path('api/register/', RegisterView.as_view(), name="register"),
     #path('api/token/', StrictTokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name="token_refresh"),
+    #path('api/token/refresh/', TokenRefreshView.as_view(), name="token_refresh"),
     path('api/books/', BookListView.as_view(), name='books'),
     path('api/books/<int:book_id>/borrow/', BorrowBookView.as_view(), name='borrow-book'),
     path('api/borrowed/', BorrowedBooksView.as_view(), name='borrowed-books'),
