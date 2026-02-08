@@ -197,7 +197,7 @@ class RegisterView(APIView):
                 )
 
                 return Response({
-                    'message': 'User registered. Check your email for verification code.',
+                    'message': 'User registered. Check your email for verification code.n/ Comming soon: You can only log in now.',
                     'user': {'id': user.id, 'username': user.username, 'email': user.email}
                 }, status=status.HTTP_201_CREATED)
         except Exception as e:
@@ -229,7 +229,7 @@ class VerifyEmailView(APIView):
 
         verification.is_verified = True
         verification.save()
-        user.is_active = True
+        user.is_active = False
         user.save()
         return Response({'message': 'Email verified successfully! You can now log in.'})
 
