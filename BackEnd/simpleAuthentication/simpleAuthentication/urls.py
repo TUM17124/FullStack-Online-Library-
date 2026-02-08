@@ -26,7 +26,7 @@ from library.views import RegisterView, BookListView, BorrowBookView, BorrowedBo
 urlpatterns = [
      path('', lambda request: JsonResponse({"message": "Library API root"})),
     path('api/register/', RegisterView.as_view(), name="register"),
-    path('api/token/', StrictTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    #path('api/token/', StrictTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path('api/token/refresh/', TokenRefreshView.as_view(), name="token_refresh"),
     path('api/books/', BookListView.as_view(), name='books'),
     path('api/books/<int:book_id>/borrow/', BorrowBookView.as_view(), name='borrow-book'),
