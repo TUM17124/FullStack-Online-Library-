@@ -18,8 +18,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-#from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-#from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.conf import settings
 from .utils import send_email_async
@@ -30,21 +30,21 @@ from .throttles import OTPThrottle
 # ──────────────────────────────────────────────────────────────
 # CUSTOM JWT LOGIN (BLOCK INACTIVE USERS)
 # ──────────────────────────────────────────────────────────────
-#class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
-#    def validate(self, attrs):
-#        data = super().validate(attrs)
-#        if not self.user.is_active:
-#            raise serializers.ValidationError(
-#                detail={
-#                    "error": "account_not_verified",
-#                    "message": "Please verify your email before logging in."
-#                },
-#                code='authorization'
-#            )
-#        return data
+class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        if not self.user.is_active:
+            raise serializers.ValidationError(
+                detail={
+                    "error": "account_not_verified",
+                    "message": "Please verify your email before logging in."
+                },
+                code='authorization'
+            )
+        return data
 
-#class StrictTokenObtainPairView(TokenObtainPairView):
-#    serializer_class = StrictTokenObtainPairSerializer
+class StrictTokenObtainPairView(TokenObtainPairView):
+    serializer_class = StrictTokenObtainPairSerializer
 
 # ──────────────────────────────────────────────────────────────
 # BOOK BORROWING & READING
