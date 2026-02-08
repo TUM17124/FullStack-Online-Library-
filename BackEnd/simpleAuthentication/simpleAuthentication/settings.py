@@ -137,6 +137,7 @@ CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours – reduces OPTIONS requests
 # ──────────────────────────────────────────────────────────────
 
 # Email configuration - all from environment variables
+EMAIL_TIMEOUT = 10
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')          # default to Gmail
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))

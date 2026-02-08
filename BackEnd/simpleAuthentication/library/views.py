@@ -23,7 +23,8 @@ from django.db import transaction
 from datetime import timedelta
 import random
 
-from simpleAuthentication.settings import EMAIL_HOST_USER
+from django.conf import settings
+from .utils import send_email_async
 from .models import Book, Borrow, EmailVerificationCode
 from .throttles import OTPThrottle
 from .serializers import BookSerializer, BorrowSerializer
@@ -248,10 +249,9 @@ class RegisterView(APIView):
                 )
 
                 # EMAIL SENDING - NOW RE-ENABLED WITH SAFE HANDLING
-                email_sent = False
-                email_error = None
+                email_sent = True
                 try:
-                    send_mail(
+                    send_email_async(
                         subject='Verify Your Account - 6-Digit Code',
                         message=f'''
 Hello {data['username']},
@@ -267,7 +267,7 @@ If you didn't request this, please ignore this email.
 Best regards,
 Library Team
                         ''',
-                        from_email=EMAIL_HOST_USER,
+                        from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[data['email']],
                         fail_silently=False,
                     )
@@ -277,10 +277,7 @@ Library Team
                     print(f"Email sending failed: {email_error}")
 
                 return Response({
-                    'message': 'User registered successfully. Please check your email for the verification code.' if email_sent else 'User registered successfully (email sending failed - check logs).',
-                    'email_status': 'sent' if email_sent else 'failed',
-                    'email_error': email_error if email_error else None,
-                    'verification_code': verification.code if not email_sent else None,  # temporary for testing
+                    'message': 'User registered successfully. Please check your email for the verification code.',
                     'user': {
                         'id': user.id,
                         'username': user.username,
@@ -354,10 +351,10 @@ class ResendVerificationCodeView(APIView):
         EmailVerificationCode.objects.filter(user=user).delete()
         verification = EmailVerificationCode.objects.create(user=user)
 
-        send_mail(
+        send_email_async(
             subject='New Verification Code',
             message=f'Your new verification code is: {verification.code}\nValid for 15 minutes.',
-            from_email=EMAIL_HOST_USER,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
             fail_silently=False,
         )
@@ -386,10 +383,10 @@ class PasswordResetRequestView(APIView):
         expires_at = timezone.now() + timedelta(minutes=15)
         EmailVerificationCode.objects.create(user=user, code=code, expires_at=expires_at)
 
-        send_mail(
+        send_email_async(
             subject='Password Reset Code',
             message=f'Your password reset code is: {code}\nValid for 15 minutes.',
-            from_email=EMAIL_HOST_USER,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
             fail_silently=False
         )
@@ -430,10 +427,10 @@ class PasswordResetConfirmView(APIView):
         user.save()
         verification.delete()
 
-        send_mail(
+        send_email_async(
             subject='Password Reset Successful',
             message='Your password has been reset successfully.',
-            from_email=EMAIL_HOST_USER,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
             fail_silently=True
         )
@@ -471,11 +468,11 @@ class ChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
 
-        send_mail(
+        send_email_async(
             subject='Password Changed Successfully',
             message='Hello,\n\nYour password has been successfully updated.\n\n'
                     'If you did not request this change, please contact support immediately.',
-            from_email=EMAIL_HOST_USER,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
             fail_silently=True,
         )
