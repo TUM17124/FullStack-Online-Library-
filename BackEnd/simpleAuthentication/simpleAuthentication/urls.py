@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.http import JsonResponse
 
 from simpleAuthentication import settings
-from library.views import RegisterView, BookListView, BorrowBookView, BorrowedBooksView,OverdueBooksView,ChangePasswordView, ReadBookView,ReturnBookView,VerifyEmailView, ResendVerificationCodeView, PasswordResetRequestView, PasswordResetConfirmView
+from library.views import RegisterView, BookListView, BorrowBookView, BorrowedBooksView, StrictTokenObtainPairView,OverdueBooksView,ChangePasswordView, ReadBookView,ReturnBookView,VerifyEmailView, ResendVerificationCodeView, PasswordResetRequestView, PasswordResetConfirmView
 
 urlpatterns = [
      path('', lambda request: JsonResponse({"message": "Library API root"})),
