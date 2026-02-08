@@ -5,11 +5,15 @@ Django settings for simpleAuthentication project.
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "my-local-dev-secret-key")
-DEBUG = os.getenv("DEBUG", "False") == "True"
+# ──────────────────────────────────────────────────────────────
+# CORE SETTINGS
+# ──────────────────────────────────────────────────────────────
+SECRET_KEY = config("SECRET_KEY", default="my-local-dev-secret-key")
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -18,6 +22,9 @@ ALLOWED_HOSTS = [
     "online-library-tum.onrender.com",
 ]
 
+# ──────────────────────────────────────────────────────────────
+# INSTALLED APPS
+# ──────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
     # Django apps
     'django.contrib.admin',
@@ -31,12 +38,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'anymail',  # << Added for SendGrid support
 
     # Local apps
     'library',
 ]
 
+# ──────────────────────────────────────────────────────────────
+# MIDDLEWARE
+# ──────────────────────────────────────────────────────────────
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -125,18 +134,21 @@ CORS_EXPOSE_HEADERS = ["content-type", "x-csrftoken", "authorization"]
 CORS_PREFLIGHT_MAX_AGE = 86400
 
 # ──────────────────────────────────────────────────────────────
-# EMAIL SETTINGS - Anymail + SendGrid
+# EMAIL SETTINGS (Django SMTP)
 # ──────────────────────────────────────────────────────────────
-EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
-ANYMAIL = {
-    "SENDGRID_API_KEY": os.environ.get("SENDGRID_API_KEY"),
-}
-
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@online-library-tum.onrender.com")
+# Email settings using a single SendGrid API key
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "apikey"                  # This must literally be "apikey"
+EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")  # Your single API key
+DEFAULT_FROM_EMAIL = "no-reply@online-library-tum.onrender.com"
 EMAIL_TIMEOUT = 10
 
-if not DEBUG and not ANYMAIL["SENDGRID_API_KEY"]:
+if not DEBUG and not EMAIL_HOST_PASSWORD:
     raise ValueError("SENDGRID_API_KEY must be set in production")
+
 
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT
@@ -162,7 +174,7 @@ APPEND_SLASH = True
 # ──────────────────────────────────────────────────────────────
 # SECURITY
 # ──────────────────────────────────────────────────────────────
-SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "False") == "True"
+SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", default=False, cast=bool)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
