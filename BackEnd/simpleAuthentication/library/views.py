@@ -197,7 +197,7 @@ class RegisterView(APIView):
                 )
 
                 return Response({
-                    'message': 'User registered. Check your email for verification code.\nComming soon: You can only log in now.',
+                    'message': 'User registered. Check your email for verification code.',
                     'user': {'id': user.id, 'username': user.username, 'email': user.email}
                 }, status=status.HTTP_201_CREATED)
         except Exception as e:
@@ -227,7 +227,7 @@ class VerifyEmailView(APIView):
         if verification.code != code:
             return Response({'error': 'Invalid verification code'}, status=status.HTTP_400_BAD_REQUEST)
 
-        verification.is_verified = True
+        verification.is_verified = False
         verification.save()
         user.is_active = False
         user.save()
