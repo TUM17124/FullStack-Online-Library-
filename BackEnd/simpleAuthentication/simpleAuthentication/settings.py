@@ -9,7 +9,6 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "my-local-dev-secret-key")
-
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
@@ -20,22 +19,28 @@ ALLOWED_HOSTS = [
 ]
 
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'anymail',  # << Added for SendGrid support
+
+    # Local apps
     'library',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',           # must be near top
+    'corsheaders.middleware.CorsMiddleware',  # must be near top
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -63,6 +68,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'simpleAuthentication.wsgi.application'
 
+# ──────────────────────────────────────────────────────────────
+# DATABASE
+# ──────────────────────────────────────────────────────────────
 DATABASES = {
     "default": dj_database_url.config(
         default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
@@ -70,6 +78,9 @@ DATABASES = {
     )
 }
 
+# ──────────────────────────────────────────────────────────────
+# AUTH PASSWORD VALIDATORS
+# ──────────────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -82,6 +93,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# ──────────────────────────────────────────────────────────────
+# STATIC & MEDIA
+# ──────────────────────────────────────────────────────────────
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -92,67 +106,41 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ──────────────────────────────────────────────────────────────
-# CORS SETTINGS - FIXED & CLEANED
+# CORS SETTINGS
 # ──────────────────────────────────────────────────────────────
-
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://mindandmoney.onrender.com",  # production frontend
-    "http://localhost:4200",              # local Angular dev
+    "https://mindandmoney.onrender.com",
+    "http://localhost:4200",
 ]
 
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-]
-
+CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
+    "accept", "accept-encoding", "authorization", "content-type", "dnt",
+    "origin", "user-agent", "x-csrftoken", "x-requested-with"
 ]
-
-CORS_EXPOSE_HEADERS = [
-    "content-type",
-    "x-csrftoken",
-    "authorization",
-]
-
-CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours – reduces OPTIONS requests
+CORS_EXPOSE_HEADERS = ["content-type", "x-csrftoken", "authorization"]
+CORS_PREFLIGHT_MAX_AGE = 86400
 
 # ──────────────────────────────────────────────────────────────
-# EMAIL SETTINGS - USE ENV VARS ONLY
+# EMAIL SETTINGS - Anymail + SendGrid
 # ──────────────────────────────────────────────────────────────
+EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+ANYMAIL = {
+    "SENDGRID_API_KEY": os.environ.get("SENDGRID_API_KEY"),
+}
 
-# Email configuration - all from environment variables
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@online-library-tum.onrender.com")
 EMAIL_TIMEOUT = 10
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')          # default to Gmail
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 
-# Optional: fail loudly in development if credentials missing
-if not DEBUG and (not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD):
-    raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set in production")
+if not DEBUG and not ANYMAIL["SENDGRID_API_KEY"]:
+    raise ValueError("SENDGRID_API_KEY must be set in production")
+
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT
 # ──────────────────────────────────────────────────────────────
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -171,6 +159,9 @@ SIMPLE_JWT = {
 
 APPEND_SLASH = True
 
+# ──────────────────────────────────────────────────────────────
+# SECURITY
+# ──────────────────────────────────────────────────────────────
 SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "False") == "True"
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
