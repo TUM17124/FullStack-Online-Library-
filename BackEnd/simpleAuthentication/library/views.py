@@ -197,7 +197,7 @@ class RegisterView(APIView):
                 )
 
                 return Response({
-                    'message': 'User registered. Check your email for verification code.n/ Comming soon: You can only log in now.',
+                    'message': 'User registered. Check your email for verification code.\nComming soon: You can only log in now.',
                     'user': {'id': user.id, 'username': user.username, 'email': user.email}
                 }, status=status.HTTP_201_CREATED)
         except Exception as e:
