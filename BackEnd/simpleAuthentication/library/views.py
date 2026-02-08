@@ -183,7 +183,7 @@ class RegisterView(APIView):
                     first_name=data['first_name'],
                     last_name=data['last_name'],
                 )
-                user.is_active = False
+                user.is_active = True
                 user.save()
                 EmailVerificationCode.objects.filter(user=user).delete()
                 verification = EmailVerificationCode.objects.create(user=user, expires_at=timezone.now() + timedelta(minutes=15))
@@ -227,9 +227,9 @@ class VerifyEmailView(APIView):
         if verification.code != code:
             return Response({'error': 'Invalid verification code'}, status=status.HTTP_400_BAD_REQUEST)
 
-        verification.is_verified = False
+        verification.is_verified = True
         verification.save()
-        user.is_active = False
+        user.is_active = True
         user.save()
         return Response({'message': 'Email verified successfully! You can now log in.'})
 
