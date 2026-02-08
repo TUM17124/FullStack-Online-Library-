@@ -30,21 +30,21 @@ from .throttles import OTPThrottle
 # ──────────────────────────────────────────────────────────────
 # CUSTOM JWT LOGIN (BLOCK INACTIVE USERS)
 # ──────────────────────────────────────────────────────────────
-class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        if not self.user.is_active:
-            raise serializers.ValidationError(
-                detail={
-                    "error": "account_not_verified",
-                    "message": "Please verify your email before logging in."
-                },
-                code='authorization'
-            )
-        return data
+#class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
+#    def validate(self, attrs):
+#        data = super().validate(attrs)
+#        if not self.user.is_active:
+#            raise serializers.ValidationError(
+#                detail={
+#                    "error": "account_not_verified",
+#                    "message": "Please verify your email before logging in."
+#                },
+#                code='authorization'
+#            )
+#        return data
 
-class StrictTokenObtainPairView(TokenObtainPairView):
-    serializer_class = StrictTokenObtainPairSerializer
+#class StrictTokenObtainPairView(TokenObtainPairView):
+#    serializer_class = StrictTokenObtainPairSerializer
 
 # ──────────────────────────────────────────────────────────────
 # BOOK BORROWING & READING
