@@ -34,7 +34,7 @@ export class RegisterComponent {
   // Reactive email control with validation
   emailFormControl = new FormControl('', [
     Validators.required,
-    Validators.email   // Built-in email validator
+    Validators.email
   ]);
 
   step: 'register' | 'verify' = 'register';
@@ -58,20 +58,29 @@ export class RegisterComponent {
     private snackBar: MatSnackBar,
     private router: Router,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+    // Sync string value with reactive control (optional but useful)
+    this.emailFormControl.valueChanges.subscribe(value => {
+      this.email = value || '';
+    });
+  }
 
   // ── Register Step ───────────────────────────────────────────────────────────
   onRegister() {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // Client-side validation
+    // Mark email field as touched to show errors immediately
+    this.emailFormControl.markAsTouched();
+
+    // Full client-side validation including reactive email
     if (
+      !this.first_name.trim() ||
+      !this.last_name.trim() ||
       !this.username.trim() ||
-      !this.email.trim() ||
+      this.emailFormControl.invalid ||   // ← checks required + valid email
       !this.password ||
-      !this.confirmPassword ||
-      this.emailFormControl.invalid  // ← Now checks reactive email validation
+      !this.confirmPassword
     ) {
       this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 4000 });
       this.isLoading = false;
@@ -106,13 +115,14 @@ export class RegisterComponent {
 
         if (err.status === 400 && err.error) {
           const errorObj = err.error;
+
           if (errorObj.error) {
             message = errorObj.error;
           } else if (errorObj.username) {
             message = errorObj.username[0] || 'Username is invalid';
           } else if (errorObj.email) {
             message = errorObj.email[0] || 'Email is invalid';
-            this.emailFormControl.setErrors({ backendError: true }); // Highlight email field
+            this.emailFormControl.setErrors({ backendError: true }); // highlight field
           } else if (errorObj.password) {
             message = errorObj.password.join(' • ') || 'Password is too weak';
           } else if (Array.isArray(errorObj)) {
