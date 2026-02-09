@@ -8,17 +8,13 @@ logger = logging.getLogger(__name__)
 
 def send_email_async(
     subject: str,
-    message: str = "",               # plain text version (required)
-    html_message: str | None = None, # optional HTML
-    recipient_list: list[str],
+    recipient_list: list[str],          # required - first
+    message: str = "",                  # optional (plain text fallback)
+    html_message: str | None = None,    # optional
     from_email: str | None = None,
 ):
     """
-    Send email asynchronously using Django's send_mail (works with Resend backend).
-    
-    - Provide plain text in `message`
-    - Provide HTML in `html_message` (optional)
-    - Falls back to plain text if no HTML
+    Send email asynchronously using Django's send_mail (Resend backend).
     """
     from_email = from_email or settings.DEFAULT_FROM_EMAIL
 
