@@ -4,88 +4,97 @@
       <mat-card-title>Create Account</mat-card-title>
       <mat-card-subtitle>Join the Online Library</mat-card-subtitle>
     </mat-card-header>
-    
+
     <mat-card-content>
-         <!-- STEP 1: REGISTER -->
-<div *ngIf="step === 'register'">
-      <form (ngSubmit)="onRegister()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>First Name</mat-label>
-          <input matInput [(ngModel)]="first_name" name="firstname" required>
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Last Name</mat-label>
-          <input matInput [(ngModel)]="last_name" name="lastname" required>
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="username" name="username" required>
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
+      <!-- STEP 1: REGISTER -->
+      <div *ngIf="step === 'register'">
+        <form (ngSubmit)="onRegister()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>First Name</mat-label>
+            <input matInput [(ngModel)]="first_name" name="first_name" required>
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput [(ngModel)]="last_name" name="last_name" required>
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput [(ngModel)]="username" name="username" required>
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+
+          <!-- Email with reactive validation -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput [formControl]="emailFormControl">
+            <mat-icon matSuffix>email</mat-icon>
+
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('email')">
+              Please enter a <strong>valid email</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" [(ngModel)]="password" name="password" required>
+            <mat-icon matSuffix>lock</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+            <mat-icon matSuffix>lock_outline</mat-icon>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="full-width"
+            [disabled]="isLoading"
+          >
+            {{ isLoading ? 'Creating Account...' : 'Register' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- STEP 2: VERIFY EMAIL -->
+      <div *ngIf="step === 'verify'">
+        <p>A verification code was sent to <strong>{{ email }}</strong></p>
 
         <mat-form-field appearance="outline" class="full-width">
-  <mat-label>Email</mat-label>
-  <input matInput [formControl]="emailFormControl">
-  <mat-icon matSuffix>email</mat-icon>
-
-  <mat-error *ngIf="emailFormControl.hasError('required')">
-    Email is <strong>required</strong>
-  </mat-error>
-  <mat-error *ngIf="emailFormControl.hasError('email')">
-    Please enter a <strong>valid email</strong>
-  </mat-error>
-</mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required>
-          <mat-icon matSuffix>lock</mat-icon>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Confirm Password</mat-label>
-          <input matInput type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
-          <mat-icon matSuffix>lock_outline</mat-icon>
+          <mat-label>6-Digit Code</mat-label>
+          <input matInput [(ngModel)]="code" maxlength="6" placeholder="000000">
         </mat-form-field>
 
         <button
           mat-raised-button
           color="primary"
-          type="submit"
           class="full-width"
-          [disabled]="isLoading"
+          (click)="verifyEmail()"
+          [disabled]="isLoading || !code.trim()"
         >
-          {{ isLoading ? 'Creating Account...' : 'Register' }}
+          {{ isLoading ? 'Verifying...' : 'Verify Email' }}
         </button>
-      </form>
-     </div>
-     <!-- STEP 2: Verify Email -->
-<div *ngIf="step === 'verify'">
-  <p>A verification code was sent to <strong>{{ email }}</strong></p>
-  
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>6-Digit Code</mat-label>
-    <input matInput [(ngModel)]="code" maxlength="6" placeholder="000000">
-  </mat-form-field>
+        <button
+          mat-button
+          color="accent"
+          class="full-width mt-2"
+          (click)="resendVerification()"
+          [disabled]="resendDisabled || isLoading"
+        >
+          {{ resendDisabled ? 'Resend in ' + resendTimer + 's' : 'Resend Verification Code' }}
+        </button>
+      </div>
 
-  <button mat-raised-button color="primary" class="full-width"
-          (click)="verifyEmail()" [disabled]="isLoading">
-    {{ isLoading ? 'Verifying...' : 'Verify Email' }}
-  </button>
-  <button mat-button
-        color="accent"
-        class="full-width mt-2"
-        (click)="resendVerification()"
-        [disabled]="resendDisabled || isLoading">
-
-  {{ resendDisabled ? 'Resend in ' + resendTimer + 's' : 'Resend Verification Code' }}
-
-</button>
-
-</div>
       <div class="links">
         <p>Already have an account? <a routerLink="/login">Login here</a></p>
       </div>

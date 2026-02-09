@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -9,8 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms'; // ← added for email validation
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth';
 
@@ -32,13 +31,10 @@ import { AuthService } from '../../services/auth';
   styleUrl: './register.scss'
 })
 export class RegisterComponent {
-
-  // ──────────────────────────────────────────────────────────────
-  // Added only this: email validation with FormControl
-  // ──────────────────────────────────────────────────────────────
+  // Reactive email control with validation
   emailFormControl = new FormControl('', [
     Validators.required,
-    Validators.email   // built-in Angular email validator
+    Validators.email   // Built-in email validator
   ]);
 
   step: 'register' | 'verify' = 'register';
@@ -64,14 +60,20 @@ export class RegisterComponent {
     private cd: ChangeDetectorRef
   ) {}
 
-  // STEP 1 — Register
+  // ── Register Step ───────────────────────────────────────────────────────────
   onRegister() {
     this.isLoading = true;
-    this.errorMessage = ''; // reset previous general error
+    this.errorMessage = '';
 
-    // Basic client-side validation
-    if (!this.username.trim() || !this.email.trim() || !this.password || !this.confirmPassword) {
-      this.snackBar.open('Please fill in all required fields', 'Close', { duration: 4000 });
+    // Client-side validation
+    if (
+      !this.username.trim() ||
+      !this.email.trim() ||
+      !this.password ||
+      !this.confirmPassword ||
+      this.emailFormControl.invalid  // ← Now checks reactive email validation
+    ) {
+      this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 4000 });
       this.isLoading = false;
       return;
     }
@@ -102,33 +104,25 @@ export class RegisterComponent {
         this.isLoading = false;
         let message = 'Registration failed. Please try again.';
 
-        // ────── Better backend error parsing ──────
         if (err.status === 400 && err.error) {
           const errorObj = err.error;
-
-          // Case 1: General single error
           if (errorObj.error) {
             message = errorObj.error;
-          }
-          // Case 2: Field-specific error (most common from Django)
-          else if (errorObj.username) {
+          } else if (errorObj.username) {
             message = errorObj.username[0] || 'Username is invalid';
-          }
-          else if (errorObj.email) {
+          } else if (errorObj.email) {
             message = errorObj.email[0] || 'Email is invalid';
-          }
-          else if (errorObj.password) {
+            this.emailFormControl.setErrors({ backendError: true }); // Highlight email field
+          } else if (errorObj.password) {
             message = errorObj.password.join(' • ') || 'Password is too weak';
-          }
-          // Case 3: Multiple password validation errors
-          else if (Array.isArray(errorObj)) {
+          } else if (Array.isArray(errorObj)) {
             message = errorObj.join(' • ');
           }
         }
 
         this.snackBar.open(message, 'Close', {
           duration: 7000,
-          panelClass: ['error-snackbar'] // optional red styling
+          panelClass: ['error-snackbar']
         });
 
         this.cd.detectChanges();
@@ -136,24 +130,26 @@ export class RegisterComponent {
     });
   }
 
-  // STEP 2 — Verify Email
+  // ── Verify Email Step ──────────────────────────────────────────────────────
   verifyEmail() {
     this.isLoading = true;
 
-    this.authService.verifyEmail({ email: this.email, code: this.code }).subscribe({
+    this.authService.verifyEmail({ email: this.email.trim(), code: this.code.trim() }).subscribe({
       next: () => {
         this.isLoading = false;
         this.cd.detectChanges();
-        this.snackBar.open('Email verified successfully', 'Close', { duration: 4000 });
+        this.snackBar.open('Email verified successfully!', 'Close', { duration: 4000 });
         this.router.navigate(['/login']);
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open('Invalid verification code', 'Close', { duration: 5000 });
+        this.snackBar.open('Invalid or expired verification code', 'Close', { duration: 5000 });
+        this.cd.detectChanges();
       }
     });
   }
 
+  // ── Resend Verification Code ───────────────────────────────────────────────
   resendVerification() {
     if (this.resendDisabled) return;
 
@@ -161,9 +157,9 @@ export class RegisterComponent {
     this.resendTimer = 30;
     this.cd.detectChanges();
 
-    this.authService.resendVerificationEmail({ email: this.email }).subscribe({
+    this.authService.resendVerificationEmail({ email: this.email.trim() }).subscribe({
       next: () => {
-        this.snackBar.open('Verification code resent', 'Close', { duration: 4000 });
+        this.snackBar.open('Verification code resent!', 'Close', { duration: 4000 });
       },
       error: () => {
         this.snackBar.open('Failed to resend code', 'Close', { duration: 4000 });
@@ -172,9 +168,10 @@ export class RegisterComponent {
 
     const interval = setInterval(() => {
       this.resendTimer--;
-      if (this.resendTimer === 0) {
+      if (this.resendTimer <= 0) {
         clearInterval(interval);
         this.resendDisabled = false;
+        this.cd.detectChanges();
       }
     }, 1000);
   }
