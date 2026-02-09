@@ -26,20 +26,15 @@ ALLOWED_HOSTS = [
 # INSTALLED APPS
 # ──────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
-    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-
-    # Local apps
     'library',
 ]
 
@@ -49,7 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # must be near top
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -134,20 +129,15 @@ CORS_EXPOSE_HEADERS = ["content-type", "x-csrftoken", "authorization"]
 CORS_PREFLIGHT_MAX_AGE = 86400
 
 # ──────────────────────────────────────────────────────────────
-# EMAIL SETTINGS (Django SMTP)
+# EMAIL SETTINGS (Resend API)
 # ──────────────────────────────────────────────────────────────
-# Email settings using a single SendGrid API key
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "apikey"                  # This must literally be "apikey"
-EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")  # Your single API key
+# Use Resend for transactional email (no SMTP backend needed)
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+RESEND_FROM_EMAIL = "Your Name <onboarding@resend.dev>"  # Use a verified sender from Resend
 DEFAULT_FROM_EMAIL = "tumgodwinkiprotich@gmail.com"
-EMAIL_TIMEOUT = 10
 
-if not DEBUG and not EMAIL_HOST_PASSWORD:
-    raise ValueError("SENDGRID_API_KEY must be set in production")
+if not DEBUG and not RESEND_API_KEY:
+    raise ValueError("RESEND_API_KEY must be set in production")
 
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT

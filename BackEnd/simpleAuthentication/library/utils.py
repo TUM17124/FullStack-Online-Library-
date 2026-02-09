@@ -1,33 +1,34 @@
 # utils.py
 import threading
-from django.core.mail import send_mail
+import resend
 from django.conf import settings
 
-def send_email_async(subject: str, message: str, from_email: str, recipient_list: list, fail_silently: bool = True):
+resend.api_key = getattr(settings, "RESEND_API_KEY", None)
+
+def send_email_async(subject: str, html_message: str, recipient_list: list, from_email: str = None):
     """
-    Send email in a separate thread to avoid blocking HTTP requests.
+    Send email asynchronously using Resend API.
 
     Usage:
         send_email_async(
             subject="Hello",
-            message="This is a test",
-            from_email=settings.EMAIL_HOST_USER,
+            html_message="<p>This is a test</p>",
             recipient_list=["user@example.com"]
         )
     """
+    from_email = from_email or getattr(settings, "RESEND_FROM_EMAIL", None)
 
     def send():
         try:
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=from_email,
-                recipient_list=recipient_list,
-                fail_silently=fail_silently,
-            )
+            params = {
+                "from": from_email,
+                "to": recipient_list,
+                "subject": subject,
+                "html": html_message,
+            }
+            resend.Emails.send(params)
         except Exception as e:
-            # Print/log error - safe fail
-            print(f"Email sending failed: {e}")
+            print(f"Resend email sending failed: {e}")
 
     thread = threading.Thread(target=send)
     thread.start()
