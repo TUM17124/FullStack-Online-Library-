@@ -195,7 +195,7 @@ class RegisterView(APIView):
                     message=f"Hello {data['username']},\n\nYour verification code is: {verification.code}\nValid for 15 minutes.",
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[data['email']],
-                    fail_silently=False,
+                    
                 )
                 print("Email queued")
 
@@ -261,7 +261,7 @@ class ResendVerificationCodeView(APIView):
             message=f'Your new verification code is: {verification.code}\nValid for 15 minutes.',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
-            fail_silently=False
+            
         )
         return Response({'message': 'New verification code sent!'})
 
@@ -289,7 +289,7 @@ class PasswordResetRequestView(APIView):
                 message=f'Your password reset code is: {code}\nValid for 15 minutes.',
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[email],
-                fail_silently=False
+                
             )
         return Response({'message': 'If the email exists, a reset code has been sent.'})
 
@@ -329,7 +329,7 @@ class PasswordResetConfirmView(APIView):
             message='Your password has been reset successfully.',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
-            fail_silently=True
+            
         )
 
         return Response({'message': 'Password updated successfully'})
@@ -364,6 +364,6 @@ class ChangePasswordView(APIView):
             message='Your password has been successfully updated.',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
-            fail_silently=True,
+            
         )
         return Response({'message': 'Password updated successfully.'})
