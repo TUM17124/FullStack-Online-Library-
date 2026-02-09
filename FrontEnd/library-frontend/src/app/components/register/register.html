@@ -26,10 +26,17 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required>
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
+  <mat-label>Email</mat-label>
+  <input matInput [formControl]="emailFormControl">
+  <mat-icon matSuffix>email</mat-icon>
+
+  <mat-error *ngIf="emailFormControl.hasError('required')">
+    Email is <strong>required</strong>
+  </mat-error>
+  <mat-error *ngIf="emailFormControl.hasError('email')">
+    Please enter a <strong>valid email</strong>
+  </mat-error>
+</mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
@@ -57,7 +64,7 @@
      <!-- STEP 2: Verify Email -->
 <div *ngIf="step === 'verify'">
   <p>A verification code was sent to <strong>{{ email }}</strong></p>
-  <p>COMMING SOON:YOU CAN LOGIN!</p>
+  
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>6-Digit Code</mat-label>

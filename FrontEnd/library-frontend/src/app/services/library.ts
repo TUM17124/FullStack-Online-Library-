@@ -19,23 +19,23 @@ export class LibraryService {
 
   // ---------------- Books ----------------
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(`${this.baseUrl}/api/books/`);
+    return this.http.get<Book[]>(`${this.baseUrl}api/books/`);
   }
 
   borrowBook(bookId: number) {
-    return this.http.post(`${this.baseUrl}/api/books/${bookId}/borrow/`, {});
+    return this.http.post(`${this.baseUrl}api/books/${bookId}/borrow/`, {});
   }
 
   returnBook(bookId: number) {
-    return this.http.post(`${this.baseUrl}/api/books/${bookId}/return/`, {});
+    return this.http.post(`${this.baseUrl}api/books/${bookId}/return/`, {});
   }
 
   getBorrowedBooks() {
-    return this.http.get<any[]>(`${this.baseUrl}/api/borrowed/`);
+    return this.http.get<any[]>(`${this.baseUrl}api/borrowed/`);
   }
 
   readBook(bookId: number): Observable<Blob> {
-  return this.http.get(`${this.baseUrl}/api/books/${bookId}/read/`, {
+  return this.http.get(`${this.baseUrl}api/books/${bookId}/read/`, {
     responseType: 'blob' // directly returns a Blob
   });
 }

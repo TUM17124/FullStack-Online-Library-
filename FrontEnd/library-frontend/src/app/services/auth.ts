@@ -22,7 +22,7 @@ export class AuthService {
   ) {}
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.baseUrl}/api/token/`, { username, password }).pipe(
+    return this.http.post<any>(`${this.baseUrl}api/token/`, { username, password }).pipe(
       tap(res => {
         localStorage.setItem(this.tokenKey, res.access);
         this.isLoggedIn$.next(true);
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   register(userData: { username: string; email: string; password: string }) {
-    return this.http.post(`${this.baseUrl}/api/register/`, userData);
+    return this.http.post(`${this.baseUrl}api/register/`, userData);
   }
 
   logout() {
@@ -66,7 +66,7 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get(`${this.baseUrl}/api/books/`, { headers });
+    return this.http.get(`${this.baseUrl}api/books/`, { headers });
   }
 
   // ----------------------
@@ -80,17 +80,17 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get(`${this.baseUrl}/api/books/${bookId}/read/`, {
+    return this.http.get(`${this.baseUrl}api/books/${bookId}/read/`, {
       headers,
       responseType: 'blob'
     });
   }
   verifyEmail(data: any) {
-  return this.http.post(`${this.baseUrl}/api/verify-email/`, data);
+  return this.http.post(`${this.baseUrl}api/verify-email/`, data);
 }
 
 resendVerificationEmail(data: any) {
-  return this.http.post(`${this.baseUrl}/api/resend-verification-email/`, data);
+  return this.http.post(`${this.baseUrl}api/resend-verification-email/`, data);
 }
 
 }
