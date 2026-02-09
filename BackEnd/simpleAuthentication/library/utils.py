@@ -1,34 +1,44 @@
 # utils.py
 import threading
-import resend
+import logging
+from django.core.mail import send_mail
 from django.conf import settings
 
-resend.api_key = getattr(settings, "RESEND_API_KEY", None)
+logger = logging.getLogger(__name__)
 
-def send_email_async(subject: str, html_message: str, recipient_list: list, from_email: str = None):
+def send_email_async(
+    subject: str,
+    message: str = "",               # plain text version (required)
+    html_message: str | None = None, # optional HTML
+    recipient_list: list[str],
+    from_email: str | None = None,
+):
     """
-    Send email asynchronously using Resend API.
-
-    Usage:
-        send_email_async(
-            subject="Hello",
-            html_message="<p>This is a test</p>",
-            recipient_list=["user@example.com"]
-        )
+    Send email asynchronously using Django's send_mail (works with Resend backend).
+    
+    - Provide plain text in `message`
+    - Provide HTML in `html_message` (optional)
+    - Falls back to plain text if no HTML
     """
-    from_email = from_email or getattr(settings, "RESEND_FROM_EMAIL", None)
+    from_email = from_email or settings.DEFAULT_FROM_EMAIL
 
-    def send():
+    if not from_email:
+        logger.error("No from_email provided and DEFAULT_FROM_EMAIL not set")
+        return
+
+    def _send():
         try:
-            params = {
-                "from": from_email,
-                "to": recipient_list,
-                "subject": subject,
-                "html": html_message,
-            }
-            resend.Emails.send(params)
+            send_mail(
+                subject=subject,
+                message=message,
+                html_message=html_message,
+                from_email=from_email,
+                recipient_list=recipient_list,
+                fail_silently=False,
+            )
+            logger.info(f"Async email sent to {recipient_list} - Subject: {subject}")
         except Exception as e:
-            print(f"Resend email sending failed: {e}")
+            logger.exception(f"Async email failed to {recipient_list}: {e}")
 
-    thread = threading.Thread(target=send)
+    thread = threading.Thread(target=_send, daemon=True)
     thread.start()

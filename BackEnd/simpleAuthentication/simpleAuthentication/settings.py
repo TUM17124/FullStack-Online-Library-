@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'anymail',               # ← Added: required for Resend integration
     'library',
 ]
 
@@ -129,14 +130,20 @@ CORS_EXPOSE_HEADERS = ["content-type", "x-csrftoken", "authorization"]
 CORS_PREFLIGHT_MAX_AGE = 86400
 
 # ──────────────────────────────────────────────────────────────
-# EMAIL SETTINGS (Resend API)
+# EMAIL SETTINGS (Resend via django-anymail)
 # ──────────────────────────────────────────────────────────────
-# Use Resend for transactional email (no SMTP backend needed)
-RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
-RESEND_FROM_EMAIL = "Your Name <onboarding@resend.dev>"  # Use a verified sender from Resend
-DEFAULT_FROM_EMAIL = "tumgodwinkiprotich@gmail.com"
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
 
-if not DEBUG and not RESEND_API_KEY:
+ANYMAIL = {
+    "RESEND_API_KEY": config("RESEND_API_KEY", default=None),
+}
+
+# Must be a verified sender in Resend dashboard
+# Use onboarding@resend.dev for testing; later change to e.g. "no-reply@yourdomain.com"
+DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
+
+# Safety check for production
+if not DEBUG and not config("RESEND_API_KEY", default=None):
     raise ValueError("RESEND_API_KEY must be set in production")
 
 # ──────────────────────────────────────────────────────────────
