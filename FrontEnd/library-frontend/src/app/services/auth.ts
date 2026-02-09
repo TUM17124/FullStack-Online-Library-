@@ -5,15 +5,13 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl; // e.g. 'https://mindandmoney.onrender.com'
   private tokenKey = 'access_token';
   isLoggedIn$ = new BehaviorSubject<boolean>(this.hasToken());
-  books: any;
 
   constructor(
     private http: HttpClient,
@@ -22,7 +20,7 @@ export class AuthService {
   ) {}
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.baseUrl}api/token/`, { username, password }).pipe(
+    return this.http.post<any>(`${this.baseUrl}/api/token/`, { username, password }).pipe(
       tap(res => {
         localStorage.setItem(this.tokenKey, res.access);
         this.isLoggedIn$.next(true);
@@ -33,7 +31,7 @@ export class AuthService {
   }
 
   register(userData: { username: string; email: string; password: string }) {
-    return this.http.post(`${this.baseUrl}api/register/`, userData);
+    return this.http.post(`${this.baseUrl}/api/register/`, userData);
   }
 
   logout() {
@@ -55,9 +53,6 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // ----------------------
-  // Fetch all books
-  // ----------------------
   getBooks(): Observable<any> {
     const token = this.getToken();
     if (!token) throw new Error('User not authenticated');
@@ -66,12 +61,9 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get(`${this.baseUrl}api/books/`, { headers });
+    return this.http.get(`${this.baseUrl}/api/books/`, { headers });   // ← added /
   }
 
-  // ----------------------
-  // Read a single book (PDF)
-  // ----------------------
   readBook(bookId: number): Observable<Blob> {
     const token = this.getToken();
     if (!token) throw new Error('User not authenticated');
@@ -80,17 +72,17 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get(`${this.baseUrl}api/books/${bookId}/read/`, {
+    return this.http.get(`${this.baseUrl}/api/books/${bookId}/read/`, {
       headers,
       responseType: 'blob'
     });
   }
+
   verifyEmail(data: any) {
-  return this.http.post(`${this.baseUrl}api/verify-email/`, data);
-}
+    return this.http.post(`${this.baseUrl}/api/verify-email/`, data);
+  }
 
-resendVerificationEmail(data: any) {
-  return this.http.post(`${this.baseUrl}api/resend-verification-email/`, data);
-}
-
+  resendVerificationEmail(data: any) {
+    return this.http.post(`${this.baseUrl}/api/resend-verification-email/`, data);
+  }
 }
