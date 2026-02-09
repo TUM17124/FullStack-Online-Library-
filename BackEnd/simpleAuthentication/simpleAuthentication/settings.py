@@ -141,10 +141,11 @@ ANYMAIL = {
 # Must be a verified sender in Resend dashboard
 # Use onboarding@resend.dev for testing; later change to e.g. "no-reply@yourdomain.com"
 DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Safety check for production
-if not DEBUG and not config("RESEND_API_KEY", default=None):
-    raise ValueError("RESEND_API_KEY must be set in production")
+#if not DEBUG and not config("RESEND_API_KEY", default=None):
+#    raise ValueError("RESEND_API_KEY must be set in production")
 
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT

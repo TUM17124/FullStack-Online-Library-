@@ -176,6 +176,7 @@ class RegisterView(APIView):
 
         try:
             with transaction.atomic():
+                print("Creating user...")
                 user = User.objects.create_user(
                     username=data['username'],
                     email=data['email'],
@@ -183,6 +184,7 @@ class RegisterView(APIView):
                     first_name=data['first_name'],
                     last_name=data['last_name'],
                 )
+                print("User created, sending email...")
                 user.is_active = False
                 user.save()
                 EmailVerificationCode.objects.filter(user=user).delete()
@@ -195,12 +197,14 @@ class RegisterView(APIView):
                     recipient_list=[data['email']],
                     fail_silently=False,
                 )
+                print("Email queued")
 
                 return Response({
                     'message': 'User registered. Check your email for verification code.',
                     'user': {'id': user.id, 'username': user.username, 'email': user.email}
                 }, status=status.HTTP_201_CREATED)
         except Exception as e:
+            print("Registration failed:", str(e))
             return Response({'error': f'Registration failed: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
