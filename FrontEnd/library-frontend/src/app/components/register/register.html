@@ -68,7 +68,7 @@
       <!-- STEP 2: VERIFY EMAIL -->
       <div *ngIf="step === 'verify'">
         <p>A verification code was sent to <strong>{{ email }}</strong></p>
-
+         <p>Just login now (HAVE NOT PAID FOR THIS FEATURE)</p>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>6-Digit Code</mat-label>
           <input matInput [(ngModel)]="code" maxlength="6" placeholder="000000">
