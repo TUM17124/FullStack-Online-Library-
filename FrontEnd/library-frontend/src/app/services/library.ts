@@ -16,13 +16,13 @@ export interface Book {
   providedIn: 'root'
 })
 export class LibraryService {
-  private baseUrl = environment.apiUrl; // e.g. 'https://mindandmoney.onrender.com'
+  private baseUrl = environment.apiUrl; 
 
   constructor(private http: HttpClient) {}
 
   // Books
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(`${this.baseUrl}/api/books/`);   // ← added /
+    return this.http.get<Book[]>(`${this.baseUrl}/api/books/`);   
   }
 
   borrowBook(bookId: number) {
