@@ -5,5 +5,8 @@
   <button mat-button routerLink="/books">Books</button>
   <button mat-button routerLink="/borrowed">My Borrowed</button>
   <button mat-button routerLink="/overdue">Overdue</button>
-  <button mat-raised-button color="warn" (click)="authService.logout()">Logout</button>
+  <!-- Logout button appears on all pages except dashboard -->
+  <button *ngIf="showLogout" mat-raised-button color="warn" (click)="authService.logout()">
+    Logout
+  </button>
 </mat-toolbar>
