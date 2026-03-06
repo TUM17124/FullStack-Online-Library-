@@ -1,0 +1,104 @@
+/* app.scss */
+
+/* Reset and global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem;
+}
+
+/* Wrap all app content in a main container */
+main {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Angular Material adjustments */
+.mat-toolbar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mat-card {
+  width: 100%;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Forms */
+mat-form-field {
+  width: 100%;
+}
+
+/* Buttons */
+button.mat-raised-button, button.mat-flat-button, button.mat-stroked-button {
+  text-transform: none;
+}
+
+/* Responsive typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  main {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mat-card {
+    padding: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
