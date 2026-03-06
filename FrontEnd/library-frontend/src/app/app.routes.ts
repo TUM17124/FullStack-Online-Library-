@@ -9,7 +9,7 @@ import { OverdueBooksComponent } from './components/overdue-books/overdue-books'
 import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },  // ← Start at login
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },  // ← Start at dashboard
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPassword },

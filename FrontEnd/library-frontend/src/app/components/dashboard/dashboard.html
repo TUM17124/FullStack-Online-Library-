@@ -1,11 +1,154 @@
 <app-header></app-header>
-<div class="welcome">
-  <h1>Welcome to the Online Library System!</h1>
-  <p>You are logged in.</p>
-  <p>Pages:</p>
-  <ul>
-    <li><a routerLink="/books">Browse Books</a></li>
-    <li><a routerLink="/borrowed">My Borrowed Books</a></li>
-    <li><a routerLink="/overdue">Overdue Books</a></li>
-  </ul>
+
+<div class="landing-container">
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+
+    <div class="hero-content">
+      <h1>Software Development & AI Engineering</h1>
+
+      <p>
+        I build modern web applications, machine learning systems,
+        and AI-powered platforms. I specialize in backend development,
+        intelligent systems, and scalable architectures.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#contact" class="btn-primary">
+          Request a Project
+        </a>
+
+        <a routerLink="/books" class="btn-secondary">
+          Access Learning Library
+        </a>
+
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- SERVICES -->
+  <section class="services">
+
+    <h2>What I Build</h2>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <h3>Web Applications</h3>
+        <p>
+          Backend systems and full web applications using
+          Django, REST APIs, and modern frontend frameworks.
+        </p>
+      </div>
+
+      <div class="service-card">
+        <h3>AI & Machine Learning</h3>
+        <p>
+          Custom ML models, automation systems, and
+          intelligent software solutions.
+        </p>
+      </div>
+
+      <div class="service-card">
+        <h3>LLM Systems</h3>
+        <p>
+          Chatbots, RAG pipelines, knowledge retrieval systems,
+          and AI assistants powered by Large Language Models.
+        </p>
+      </div>
+
+      <div class="service-card">
+        <h3>API Development</h3>
+        <p>
+          Secure and scalable APIs for mobile apps,
+          SaaS platforms, and data services.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LIBRARY SECTION -->
+  <section class="library">
+
+    <div class="library-content">
+
+      <h2>Developer Learning Library</h2>
+
+      <p>
+        Access curated learning resources including software development,
+        artificial intelligence, machine learning, and engineering guides.
+        Registration is required to access the full library.
+      </p>
+
+      <a routerLink="/register" class="btn-library">
+        Register & Access Library
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="contact">
+
+    <h2>Project Request & Collaboration</h2>
+
+    <p>
+      Have a project idea or need a custom software solution?
+      Send a request and I will get back to you.
+    </p>
+
+    <div class="contact-container">
+
+      <form target="_blank"
+            action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a"
+            method="POST">
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+        >
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          required
+        >
+
+        <textarea
+          name="message"
+          placeholder="Describe your project or request"
+          rows="6"
+          required>
+        </textarea>
+
+        <button type="submit" class="btn-submit">
+          Send Request
+        </button>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <p>© 2026 Software Engineering & AI Systems</p>
+
+  </footer>
+
 </div>
