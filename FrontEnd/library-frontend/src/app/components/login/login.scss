@@ -1,110 +1,291 @@
-/* login.scss - Fully Responsive Design */
+/* ======================================
+   VARIABLES
+====================================== */
 
-/* ===== LOGIN CONTAINER ===== */
-//@use '../../styles/responsive-mixins' as *;
-/* Login styles - simplified and visible */
+$primary: #3f51b5;
+$primary-dark: #303f9f;
+$text-dark: #1f2a38;
+$text-light: #e0e0e0;
+$border: #e0e0e0;
+
+$mobile: 599px;
+$tablet: 1024px;
+
+
+/* ======================================
+   LOGIN CONTAINER
+====================================== */
 
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, #f0f2f5, #e9ecef);
+  padding: 1.5rem;
+  background: linear-gradient(135deg,#f0f2f5,#e9ecef);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(circle, rgba(58,123,213,.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+  }
 }
+
+
+/* ======================================
+   LOGIN CARD
+====================================== */
 
 .login-card {
   width: 100%;
   max-width: 450px;
   padding: 2rem;
-  background: #fff;
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  transition: .3s;
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    box-shadow: 0 16px 40px rgba(0,0,0,.16);
+  }
+
+  &:focus-within {
+    outline: 2px solid $primary;
+    outline-offset: 4px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    color: $text-dark;
+    text-align: center;
+    margin-bottom: .5rem;
+  }
+
+  p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: .95rem;
+  }
 }
 
-.login-card h1 {
-  font-size: 1.75rem;
-  color: #1f2a38;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-}
 
-/*Form fields*/
+/* ======================================
+   FORM FIELDS
+====================================== */
+
 .full-width {
   width: 100%;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.3rem;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: .8rem;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    transition: .25s;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba(63,81,181,.12);
+    }
+  }
 }
 
-mat-form-field {
-  width: 100%;
-}
 
-/* Buttons */
-button {
+/* ======================================
+   BUTTONS
+====================================== */
+
+.login-card button {
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  min-height: 44px;
+  padding: .9rem;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: .25s;
   margin-bottom: 1rem;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
 
-  &.mat-raised-button {
-    background-color: #3f51b5;
-    color: #fff;
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
   }
 }
 
-/* Links */
+
+/* Material overrides */
+
+.mat-raised-button {
+  background: $primary;
+  color: white;
+
+  &:hover {
+    background: $primary-dark;
+  }
+}
+
+.mat-stroked-button {
+  border: 2px solid $primary;
+  color: $primary;
+  background: transparent;
+
+  &:hover {
+    background: rgba(63,81,181,.08);
+  }
+}
+
+
+/* ======================================
+   LINKS
+====================================== */
+
 .links {
   text-align: center;
   margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
+  padding-top: 1.2rem;
+  border-top: 1px solid $border;
 
-.links a {
-  color: #3f51b5;
-  text-decoration: none;
-  font-weight: 600;
-  display: block;
-  margin: 0.5rem 0;
+  p {
+    font-size: .9rem;
+    color: #666;
+    margin-bottom: .7rem;
+  }
 
-  &:hover {
-    text-decoration: underline;
+  a {
+    color: $primary;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 0 .4rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
-/* Mobile */
-@media (max-width: 599px) {
+
+/* ======================================
+   MESSAGES
+====================================== */
+
+.error-message {
+  color: #d32f2f;
+  font-size: .85rem;
+  margin-top: .4rem;
+}
+
+.success-message {
+  padding: .8rem;
+  background: rgba(56,142,60,.1);
+  border-left: 4px solid #388e3c;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: .9rem;
+}
+
+
+/* ======================================
+   LOADING STATE
+====================================== */
+
+.loading {
+  opacity: .6;
+  pointer-events: none;
+}
+
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width:$mobile) {
+
   .login-container {
-    min-height: auto;
-    padding: 1rem 0.5rem;
+    padding: 1rem;
   }
 
   .login-card {
-    padding: 1.5rem 1rem;
-    max-width: 100%;
+    padding: 1.4rem;
     border-radius: 8px;
   }
 
-  .login-card h1 {
-    font-size: 1.5rem;
+  .links a {
+    display: block;
+    margin: .4rem 0;
+  }
+}
+
+
+/* ======================================
+   TABLET
+====================================== */
+
+@media (min-width:600px) and (max-width:$tablet) {
+
+  .login-card {
+    max-width: 420px;
   }
 
-  button {
-    padding: 0.6rem;
-    font-size: 0.9rem;
-    min-height: 40px;
+}
+
+
+/* ======================================
+   DARK MODE
+====================================== */
+
+@media (prefers-color-scheme: dark) {
+
+  .login-container {
+    background: linear-gradient(135deg,#1a1a1a,#262626);
   }
+
+  .login-card {
+    background: #2a2a2a;
+    color: $text-light;
+  }
+
+  input, textarea {
+    background: #333;
+    border-color: #444;
+    color: $text-light;
+  }
+
+  .links {
+    border-color: #444;
+  }
+
+  .links a {
+    color: #6f8cff;
+  }
+}
+
+
+/* ======================================
+   ACCESSIBILITY
+====================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
 }

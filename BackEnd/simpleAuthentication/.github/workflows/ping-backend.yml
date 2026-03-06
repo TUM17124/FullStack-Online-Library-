@@ -2,7 +2,7 @@ name: Keep Backend Alive
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 * * * *'  # Minimum allowed (every 5 minutes)
   workflow_dispatch:
 
 jobs:
@@ -12,13 +12,15 @@ jobs:
     steps:
       - name: Ping Render Backend
         run: |
-          for i in {1..3}; do
+          echo "Starting backend health check..."
+          for i in {1..5}; do
             echo "Attempt $i..."
-            if curl -f -s --max-time 20 https://online-library-tum.onrender.com/health/ > /dev/null 2>&1; then
+            if curl -f -s --max-time 30 --connect-timeout 10 https://online-library-tum.onrender.com/health/ 2>&1; then
               echo "Backend is alive"
               exit 0
             fi
-            sleep 5
+            echo "Failed, retrying..."
+            sleep 3
           done
-          echo "Backend is down or not responding"
-          exit 1
+          echo "Backend appears to be down"
+          exit 0

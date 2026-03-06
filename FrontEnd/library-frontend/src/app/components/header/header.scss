@@ -1,87 +1,251 @@
-/* header.scss - Fully Responsive Design */
+/* =========================================
+   HEADER - FULLY RESPONSIVE STYLES
+========================================= */
 
-/* ===== HEADER TOOLBAR ===== */
-//@use '../../styles/responsive-mixins' as *;
-/* Header responsive styles */
-
+/* ===== TOOLBAR ===== */
 mat-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem !important;
-  gap: 0.5rem;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(0.75rem, 3vw, 1.5rem) !important;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  flex-wrap: wrap;
   position: sticky;
   top: 0;
-  z-index: 100;
   width: 100%;
-  background-color: #3f51b5;
-  color: #fff;
-
-  @media (max-width: 599px) {
-    padding: 0.75rem 0.5rem !important;
-  }
-
-  @media (min-width: 600px) {
-    padding: 1rem 1.5rem !important;
-  }
+  z-index: 100;
+  transition: all 0.3s ease;
 }
 
 /* ===== TITLE ===== */
 .title {
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
   font-weight: 600;
+  letter-spacing: -0.5px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   flex-shrink: 0;
-  color: #fff;
+  color: inherit;
 
-  @media (max-width: 599px) {
-    font-size: 1rem;
+  &:focus {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+    border-radius: 4px;
   }
 }
 
 /* ===== SPACER ===== */
 .spacer {
   flex: 1 1 auto;
-  min-width: 0.5rem;
+}
 
-  @media (max-width: 599px) {
-    flex: 1;
-  }
+/* ===== NAV CONTAINER ===== */
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  flex-wrap: wrap;
 }
 
 /* ===== BUTTONS ===== */
 button {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
+  margin-left: clamp(0.25rem, 1vw, 0.75rem);
+  padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
   min-height: 40px;
-  border: none;
+  min-width: 40px;
   border-radius: 4px;
-  color: #fff;
-  background-color: transparent;
+  transition: all 0.25s ease;
   cursor: pointer;
-  transition: all 0.3s ease;
   white-space: nowrap;
 
   &:hover:not(:disabled) {
-    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
   }
 
   &:focus {
-    outline: 2px solid #fff;
+    outline: 2px solid currentColor;
     outline-offset: 2px;
   }
+}
 
-  @media (max-width: 599px) {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.75rem;
-    min-height: 36px;
+/* ===== LOGOUT BUTTON ===== */
+button[color="warn"] {
+  background: #d32f2f !important;
+  color: #fff !important;
+
+  &:hover:not(:disabled) {
+    background: #b71c1c !important;
+  }
+}
+
+/* ===== HAMBURGER MENU ===== */
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  span,
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    margin: 4px auto;
+    transition: .3s;
   }
 
-  &[color="warn"] {
-    background-color: #f44336;
-
-    &:hover {
-      background-color: #d32f2f;
-    }
+  &.open::before {
+    transform: rotate(45deg) translate(5px,5px);
   }
+
+  &.open span {
+    opacity: 0;
+  }
+
+  &.open::after {
+    transform: rotate(-45deg) translate(5px,-5px);
+  }
+}
+
+/* ===== NAV MENU ===== */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+@media (max-width: 599px) {
+
+  mat-toolbar {
+    padding: .75rem .5rem !important;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    flex-direction: column;
+    background: inherit;
+    padding: 1rem;
+    border-top: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  }
+
+  .nav-menu.closed {
+    display: none;
+  }
+
+  .nav-menu button {
+    width: 100%;
+    text-align: left;
+  }
+
+  .spacer {
+    display: none;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+@media (min-width: 600px) and (max-width: 1024px) {
+
+  mat-toolbar {
+    padding: .75rem 1rem !important;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: .875rem;
+  }
+}
+
+/* =========================================
+   DESKTOP
+========================================= */
+@media (min-width: 1025px) {
+
+  mat-toolbar {
+    padding: 1rem 1.5rem !important;
+  }
+
+  button {
+    min-width: 100px;
+    font-size: .95rem;
+  }
+
+}
+
+/* =========================================
+   LARGE DESKTOP
+========================================= */
+@media (min-width: 1440px) {
+
+  button {
+    min-width: 120px;
+  }
+
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+@media (prefers-color-scheme: dark) {
+
+  mat-toolbar {
+    background: #1f2a38;
+    color: #fff;
+  }
+
+  button {
+    color: #fff;
+  }
+
+  .nav-menu {
+    background: #2a3a48;
+  }
+
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+
 }
