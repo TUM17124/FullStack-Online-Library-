@@ -1,556 +1,156 @@
-/* dashboard.scss - Fully Responsive Design */
-//@use '../../styles/responsive-mixins' as *;
+/* Dashboard - simplified */
+
 .container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 clamp(0.5rem, 3vw, 1.5rem);
+  padding: 1.5rem;
+  width: 100%;
 }
 
-/* ===== HERO SECTION ===== */
 .hero {
   background: linear-gradient(135deg, #3a7bd5, #00d2ff);
   color: #fff;
   text-align: center;
-  padding: clamp(3rem, 10vw, 6rem) clamp(0.5rem, 3vw, 1.5rem);
-  position: relative;
-  overflow: hidden;
-  min-height: clamp(300px, 60vh, 600px);
+  padding: 4rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttons {
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
   justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+}
 
-  h1 {
-    font-size: clamp(1.75rem, 6vw, 3rem);
-    margin-bottom: clamp(0.75rem, 2vw, 1rem);
-    font-weight: 700;
-    line-height: 1.2;
-  }
+.buttons button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  min-height: 44px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
-  p {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    margin-bottom: clamp(1.5rem, 3vw, 2rem);
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-  }
-
-  .buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(0.5rem, 2vw, 1rem);
-    justify-content: center;
-    align-items: center;
-
-    button {
-      padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
-      font-size: clamp(0.875rem, 2vw, 1rem);
-      min-height: 44px;
-      font-weight: 500;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-
-      @media (max-width: 599px) {
-        flex: 1 1 calc(50% - 0.25rem);
-        min-width: 120px;
-      }
-
-      &:hover, &:focus {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-
-  /* Mobile landscape */
-  @media (max-height: 600px) {
-    min-height: auto;
-    padding: clamp(1.5rem, 4vw, 3rem) clamp(0.5rem, 2vw, 1rem);
-
-    h1 {
-      font-size: clamp(1.25rem, 4vw, 1.75rem);
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      margin-bottom: 1rem;
-      font-size: clamp(0.875rem, 2vw, 1rem);
-    }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 }
 
-/* ===== SKILLS SECTION ===== */
 .skills {
-  padding: clamp(2rem, 8vw, 4rem) clamp(0.5rem, 3vw, 1.5rem);
+  padding: 3rem 1.5rem;
   text-align: center;
-  background-color: #fff;
+  background: #f9f9f9;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+}
 
-  h2 {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: clamp(0.5rem, 2vw, 1rem);
-    color: #1f2a38;
-    font-weight: 700;
-  }
+.skills h2 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: 1rem;
+  color: #1f2a38;
+  font-weight: 700;
+}
 
-  > p {
-    max-width: 800px;
-    margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
-    color: #555;
-    line-height: 1.6;
-  }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
 
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 30vw, 280px), 1fr));
-    gap: clamp(1rem, 3vw, 2rem);
-    width: 100%;
-  }
+.skill-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 
-  .skill-card {
-    text-align: center;
-    padding: clamp(1.5rem, 4vw, 2rem) clamp(0.75rem, 2vw, 1rem);
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    }
-
-    &:focus-within {
-      outline: 2px solid #3a7bd5;
-      outline-offset: 2px;
-    }
-
-    mat-icon {
-      font-size: clamp(2rem, 8vw, 3rem);
-      width: clamp(2rem, 8vw, 3rem);
-      height: clamp(2rem, 8vw, 3rem);
-      margin-bottom: clamp(0.75rem, 2vw, 1rem);
-      color: #3a7bd5;
-    }
-
-    h3 {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      margin-bottom: clamp(0.5rem, 1vw, 0.8rem);
-      color: #1f2a38;
-      font-weight: 600;
-    }
-
-    p {
-      font-size: clamp(0.875rem, 1.75vw, 0.95rem);
-      color: #555;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 599px) {
-      padding: 1.25rem 0.75rem;
-    }
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   }
 }
 
-/* ===== PROJECTS SECTION ===== */
-.projects {
-  padding: clamp(2rem, 8vw, 4rem) clamp(0.5rem, 3vw, 1.5rem);
-  text-align: center;
-  background-color: #f9f9f9;
-
-  h2 {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: clamp(1.5rem, 3vw, 2rem);
-    color: #1f2a38;
-    font-weight: 700;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(clamp(220px, 35vw, 300px), 1fr));
-    gap: clamp(1.5rem, 3vw, 2rem);
-    width: 100%;
-  }
-
-  .project-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    &:focus-within {
-      outline: 2px solid #3a7bd5;
-      outline-offset: 2px;
-    }
-
-    mat-card-header {
-      padding: clamp(1rem, 2vw, 1.5rem);
-    }
-
-    mat-card-title {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      font-weight: 600;
-    }
-
-    mat-card-subtitle {
-      font-size: clamp(0.875rem, 1.75vw, 0.95rem);
-    }
-
-    mat-card-content {
-      padding: clamp(0.75rem, 2vw, 1.25rem);
-      flex-grow: 1;
-
-      p {
-        font-size: clamp(0.875rem, 1.75vw, 1rem);
-        line-height: 1.5;
-        color: #555;
-      }
-    }
-  }
-
-  @media (max-width: 599px) {
-    .projects-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+.skill-card h3 {
+  font-size: 1.1rem;
+  margin: 1rem 0 0.5rem;
+  color: #1f2a38;
+  font-weight: 600;
 }
 
-/* ===== LIBRARY SECTION ===== */
-.library {
-  padding: clamp(2rem, 8vw, 4rem) clamp(0.5rem, 3vw, 1.5rem);
-  text-align: center;
-  background-color: #fff;
-
-  h2 {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: clamp(1rem, 2vw, 1.5rem);
-    color: #1f2a38;
-    font-weight: 700;
-  }
-
-  p {
-    max-width: 700px;
-    margin: 0 auto clamp(1.5rem, 3vw, 2rem);
-    color: #555;
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
-    line-height: 1.6;
-  }
-
-  .buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(0.5rem, 2vw, 1rem);
-    justify-content: center;
-
-    button {
-      padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
-      font-size: clamp(0.875rem, 2vw, 1rem);
-      min-height: 44px;
-      font-weight: 500;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-
-      @media (max-width: 599px) {
-        flex: 1 1 calc(50% - 0.25rem);
-        min-width: 120px;
-      }
-
-      &:hover, &:focus {
-        transform: translateY(-2px);
-      }
-    }
-  }
+.skill-card p {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
 }
 
-/* ===== CONTACT SECTION ===== */
-.contact {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  padding: clamp(2rem, 8vw, 4rem) clamp(0.5rem, 3vw, 1.5rem);
-
-  h2 {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: clamp(0.5rem, 1vw, 1rem);
-    color: #1f2a38;
-    font-weight: 700;
-    text-align: center;
-  }
-
-  > p {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto clamp(1.5rem, 3vw, 2rem);
-    color: #555;
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
-  }
-
-  form {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(1rem, 2vw, 1.5rem);
-
-    mat-form-field {
-      width: 100%;
-
-      ::ng-deep {
-        .mat-form-field-wrapper {
-          padding-bottom: clamp(0.5rem, 1vw, 0.75rem);
-        }
-      }
-    }
-
-    button {
-      padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
-      font-size: clamp(0.875rem, 2vw, 1rem);
-      min-height: 44px;
-      font-weight: 500;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      align-self: center;
-      min-width: 150px;
-
-      @media (max-width: 599px) {
-        width: 100%;
-        align-self: stretch;
-        min-width: auto;
-      }
-
-      &:hover, &:focus {
-        transform: translateY(-2px);
-      }
-    }
-  }
-
-  @media (max-width: 599px) {
-    form {
-      gap: 1rem;
-    }
-  }
+.skill-card mat-icon {
+  font-size: 2.5rem;
+  color: #3f51b5;
+  margin-bottom: 0.5rem;
 }
 
-/* ===== FOOTER ===== */
 .footer {
   background: #1f2a38;
   color: #fff;
   text-align: center;
-  padding: clamp(1.5rem, 3vw, 2rem) clamp(0.5rem, 3vw, 1.5rem);
-  margin-top: auto;
-
-  p {
-    font-size: clamp(0.875rem, 2vw, 1rem);
-    margin: 0;
-    line-height: 1.6;
-  }
-
-  a {
-    color: #00d2ff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-
-    &:hover, &:focus {
-      color: #fff;
-      text-decoration: underline;
-    }
-  }
+  padding: 2rem;
+  margin-top: 2rem;
 }
 
-/* ===== RESPONSIVE BREAKPOINTS ===== */
-
-/* ===== MOBILE (< 600px) ===== */
+/* Mobile */
 @media (max-width: 599px) {
   .container {
-    padding: 0 0.5rem;
+    padding: 1rem 0.5rem;
   }
 
   .hero {
-    padding: 2rem 0.5rem;
-
-    h1 {
-      font-size: 1.75rem;
-    }
-
-    p {
-      font-size: 1rem;
-    }
-
-    .buttons {
-      gap: 0.5rem;
-
-      button {
-        flex: 1 1 calc(50% - 0.25rem);
-      }
-    }
+    padding: 2rem 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .skills {
-    padding: 1.5rem 0.5rem;
-
-    .skills-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .skill-card {
-      padding: 1.25rem 0.75rem;
-    }
-  }
-
-  .projects {
-    .projects-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .contact {
-    form {
-      gap: 1rem;
-
-      button {
-        width: 100%;
-      }
-    }
-  }
-}
-
-/* ===== TABLET (600px - 1024px) ===== */
-@media (min-width: 600px) and (max-width: 1024px) {
-  .container {
-    padding: 0 1rem;
-  }
-
-  .hero {
-    padding: 4rem 1rem;
-
-    h1 {
-      font-size: 2.2rem;
-    }
-
-    .buttons button {
-      margin: 0 0.5rem;
-    }
-  }
-
-  .skills {
-    .skills-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .projects {
-    .projects-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-}
-
-/* ===== DESKTOP (> 1024px) ===== */
-@media (min-width: 1025px) {
-  .skills {
-    .skills-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .projects {
-    .projects-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-}
-
-/* ===== LARGE DESKTOP (> 1440px) ===== */
-@media (min-width: 1441px) {
-  .container {
-    max-width: 1400px;
-  }
-}
-
-/* ===== LANDSCAPE MODE ===== */
-@media (max-height: 600px) {
-  .hero {
-    min-height: auto;
-    padding: 1.5rem 0.75rem;
-
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      margin-bottom: 1rem;
-    }
-
-    .buttons {
-      gap: 0.5rem;
-    }
-  }
-}
-
-/* ===== PRINT STYLES ===== */
-@media print {
-  .hero,
-  .contact,
-  .footer {
-    background: none;
-    color: #000;
-  }
-
-  button {
-    display: none;
+  .hero h1 {
+    font-size: 1.5rem;
   }
 
   .buttons {
-    display: none;
-  }
-}
+    gap: 0.5rem;
 
-/* ===== ACCESSIBILITY ===== */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .skills,
-  .library,
-  .contact {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-
-    h2 {
-      color: #fff;
-    }
-
-    p {
-      color: #b0b0b0;
+    button {
+      flex: 1;
+      min-width: 120px;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
     }
   }
 
-  .skill-card {
-    background-color: #2a2a2a;
-    color: #e0e0e0;
+  .skills {
+    padding: 1.5rem 1rem;
+  }
 
-    h3 {
-      color: #fff;
-    }
+  .skills h2 {
+    font-size: 1.5rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
