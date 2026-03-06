@@ -15,7 +15,7 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPassword },
 
   // Protected routes (require login)
-  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'books', component: BookListComponent, canActivate: [authGuard] },
   { path: 'borrowed', component: BorrowedBooksComponent, canActivate: [authGuard] },
   { path: 'overdue', component: OverdueBooksComponent, canActivate: [authGuard] },
