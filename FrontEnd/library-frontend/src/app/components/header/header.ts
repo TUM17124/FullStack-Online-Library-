@@ -21,7 +21,7 @@ import { OnInit } from '@angular/core';
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
-export class AppComponent implements OnInit {
+export class HeaderComponent implements OnInit {
   showLogout = true;
 
   constructor(private router: Router, public authService: AuthService) {}

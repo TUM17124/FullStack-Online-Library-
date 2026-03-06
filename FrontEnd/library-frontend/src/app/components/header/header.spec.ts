@@ -20,5 +20,4 @@ describe('Header', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
 });
