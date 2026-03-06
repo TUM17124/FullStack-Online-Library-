@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
-import { RouterLink } from '@angular/router';
-import { Router, NavigationEnd } from '@angular/router';
+import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -27,11 +26,19 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, public authService: AuthService) {}
 
   ngOnInit(): void {
+    // Check current route on init
+    this.updateLogoutVisibility(this.router.url);
+
+    // Listen to navigation events
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        // Hide Logout only on Dashboard
-        this.showLogout = event.urlAfterRedirects !== '/dashboard';
+        this.updateLogoutVisibility(event.urlAfterRedirects);
       });
+  }
+
+  private updateLogoutVisibility(url: string): void {
+    // Hide logout button only on dashboard
+    this.showLogout = !url.includes('/dashboard');
   }
 }
