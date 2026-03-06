@@ -1,10 +1,15 @@
-/* app.scss */
+/* app.scss - Responsive Design for All Devices */
 
 /* Reset and global styles */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: clamp(14px, 2.5vw, 16px); /* Responsive base font size */
 }
 
 body {
@@ -17,7 +22,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 1rem;
+  padding: clamp(0.5rem, 5vw, 1rem);
 }
 
 /* Wrap all app content in a main container */
@@ -26,8 +31,8 @@ main {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding-bottom: 2rem;
+  gap: clamp(1rem, 4vw, 2rem);
+  padding-bottom: clamp(1rem, 4vw, 2rem);
 }
 
 /* Angular Material adjustments */
@@ -36,6 +41,7 @@ main {
   position: sticky;
   top: 0;
   z-index: 100;
+  padding: clamp(0.5rem, 2vw, 1rem) !important;
 }
 
 .mat-card {
@@ -43,26 +49,71 @@ main {
   margin: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: clamp(1rem, 3vw, 1.5rem) !important;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
 }
 
 /* Forms */
 mat-form-field {
   width: 100%;
+  display: block;
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  }
 }
 
-/* Buttons */
-button.mat-raised-button, button.mat-flat-button, button.mat-stroked-button {
+/* Buttons - Touch-friendly on mobile */
+button.mat-raised-button, 
+button.mat-flat-button, 
+button.mat-stroked-button {
   text-transform: none;
+  min-height: 44px; /* Touch target size */
+  padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+
+  &:hover, &:focus {
+    transform: translateY(-2px);
+  }
 }
 
 /* Responsive typography */
-h1, h2, h3, h4, h5, h6 {
+h1 {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  color: #222;
+  margin-bottom: clamp(0.5rem, 2vw, 1rem);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  color: #222;
+  margin-bottom: clamp(0.4rem, 1.5vw, 0.8rem);
+}
+
+h3 {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  color: #222;
+  margin-bottom: clamp(0.3rem, 1vw, 0.6rem);
+}
+
+h4, h5, h6 {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
   color: #222;
   margin-bottom: 0.5rem;
 }
 
 p {
-  margin-bottom: 1rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
+  line-height: 1.6;
 }
 
 /* Images */
@@ -72,33 +123,202 @@ img {
   display: block;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 1024px) {
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover, &:focus {
+    text-decoration: underline;
+    outline: 2px solid #1976d2;
+  }
+}
+
+/* Containers and sections */
+.container {
+  width: 100%;
+  padding: 0 clamp(0.5rem, 3vw, 1.5rem);
+  margin: 0 auto;
+}
+
+section {
+  padding: clamp(1.5rem, 5vw, 3rem) 0;
+  width: 100%;
+}
+
+/* Grid layouts */
+.skills-grid,
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  width: 100%;
+}
+
+/* ===== MOBILE (< 600px) ===== */
+@media (max-width: 599px) {
   body {
     padding: 0.5rem;
   }
 
   main {
-    gap: 1.5rem;
+    gap: 1rem;
+    padding-bottom: 1rem;
   }
-}
 
-@media (max-width: 768px) {
-  main {
-    padding: 0 0.5rem;
+  .mat-toolbar {
+    position: static;
+    padding: 0.5rem !important;
   }
-}
 
-@media (max-width: 480px) {
   .mat-card {
+    padding: 0.75rem !important;
+    margin-bottom: 1rem;
+  }
+
+  button.mat-raised-button,
+  button.mat-flat-button,
+  button.mat-stroked-button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .skills-grid,
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  mat-form-field {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Hide non-essential elements on mobile */
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* ===== TABLET (600px - 1024px) ===== */
+@media (min-width: 600px) and (max-width: 1024px) {
+  body {
     padding: 0.75rem;
   }
 
-  h1 {
-    font-size: 1.5rem;
+  main {
+    gap: 1.5rem;
+    padding: 0 0.5rem;
   }
 
-  p {
-    font-size: 0.9rem;
+  .skills-grid,
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  button.mat-raised-button,
+  button.mat-flat-button,
+  button.mat-stroked-button {
+    min-width: 120px;
+  }
+
+  .mat-card {
+    padding: 1rem !important;
+  }
+}
+
+/* ===== DESKTOP (> 1024px) ===== */
+@media (min-width: 1025px) {
+  body {
+    padding: 1rem;
+  }
+
+  main {
+    gap: 2rem;
+  }
+
+  .skills-grid,
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  button.mat-raised-button,
+  button.mat-flat-button,
+  button.mat-stroked-button {
+    min-width: 150px;
+  }
+
+  /* Show desktop-only elements */
+  .mobile-only {
+    display: none;
+  }
+}
+
+/* ===== LARGE DESKTOP (> 1440px) ===== */
+@media (min-width: 1441px) {
+  main {
+    max-width: 1400px;
+    gap: 2.5rem;
+  }
+
+  .skills-grid,
+  .projects-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+/* ===== LANDSCAPE MODE ===== */
+@media (max-height: 600px) {
+  main {
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  section {
+    padding: 1rem 0;
+  }
+
+  h1, h2 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* ===== Print styles ===== */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  main {
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  button {
+    display: none;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
   }
 }

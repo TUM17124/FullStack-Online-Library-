@@ -25,7 +25,7 @@ export class AuthService {
         localStorage.setItem(this.tokenKey, res.access);
         this.isLoggedIn$.next(true);
         this.snackBar.open('Login successful!', 'Close', { duration: 3000 });
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/books']);
       })
     );
   }
@@ -51,6 +51,12 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  // Refresh login status immediately
+  refreshLoginStatus(): void {
+    const isLoggedIn = this.hasToken();
+    this.isLoggedIn$.next(isLoggedIn);
   }
 
   getBooks(): Observable<any> {

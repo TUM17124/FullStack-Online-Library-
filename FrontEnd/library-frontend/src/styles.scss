@@ -1,13 +1,14 @@
-
 // Include theming for Angular Material with `mat.theme()`.
 // This Sass mixin will define CSS variables that are used for styling Angular Material
 // components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+/* ===== ROOT AND GLOBAL RESPONSIVE STYLES ===== */
 html {
   height: 100%;
+  font-size: clamp(14px, 2.5vw, 16px); /* Responsive base font size */
+  scroll-behavior: smooth;
+
   @include mat.theme((
     color: (
       primary: mat.$azure-palette,
@@ -16,23 +17,252 @@ html {
     typography: Roboto,
     density: 0,
   ));
+
+  /* ===== RESPONSIVE VIEWPORTS ===== */
+  /* Mobile (< 600px) */
+  @media (max-width: 599px) {
+    font-size: 14px;
+  }
+
+  /* Tablet (600px - 1024px) */
+  @media (min-width: 600px) and (max-width: 1024px) {
+    font-size: 15px;
+  }
+
+  /* Desktop (> 1024px) */
+  @media (min-width: 1025px) {
+    font-size: 16px;
+  }
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
+  /* Default the application to light color theme */
   color-scheme: light;
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
+  /* Set background, font and text colors using Material's CSS variables */
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
-  // Reset the user agent margin.
+  /* Reset margins */
   margin: 0;
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* Responsive padding */
+  padding: clamp(0.5rem, 3vw, 1rem);
+
+  /* Smooth transitions */
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  /* ===== MOBILE (< 600px) ===== */
+  @media (max-width: 599px) {
+    padding: 0.5rem;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ===== TABLET (600px - 1024px) ===== */
+  @media (min-width: 600px) and (max-width: 1024px) {
+    padding: 0.75rem;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ===== DESKTOP (> 1024px) ===== */
+  @media (min-width: 1025px) {
+    padding: 1rem;
+    font-size: 16px;
+    line-height: 1.6;
+  }
 }
-/* You can add global styles to this file, and also import other style files */
+
+/* ===== LANDSCAPE MODE ===== */
+@media (max-height: 600px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    padding: 0.25rem;
+  }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark light;
+  }
+
+  body {
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+/* ===== REDUCED MOTION SUPPORT (Accessibility) ===== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE (Accessibility) ===== */
+@media (prefers-contrast: more) {
+  body {
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  html,
+  body {
+    height: auto;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* ===== GLOBAL RESPONSIVE VARIABLES ===== */
+:root {
+  /* Responsive spacing scale */
+  --spacing-xs: clamp(0.25rem, 1vw, 0.5rem);
+  --spacing-sm: clamp(0.5rem, 1.5vw, 0.75rem);
+  --spacing-md: clamp(0.75rem, 2vw, 1rem);
+  --spacing-lg: clamp(1rem, 2.5vw, 1.5rem);
+  --spacing-xl: clamp(1.5rem, 3vw, 2rem);
+  --spacing-2xl: clamp(2rem, 4vw, 2.5rem);
+
+  /* Responsive font sizes */
+  --font-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+  --font-sm: clamp(0.875rem, 1.75vw, 1rem);
+  --font-md: clamp(1rem, 2vw, 1.125rem);
+  --font-lg: clamp(1.125rem, 2.5vw, 1.25rem);
+  --font-xl: clamp(1.25rem, 3vw, 1.5rem);
+  --font-2xl: clamp(1.5rem, 4vw, 2rem);
+  --font-3xl: clamp(1.875rem, 5vw, 2.5rem);
+
+  /* Responsive breakpoints */
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+  --breakpoint-xl: 1920px;
+
+  /* Touch target minimum size */
+  --touch-target-min: 44px;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+
+  @media (max-width: 599px) {
+    padding: 0 var(--spacing-sm);
+  }
+
+  @media (min-width: 600px) and (max-width: 1024px) {
+    padding: 0 var(--spacing-md);
+  }
+
+  @media (min-width: 1025px) {
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+/* Responsive text utilities */
+.text-xs { font-size: var(--font-xs); }
+.text-sm { font-size: var(--font-sm); }
+.text-md { font-size: var(--font-md); }
+.text-lg { font-size: var(--font-lg); }
+.text-xl { font-size: var(--font-xl); }
+.text-2xl { font-size: var(--font-2xl); }
+.text-3xl { font-size: var(--font-3xl); }
+
+/* Responsive spacing utilities */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+
+/* Gap utilities for flexbox/grid */
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+.gap-xl { gap: var(--spacing-xl); }
+
+/* Display utilities */
+.mobile-only {
+  @media (min-width: 600px) {
+    display: none !important;
+  }
+}
+
+.tablet-only {
+  display: none;
+  @media (min-width: 600px) and (max-width: 1024px) {
+    display: block !important;
+  }
+}
+
+.desktop-only {
+  display: none;
+  @media (min-width: 1025px) {
+    display: block !important;
+  }
+}
+
+.hide-mobile {
+  @media (max-width: 599px) {
+    display: none !important;
+  }
+}
+
+.hide-tablet {
+  @media (min-width: 600px) and (max-width: 1024px) {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @media (min-width: 1025px) {
+    display: none !important;
+  }
+}
+
+/* Flexbox utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+/* Grid utilities */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* You can add additional global styles below */
