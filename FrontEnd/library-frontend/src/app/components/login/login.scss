@@ -1,6 +1,7 @@
 /* login.scss - Fully Responsive Design */
 
 /* ===== LOGIN CONTAINER ===== */
+@import '../../styles/responsive-mixins';
 .login-container {
   display: flex;
   justify-content: center;

@@ -1,6 +1,7 @@
 /* register.scss - Fully Responsive Design */
 
 /* ===== REGISTER CONTAINER ===== */
+@import '../../styles/responsive-mixins';
 .register-container {
   display: flex;
   justify-content: center;

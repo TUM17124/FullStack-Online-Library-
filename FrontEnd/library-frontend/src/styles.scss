@@ -4,6 +4,7 @@
 @use '@angular/material' as mat;
 
 /* ===== ROOT AND GLOBAL RESPONSIVE STYLES ===== */
+
 html {
   height: 100%;
   font-size: clamp(14px, 2.5vw, 16px); /* Responsive base font size */

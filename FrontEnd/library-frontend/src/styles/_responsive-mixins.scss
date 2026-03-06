@@ -1,0 +1,186 @@
+/* Responsive design mixins to reduce duplication */
+
+/* ===== BREAKPOINTS ===== */
+$breakpoint-mobile: 599px;
+$breakpoint-tablet-start: 600px;
+$breakpoint-tablet-end: 1024px;
+$breakpoint-desktop: 1025px;
+$breakpoint-large-desktop: 1441px;
+$breakpoint-landscape: 600px;
+
+/* ===== MEDIA QUERY MIXINS ===== */
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet-start}) and (max-width: #{$breakpoint-tablet-end}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: #{$breakpoint-large-desktop}) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  @media (max-height: 600px) {
+    @content;
+  }
+}
+
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin high-contrast {
+  @media (prefers-contrast: more) {
+    @content;
+  }
+}
+
+/* ===== RESPONSIVE TYPOGRAPHY MIXINS ===== */
+@mixin responsive-font($mobile, $tablet, $desktop) {
+  font-size: $mobile;
+  
+  @include tablet {
+    font-size: $tablet;
+  }
+  
+  @include desktop {
+    font-size: $desktop;
+  }
+}
+
+@mixin responsive-spacing($mobile, $tablet, $desktop) {
+  padding: $mobile;
+  
+  @include tablet {
+    padding: $tablet;
+  }
+  
+  @include desktop {
+    padding: $desktop;
+  }
+}
+
+@mixin responsive-margin($mobile, $tablet, $desktop) {
+  margin: $mobile;
+  
+  @include tablet {
+    margin: $tablet;
+  }
+  
+  @include desktop {
+    margin: $desktop;
+  }
+}
+
+/* ===== BUTTON MIXIN ===== */
+@mixin responsive-button {
+  min-height: 40px;
+  padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:focus {
+    outline: 2px solid #3f51b5;
+    outline-offset: 2px;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* ===== CARD MIXIN ===== */
+@mixin responsive-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  @include dark-mode {
+    background-color: #2a2a2a;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ===== FORM FIELD MIXIN ===== */
+@mixin responsive-input {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  padding: clamp(0.5rem, 1vw, 0.75rem);
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+  }
+  
+  @include dark-mode {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+    
+    &:focus {
+      border-color: #5a7fd5;
+      box-shadow: 0 0 0 3px rgba(90, 127, 213, 0.2);
+    }
+  }
+}
+
+/* ===== TEXT UTILITIES ===== */
+@mixin text-truncate($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin responsive-title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2a38;
+  
+  @include dark-mode {
+    color: #fff;
+  }
+}

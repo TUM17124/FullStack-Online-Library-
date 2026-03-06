@@ -1,6 +1,7 @@
 /* book-list.scss - Fully Responsive Design */
 
 /* ===== CONTAINER ===== */
+@import '../../styles/responsive-mixins';
 .container {
   width: 100%;
   max-width: 1200px;
