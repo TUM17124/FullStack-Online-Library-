@@ -1,12 +1,11 @@
-/* Responsive design mixins to reduce duplication */
+/* Responsive design mixins - avoid duplication */
 
 /* ===== BREAKPOINTS ===== */
 $breakpoint-mobile: 599px;
 $breakpoint-tablet-start: 600px;
 $breakpoint-tablet-end: 1024px;
 $breakpoint-desktop: 1025px;
-$breakpoint-large-desktop: 1441px;
-$breakpoint-landscape: 600px;
+$breakpoint-large: 1441px;
 
 /* ===== MEDIA QUERY MIXINS ===== */
 @mixin mobile-only {
@@ -28,7 +27,7 @@ $breakpoint-landscape: 600px;
 }
 
 @mixin large-desktop {
-  @media (min-width: #{$breakpoint-large-desktop}) {
+  @media (min-width: #{$breakpoint-large}) {
     @content;
   }
 }
@@ -54,43 +53,6 @@ $breakpoint-landscape: 600px;
 @mixin high-contrast {
   @media (prefers-contrast: more) {
     @content;
-  }
-}
-
-/* ===== RESPONSIVE TYPOGRAPHY MIXINS ===== */
-@mixin responsive-font($mobile, $tablet, $desktop) {
-  font-size: $mobile;
-  
-  @include tablet {
-    font-size: $tablet;
-  }
-  
-  @include desktop {
-    font-size: $desktop;
-  }
-}
-
-@mixin responsive-spacing($mobile, $tablet, $desktop) {
-  padding: $mobile;
-  
-  @include tablet {
-    padding: $tablet;
-  }
-  
-  @include desktop {
-    padding: $desktop;
-  }
-}
-
-@mixin responsive-margin($mobile, $tablet, $desktop) {
-  margin: $mobile;
-  
-  @include tablet {
-    margin: $tablet;
-  }
-  
-  @include desktop {
-    margin: $desktop;
   }
 }
 

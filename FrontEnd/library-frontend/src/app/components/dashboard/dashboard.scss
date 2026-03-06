@@ -1,5 +1,5 @@
 /* dashboard.scss - Fully Responsive Design */
-@import '../../styles/responsive-mixins';
+@use '../../styles/responsive-mixins' as *;
 .container {
   width: 100%;
   max-width: 1200px;

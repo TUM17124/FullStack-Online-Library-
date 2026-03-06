@@ -1,7 +1,7 @@
 /* header.scss - Fully Responsive Design */
 
 /* ===== HEADER TOOLBAR ===== */
-@import '../../styles/responsive-mixins';
+@use '../../styles/responsive-mixins' as *;
 mat-toolbar {
   display: flex;
   align-items: center;
