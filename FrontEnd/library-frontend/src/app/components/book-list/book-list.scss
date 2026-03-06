@@ -1,48 +1,91 @@
 .container {
-  padding: 40px 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
-h1 {
+.page-title {
   text-align: center;
-  font-size: 36px;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
+  font-size: 2rem;
   color: #3f51b5;
 }
 
-table {
-  width: 100%;
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
 }
 
-.mat-column-action {
+.book-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.borrowed-badge {
+  position: absolute;
+  top: 8px;
+  left: -8px;
+  background: #e53935;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transform: rotate(-15deg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.book-cover {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.book-info {
   text-align: center;
+  margin-bottom: 1rem;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #333;
+}
+
+.book-author {
+  font-size: 0.9rem;
+  color: gray;
+  margin: 0.2rem 0 0 0;
+}
+
+.book-actions button {
+  margin: 0.3rem;
+}
+
+.borrowed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .no-books, .loading {
   text-align: center;
-  font-size: 20px;
-  color: #666;
-  margin: 40px 0;
-}
-.photo-cell {
-  text-align: center;
-  padding: 8px 0;
-}
-
-.book-cover {
-  width: 80px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.book-cover:hover {
-  transform: scale(1.1);
-}
-
-button {
-  margin: 4px;
+  font-size: 1.2rem;
+  color: gray;
+  margin-top: 2rem;
 }

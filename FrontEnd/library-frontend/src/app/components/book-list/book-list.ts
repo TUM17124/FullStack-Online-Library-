@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule, NgIf, NgForOf } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,16 +14,16 @@ import { AuthService } from '../../services/auth';
   imports: [
     CommonModule,
     NgIf,
+    NgForOf,
     MatTableModule,
     MatButtonModule,
     HeaderComponent
   ],
   templateUrl: './book-list.html',
-  styleUrl: './book-list.scss'
+  styleUrls: ['./book-list.scss']
 })
 export class BookListComponent {
   books$: Observable<Book[]>;
-  displayedColumns = ['photo', 'title', 'author', 'action'];
 
   constructor(
     private libraryService: LibraryService,
@@ -59,18 +59,17 @@ export class BookListComponent {
     });
   }
 
-  onImageError(event: any) {
-    event.target.src = 'https://via.placeholder.com/80x120?text=No+Cover';
-  }
   readBook(bookId: number) {
-  this.libraryService.readBook(bookId).subscribe({
-    next: (blob: Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      window.open(url); // opens PDF in a new tab
-    },
-    error: (err: any) => console.error('Error reading book:', err)
-  });
-}
+    this.libraryService.readBook(bookId).subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url); // opens PDF in a new tab
+      },
+      error: (err: any) => console.error('Error reading book:', err)
+    });
+  }
 
-
+  onImageError(event: any) {
+    event.target.src = 'https://via.placeholder.com/120x180?text=No+Cover';
+  }
 }
