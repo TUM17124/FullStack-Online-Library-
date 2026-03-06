@@ -4,8 +4,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
-import { Router, RouterLink } from '@angular/router';
-
+import { RouterLink } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { OnInit } from '@angular/core';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -17,16 +19,19 @@ import { Router, RouterLink } from '@angular/router';
     MatIconModule
   ],
   templateUrl: './header.html',
-  styleUrls: ['./header.scss']  // ← fixed
+  styleUrl: './header.scss'
 })
-export class HeaderComponent {
-  constructor(
-    public authService: AuthService,
-    private router: Router  // ← add this to check current route
-  ) {}
+export class AppComponent implements OnInit {
+  showLogout = true;
 
-  // Optional helper to check if logout should be shown
-  showLogout(): boolean {
-    return this.router.url !== '/dashboard';
+  constructor(private router: Router, public authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // Hide Logout only on Dashboard
+        this.showLogout = event.urlAfterRedirects !== '/dashboard';
+      });
   }
 }
