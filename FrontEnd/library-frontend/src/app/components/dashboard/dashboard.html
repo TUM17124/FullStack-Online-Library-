@@ -1,158 +1,149 @@
 <app-header></app-header>
 
-<div class="landing-container">
+<main class="landing-page">
 
   <!-- HERO SECTION -->
   <section class="hero">
-
-    <div class="hero-content">
-      <h1>Software Development & AI Engineering</h1>
-
+    <div class="container hero-content">
+      <h1>Welcome to Mand&Money</h1>
       <p>
-        I build modern web applications, machine learning systems,
-        and AI-powered platforms. I specialize in backend development,
-        intelligent systems, and scalable architectures.
+        Discover a cutting-edge knowledge hub for philosophy, finance, and AI-powered solutions.
+        Explore state-of-the-art projects leveraging RAG pipelines, large language models (LLMs), and Fast APIs.
       </p>
-
-      <div class="hero-buttons">
-
-        <a href="#contact" class="btn-primary">
-          Request a Project
-        </a>
-
-        <a routerLink="/books" class="btn-secondary">
-          Access Learning Library
-        </a>
-
+      <div class="buttons">
+        <button mat-raised-button color="primary" routerLink="/register">Register</button>
+        <button mat-stroked-button color="accent" routerLink="/login">Login</button>
       </div>
     </div>
-
   </section>
 
+  <!-- SKILLS SECTION -->
+  <section class="skills">
+    <div class="container">
+      <h2>My Expertise</h2>
+      <p>
+        Combining deep technical knowledge, financial insight, and philosophical reasoning to deliver high-impact solutions.
+      </p>
+      <div class="skills-grid">
+        <mat-card class="skill-card">
+          <mat-icon>code</mat-icon>
+          <h3>Full-Stack Development</h3>
+          <p>Angular, Django, Fast APIs, and scalable architectures for modern web apps.</p>
+        </mat-card>
 
-  <!-- SERVICES -->
-  <section class="services">
+        <mat-card class="skill-card">
+          <mat-icon>memory</mat-icon>
+          <h3>AI & Machine Learning</h3>
+          <p>LLMs, RAG pipelines, and local AI models for intelligent decision-making.</p>
+        </mat-card>
 
-    <h2>What I Build</h2>
+        <mat-card class="skill-card">
+          <mat-icon>insights</mat-icon>
+          <h3>Finance & Analytics</h3>
+          <p>Data-driven financial solutions, predictive modeling, and analytics dashboards.</p>
+        </mat-card>
 
-    <div class="services-grid">
-
-      <div class="service-card">
-        <h3>Web Applications</h3>
-        <p>
-          Backend systems and full web applications using
-          Django, REST APIs, and modern frontend frameworks.
-        </p>
+        <mat-card class="skill-card">
+          <mat-icon>psychology</mat-icon>
+          <h3>Philosophy & Ethics</h3>
+          <p>Applying ethical frameworks and critical thinking to AI, finance, and tech solutions.</p>
+        </mat-card>
       </div>
-
-      <div class="service-card">
-        <h3>AI & Machine Learning</h3>
-        <p>
-          Custom ML models, automation systems, and
-          intelligent software solutions.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <h3>LLM Systems</h3>
-        <p>
-          Chatbots, RAG pipelines, knowledge retrieval systems,
-          and AI assistants powered by Large Language Models.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <h3>API Development</h3>
-        <p>
-          Secure and scalable APIs for mobile apps,
-          SaaS platforms, and data services.
-        </p>
-      </div>
-
     </div>
-
   </section>
 
+  <!-- PROJECTS / SERVICES SECTION -->
+  <section class="projects">
+    <div class="container">
+      <h2>Featured Projects</h2>
+      <div class="projects-grid">
+        <mat-card class="project-card">
+          <mat-card-header>
+            <mat-card-title>Cat Care Assistant</mat-card-title>
+            <mat-card-subtitle>AI & ML, LLM-powered</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Intelligent cat care system using RAG pipelines and local LLMs. Provides advice, alerts, and care tips for pet owners.
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="project-card">
+          <mat-card-header>
+            <mat-card-title>Knowledge Retrieval System</mat-card-title>
+            <mat-card-subtitle>RAG + Fast APIs</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Custom LLM pipelines integrated with local models and APIs for rapid information access in finance and philosophy domains.
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="project-card">
+          <mat-card-header>
+            <mat-card-title>AI-Powered Learning Library</mat-card-title>
+            <mat-card-subtitle>LLM-assisted knowledge</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Centralized platform for curated resources in philosophy, finance, and software development. Personalized recommendations using local LLMs.
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
 
   <!-- LIBRARY SECTION -->
   <section class="library">
-
-    <div class="library-content">
-
-      <h2>Developer Learning Library</h2>
-
+    <div class="container">
+      <h2>Mand&Money Library</h2>
       <p>
-        Access curated learning resources including software development,
-        artificial intelligence, machine learning, and engineering guides.
-        Registration is required to access the full library.
+        Access curated resources for philosophy, finance, AI, and software engineering.
+        Registration unlocks full content and personalized insights.
       </p>
-
-      <a routerLink="/register" class="btn-library">
-        Register & Access Library
-      </a> <br>
-
-      <a routerLink="/login" class="btn-library">
-        Login & Access Library
-      </a>
-
+      <div class="buttons">
+        <button mat-raised-button color="primary" routerLink="/register">Register</button>
+        <button mat-stroked-button color="accent" routerLink="/login">Login</button>
+      </div>
     </div>
-
   </section>
-
 
   <!-- CONTACT SECTION -->
   <section id="contact" class="contact">
+    <div class="container">
+      <h2>Project Requests & Collaboration</h2>
+      <p>
+        Got an idea or need a custom solution? Send a request and I’ll bring your vision to life.
+      </p>
+      <form target="_blank" action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a" method="POST">
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput type="text" name="name" required>
+        </mat-form-field>
 
-    <h2>Project Request & Collaboration</h2>
+        <mat-form-field appearance="outline">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" name="email" required>
+        </mat-form-field>
 
-    <p>
-      Have a project idea or need a custom software solution?
-      Send a request and I will get back to you.
-    </p>
+        <mat-form-field appearance="outline">
+          <mat-label>Describe your project</mat-label>
+          <textarea matInput name="message" rows="6" required></textarea>
+        </mat-form-field>
 
-    <div class="contact-container">
-
-      <form target="_blank"
-            action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a"
-            method="POST">
-
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          required
-        >
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          required
-        >
-
-        <textarea
-          name="message"
-          placeholder="Describe your project or request"
-          rows="6"
-          required>
-        </textarea>
-
-        <button type="submit" class="btn-submit">
-          Send Request
-        </button>
-
+        <button mat-raised-button color="primary" type="submit">Send Request</button>
       </form>
-
     </div>
-
   </section>
-
 
   <!-- FOOTER -->
   <footer class="footer">
-
-    <p>© 2026 Software Engineering & AI Systems</p>
-
+    <div class="container">
+      <p>© 2026 Mand&Money - Philosophy, Finance & AI Engineering</p>
+    </div>
   </footer>
 
-</div>
+</main>
