@@ -27,6 +27,11 @@ from .models import Book, Borrow, EmailVerificationCode
 from .serializers import BookSerializer, BorrowSerializer
 from .throttles import OTPThrottle
 
+from django.http import JsonResponse
+
+def health_check(request):
+    return JsonResponse({'status': 'ok'})
+
 # ──────────────────────────────────────────────────────────────
 # CUSTOM JWT LOGIN (BLOCK INACTIVE USERS)
 # ──────────────────────────────────────────────────────────────

@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
@@ -21,9 +22,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.http import JsonResponse
 
 from simpleAuthentication import settings
-from library.views import RegisterView, BookListView, BorrowBookView, BorrowedBooksView, StrictTokenObtainPairView,OverdueBooksView,ChangePasswordView, ReadBookView,ReturnBookView,VerifyEmailView, ResendVerificationCodeView, PasswordResetRequestView, PasswordResetConfirmView
-
+from library.views import (RegisterView, BookListView, BorrowBookView, 
+    BorrowedBooksView, StrictTokenObtainPairView, OverdueBooksView, 
+    ChangePasswordView, ReadBookView, ReturnBookView, VerifyEmailView, 
+    ResendVerificationCodeView, PasswordResetRequestView, PasswordResetConfirmView, 
+    health_check)
 urlpatterns = [
+    path('health/', health_check, name='health-check'),
      path('', lambda request: JsonResponse({"message": "Library API root"})),
     path('api/register/', RegisterView.as_view(), name="register"),
     path('api/token/', StrictTokenObtainPairView.as_view(), name="token_obtain_pair"),

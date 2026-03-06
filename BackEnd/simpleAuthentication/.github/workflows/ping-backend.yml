@@ -1,15 +1,24 @@
-name: Keep Backend Alive  # The name of the workflow
+name: Keep Backend Alive
 
-# When the workflow runs
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Every 5 minutes
-  workflow_dispatch:       # Also allow manual trigger
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Ping Render Backend
-        run: curl -s https://online-library-tum.onrender.com/login > /dev/null || echo "Backend is down"
+        run: |
+          for i in {1..3}; do
+            echo "Attempt $i..."
+            if curl -f -s --max-time 20 https://online-library-tum.onrender.com/health/ > /dev/null 2>&1; then
+              echo "Backend is alive"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Backend is down or not responding"
+          exit 1
