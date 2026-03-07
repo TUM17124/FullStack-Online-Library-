@@ -1,18 +1,20 @@
 """
-Django settings for simpleAuthentication project.
+Django settings for simpleAuthentication project (Supabase-only).
 """
 
 from pathlib import Path
-import os
 import dj_database_url
 from decouple import config
 
+# ──────────────────────────────────────────────────────────────
+# BASE DIRECTORY
+# ──────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ──────────────────────────────────────────────────────────────
 # CORE SETTINGS
 # ──────────────────────────────────────────────────────────────
-SECRET_KEY = config("SECRET_KEY", default="my-local-dev-secret-key")
+SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [
@@ -26,108 +28,112 @@ ALLOWED_HOSTS = [
 # INSTALLED APPS
 # ──────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'corsheaders',
-    'anymail',               # ← Added: required for Resend integration
-    'library',
+    # Django defaults
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+
+    # Third-party
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "corsheaders",
+    "anymail",
+
+    # Local apps
+    "library",
 ]
 
 # ──────────────────────────────────────────────────────────────
 # MIDDLEWARE
 # ──────────────────────────────────────────────────────────────
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'simpleAuthentication.urls'
+ROOT_URLCONF = "simpleAuthentication.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'simpleAuthentication.wsgi.application'
+WSGI_APPLICATION = "simpleAuthentication.wsgi.application"
 
 # ──────────────────────────────────────────────────────────────
-# DATABASE
+# DATABASE (SUPABASE ONLY)
 # ──────────────────────────────────────────────────────────────
 DATABASES = {
     "default": dj_database_url.config(
-        default=config(
-            "DATABASE_URL",
-            default="sqlite:///" + str(BASE_DIR / "db.sqlite3")
-        ),
+        default=config("DATABASE_URL"),  # Must be Supabase Postgres URL
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True  # Required for Supabase
     )
 }
 
 # ──────────────────────────────────────────────────────────────
-# AUTH PASSWORD VALIDATORS
+# PASSWORD VALIDATORS
 # ──────────────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+# ──────────────────────────────────────────────────────────────
+# INTERNATIONALIZATION
+# ──────────────────────────────────────────────────────────────
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
 # ──────────────────────────────────────────────────────────────
-# STATIC & MEDIA
+# STATIC & MEDIA FILES
 # ──────────────────────────────────────────────────────────────
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# ──────────────────────────────────────────────────────────────
+# SUPABASE CONFIG
+# ──────────────────────────────────────────────────────────────
 SUPABASE_URL = config("SUPABASE_URL")
 SUPABASE_KEY = config("SUPABASE_KEY")
-
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ──────────────────────────────────────────────────────────────
 # CORS SETTINGS
 # ──────────────────────────────────────────────────────────────
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ALLOWED_ORIGINS = [
     "https://mindandmoney.onrender.com",
     "http://localhost:4200",
 ]
-
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 CORS_ALLOW_HEADERS = [
     "accept", "accept-encoding", "authorization", "content-type", "dnt",
@@ -141,40 +147,31 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # ──────────────────────────────────────────────────────────────
-# EMAIL SETTINGS (Resend via django-anymail)
+# EMAIL SETTINGS (Resend)
 # ──────────────────────────────────────────────────────────────
 EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
-
 ANYMAIL = {
-    "RESEND_API_KEY": config("RESEND_API_KEY", default=None),
+    "RESEND_API_KEY": config("RESEND_API_KEY"),
 }
-
-# Must be a verified sender in Resend dashboard
-# Use onboarding@resend.dev for testing; later change to e.g. "no-reply@yourdomain.com"
 DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
-
-
-# Safety check for production
-#if not DEBUG and not config("RESEND_API_KEY", default=None):
-#    raise ValueError("RESEND_API_KEY must be set in production")
 
 # ──────────────────────────────────────────────────────────────
 # REST FRAMEWORK & JWT
 # ──────────────────────────────────────────────────────────────
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
     ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
     ],
 }
 
 SIMPLE_JWT = {
-    'USER_AUTHENTICATION_RULE': 'library.auth_rules.active_user_only',
+    "USER_AUTHENTICATION_RULE": "library.auth_rules.active_user_only",
 }
 
 APPEND_SLASH = True
@@ -182,10 +179,15 @@ APPEND_SLASH = True
 # ──────────────────────────────────────────────────────────────
 # SECURITY
 # ──────────────────────────────────────────────────────────────
-SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", default=False, cast=bool)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
-SECURE_HSTS_PRELOAD = not DEBUG
+SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", default=True, cast=bool)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# ──────────────────────────────────────────────────────────────
+# DEFAULT AUTO FIELD
+# ──────────────────────────────────────────────────────────────
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
