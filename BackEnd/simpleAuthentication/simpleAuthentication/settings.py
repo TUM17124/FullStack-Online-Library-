@@ -110,6 +110,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"
 SUPABASE_URL = config("SUPABASE_URL")
 SUPABASE_KEY = config("SUPABASE_KEY")
 
