@@ -78,12 +78,9 @@ WSGI_APPLICATION = 'simpleAuthentication.wsgi.application'
 # ──────────────────────────────────────────────────────────────
 DATABASES = {
     "default": dj_database_url.config(
-        default=config(
-            "DATABASE_URL",
-            default="sqlite:///" + str(BASE_DIR / "db.sqlite3")
-        ),
+        default=config("DATABASE_URL"),  # Must be Supabase Postgres URL
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True  # Required for Supabase
     )
 }
 
