@@ -2,6 +2,39 @@
    BOOK LIST - PROFESSIONAL RESPONSIVE DESIGN
 ========================================= */
 
+
+
+/* book-list.scss */
+
+/* PDF Overlay */
+.pdf-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.pdf-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+app-pdf-reader {
+  flex: 1;
+  width: 100%;
+  max-width: 900px;
+}
+
 /* ===== CONTAINER ===== */
 
 .container {

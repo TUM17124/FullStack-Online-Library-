@@ -3,6 +3,14 @@
 <div class="container">
   <h1 class="page-title">Available Books</h1>
 
+  <!-- PDF Reader Overlay -->
+  <div class="pdf-overlay" *ngIf="readingBookUrl">
+    <div class="pdf-header">
+      <button mat-raised-button color="warn" (click)="closeReader()">Close</button>
+    </div>
+    <app-pdf-reader [pdfSrc]="readingBookUrl"></app-pdf-reader>
+  </div>
+
   <ng-container *ngIf="books$ | async as books; else loading">
     <div *ngIf="books.length > 0; else emptyState" class="books-grid">
       <div class="book-card" *ngFor="let book of books">

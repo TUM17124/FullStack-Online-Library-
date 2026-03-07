@@ -29,6 +29,7 @@ from .throttles import OTPThrottle
 
 from django.shortcuts import redirect
 
+
 from django.http import JsonResponse
 
 def health_check(request):
@@ -127,14 +128,15 @@ class ReadBookView(APIView):
     def get(self, request, book_id):
         book = get_object_or_404(Book, id=book_id)
 
+        # Check if user borrowed the book
         if not Borrow.objects.filter(user=request.user, book=book, returned=False).exists():
             return HttpResponseForbidden("You must borrow this book to read it.")
 
         if not book.file:
             return Response({"error": "Book file not available"}, status=404)
 
-        # Redirect to Supabase file URL
-        return redirect(book.file)
+        # Return file URL (Supabase signed URL)
+        return Response({"url": book.file})
 
 
 class OverdueBooksView(APIView):
