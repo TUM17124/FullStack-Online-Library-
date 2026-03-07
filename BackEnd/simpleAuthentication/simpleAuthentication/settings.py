@@ -76,12 +76,14 @@ WSGI_APPLICATION = 'simpleAuthentication.wsgi.application'
 # ──────────────────────────────────────────────────────────────
 # DATABASE
 # ──────────────────────────────────────────────────────────────
-import dj_database_url
-
 DATABASES = {
     "default": dj_database_url.config(
-        default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
+        default=config(
+            "DATABASE_URL",
+            default="sqlite:///" + str(BASE_DIR / "db.sqlite3")
+        ),
         conn_max_age=600,
+        ssl_require=not DEBUG
     )
 }
 
@@ -131,6 +133,10 @@ CORS_ALLOW_HEADERS = [
 CORS_EXPOSE_HEADERS = ["content-type", "x-csrftoken", "authorization"]
 CORS_PREFLIGHT_MAX_AGE = 86400
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.onrender.com"
+]
+
 # ──────────────────────────────────────────────────────────────
 # EMAIL SETTINGS (Resend via django-anymail)
 # ──────────────────────────────────────────────────────────────
@@ -143,7 +149,7 @@ ANYMAIL = {
 # Must be a verified sender in Resend dashboard
 # Use onboarding@resend.dev for testing; later change to e.g. "no-reply@yourdomain.com"
 DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
 
 # Safety check for production
 #if not DEBUG and not config("RESEND_API_KEY", default=None):
