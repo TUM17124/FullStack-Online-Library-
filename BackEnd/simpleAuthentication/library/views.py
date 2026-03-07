@@ -27,6 +27,8 @@ from .models import Book, Borrow, EmailVerificationCode
 from .serializers import BookSerializer, BorrowSerializer
 from .throttles import OTPThrottle
 
+from django.shortcuts import redirect
+
 from django.http import JsonResponse
 
 def health_check(request):
@@ -124,16 +126,15 @@ class ReadBookView(APIView):
 
     def get(self, request, book_id):
         book = get_object_or_404(Book, id=book_id)
+
         if not Borrow.objects.filter(user=request.user, book=book, returned=False).exists():
             return HttpResponseForbidden("You must borrow this book to read it.")
+
         if not book.file:
             return Response({"error": "Book file not available"}, status=404)
-        try:
-            response = FileResponse(book.file.open('rb'), content_type='application/pdf')
-            response['Content-Disposition'] = f'inline; filename="{smart_str(book.file.name)}"'
-            return response
-        except Exception as e:
-            return Response({"error": f"Failed to open PDF: {str(e)}"}, status=500)
+
+        # Redirect to Supabase file URL
+        return redirect(book.file)
 
 
 class OverdueBooksView(APIView):
