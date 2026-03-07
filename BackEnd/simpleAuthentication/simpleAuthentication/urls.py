@@ -27,26 +27,32 @@ from library.views import (RegisterView, BookListView, BorrowBookView,
     ChangePasswordView, ReadBookView, ReturnBookView, VerifyEmailView, 
     ResendVerificationCodeView, PasswordResetRequestView, PasswordResetConfirmView, 
     health_check)
+
 urlpatterns = [
     path('health/', health_check, name='health-check'),
-     path('', lambda request: JsonResponse({"message": "Library API root"})),
+    path('', lambda request: JsonResponse({"message": "Library API root"})),
+
     path('api/register/', RegisterView.as_view(), name="register"),
     path('api/token/', StrictTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path('api/token/refresh/', TokenRefreshView.as_view(), name="token_refresh"),
+
     path('api/books/', BookListView.as_view(), name='books'),
     path('api/books/<int:book_id>/borrow/', BorrowBookView.as_view(), name='borrow-book'),
-    path('api/borrowed/', BorrowedBooksView.as_view(), name='borrowed-books'),
     path('api/books/<int:book_id>/read/', ReadBookView.as_view(), name='read-book'),
+    path('api/books/<int:book_id>/return/', ReturnBookView.as_view(), name='return-book'),
+
+    path('api/borrowed/', BorrowedBooksView.as_view(), name='borrowed-books'),
     path('api/overdue/', OverdueBooksView.as_view(), name='overdue-books'),
+
     path('api/password-reset-request/', PasswordResetRequestView.as_view(), name='password-reset-request'),
     path('api/password-reset-confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
     path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
-    path('api/books/<int:book_id>/return/', ReturnBookView.as_view(), name='return-book'),
+
     path('api/verify-email/', VerifyEmailView.as_view(), name='verify-email'),
     path('api/resend-verification-email/', ResendVerificationCodeView.as_view(), name='resend-verification-email'),
+
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
-
-
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
