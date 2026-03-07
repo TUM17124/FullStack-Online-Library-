@@ -22,6 +22,7 @@ import { filter } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
   showLogout = true;
+  menuOpen = false;
 
   constructor(private router: Router, public authService: AuthService) {}
 

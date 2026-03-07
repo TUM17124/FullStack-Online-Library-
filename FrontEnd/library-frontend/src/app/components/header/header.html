@@ -1,12 +1,28 @@
-<mat-toolbar color="primary">
-  <span class="title">Online Library</span>
+<mat-toolbar>
+
+  <span class="title">Library</span>
+
   <span class="spacer"></span>
-  <button mat-button routerLink="/dashboard">Dashboard</button>
-  <button mat-button routerLink="/books">Books</button>
-  <button mat-button routerLink="/borrowed">My Borrowed</button>
-  <button mat-button routerLink="/overdue">Overdue</button>
-  <!-- Logout button appears on all pages except dashboard -->
-  <button *ngIf="showLogout" mat-raised-button color="warn" (click)="authService.logout()">
+
+  <div class="nav-container">
+
+    <button class="menu-toggle"
+            (click)="menuOpen = !menuOpen">
+      <span></span>
+    </button>
+
+    <div class="nav-menu" [class.open]="menuOpen">
+
+      <button mat-button routerLink="/dashboard">Dashboard</button>
+      <button mat-button routerLink="/books">Books</button>
+      <button mat-button routerLink="/borrowed">My Borrowed</button>
+      <button mat-button routerLink="/overdue">Overdue</button>
+      <button *ngIf="showLogout" mat-raised-button color="warn" (click)="authService.logout()">
     Logout
   </button>
+
+    </div>
+
+  </div>
+
 </mat-toolbar>
