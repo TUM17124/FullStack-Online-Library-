@@ -25,8 +25,8 @@
     gap: 2rem;
   }
 
+  /* Dark mode text only */
   @media (prefers-color-scheme: dark) {
-    background-color: #1a1a1a;
     color: #e0e0e0;
   }
 }
@@ -103,7 +103,6 @@ h1 {
     }
 
     @media (prefers-color-scheme: dark) {
-      border-color: #444;
       border-top-color: #7da3e8;
     }
   }
@@ -129,10 +128,6 @@ h1 {
     margin: 0 -0.5rem;
     padding: 0 0.5rem;
   }
-
-  @media (prefers-color-scheme: dark) {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
 }
 
 /* ===== TABLE ===== */
@@ -144,6 +139,7 @@ table {
 
   thead {
     background-color: #f5f5f5;
+
     th {
       padding: clamp(0.75rem, 1.5vw, 1rem);
       text-align: left;
@@ -186,27 +182,13 @@ table {
         border-bottom: none;
       }
 
-      @media (prefers-color-scheme: dark) {
-        border-bottom-color: #444;
-        background-color: #2a2a2a;
-
-        &:hover {
-          background-color: #323232;
-        }
-
-        @media (max-width: 599px) {
-          background-color: #333;
-          border-color: #444;
-        }
-      }
-
       @media (max-width: 599px) {
         display: block;
         margin-bottom: clamp(1rem, 2vw, 1.5rem);
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         padding: clamp(0.75rem, 1.5vw, 1rem);
-        background-color: #f9f9f9;
+        background-color: #fff;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
         &:hover {
@@ -220,26 +202,17 @@ table {
         color: #333;
         vertical-align: middle;
 
+        @media (prefers-color-scheme: dark) {
+          color: #e0e0e0;
+        }
+
         &:first-child {
           font-weight: 500;
           color: #1f2a38;
-
-          @media (prefers-color-scheme: dark) {
-            color: #fff;
-          }
         }
 
         &:last-child {
           text-align: right;
-
-          @media (max-width: 599px) {
-            justify-content: flex-end;
-            flex-direction: row;
-
-            &::before {
-              display: none;
-            }
-          }
         }
 
         @media (max-width: 599px) {
@@ -249,26 +222,23 @@ table {
           padding: clamp(0.5rem, 1vw, 0.75rem) 0;
           border-bottom: 1px solid #e0e0e0;
 
-          &:last-child {
-            border-bottom: none;
-          }
-
           &::before {
             content: attr(data-label);
             font-weight: 600;
             color: #3f51b5;
             flex-shrink: 0;
             margin-right: auto;
-            padding-right: clamp(0.5rem, 1vw, 0.75rem);
             font-size: clamp(0.75rem, 1.5vw, 0.875rem);
           }
-        }
 
-        @media (prefers-color-scheme: dark) {
-          color: #e0e0e0;
+          &:last-child {
+            border-bottom: none;
+          }
 
-          &::before {
-            color: #7da3e8;
+          @media (prefers-color-scheme: dark) {
+            &::before {
+              color: #7da3e8;
+            }
           }
         }
       }
@@ -276,38 +246,7 @@ table {
   }
 }
 
-/* ===== TABLE CELLS ===== */
-.cell-book-title {
-  font-weight: 600;
-  color: #1f2a38;
-  max-width: 200px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-
-  @media (prefers-color-scheme: dark) {
-    color: #fff;
-  }
-}
-
-.cell-author {
-  color: #666;
-  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-
-  @media (prefers-color-scheme: dark) {
-    color: #b0b0b0;
-  }
-}
-
-.cell-date {
-  color: #666;
-  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-  white-space: nowrap;
-
-  @media (prefers-color-scheme: dark) {
-    color: #b0b0b0;
-  }
-}
-
+/* ===== STATUS CELLS ===== */
 .cell-status {
   display: inline-flex;
   align-items: center;
@@ -315,41 +254,21 @@ table {
   border-radius: 20px;
   font-size: clamp(0.7rem, 1.5vw, 0.85rem);
   font-weight: 600;
-  white-space: nowrap;
   gap: 0.4rem;
 
   &.active {
     background-color: rgba(76, 175, 80, 0.15);
     color: #388e3c;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: rgba(76, 175, 80, 0.25);
-      color: #81c784;
-    }
   }
 
   &.overdue {
     background-color: rgba(244, 67, 54, 0.15);
     color: #d32f2f;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: rgba(244, 67, 54, 0.25);
-      color: #ff8a80;
-    }
   }
 
   &.expiring {
     background-color: rgba(255, 152, 0, 0.15);
     color: #f57c00;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: rgba(255, 152, 0, 0.25);
-      color: #ffb74d;
-    }
-  }
-
-  @media (max-width: 599px) {
-    margin-top: 0.5rem;
   }
 }
 
@@ -366,10 +285,6 @@ table {
     margin-top: 0.5rem;
     padding-top: 0.75rem;
     border-top: 1px solid #e0e0e0;
-
-    @media (prefers-color-scheme: dark) {
-      border-top-color: #444;
-    }
   }
 
   button {
@@ -383,76 +298,25 @@ table {
     transition: all 0.3s ease;
     white-space: nowrap;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
 
-    &:hover:not(:disabled) {
+    &:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    &:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    &:focus {
-      outline: 2px solid #3f51b5;
-      outline-offset: 1px;
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
 
     &.btn-primary {
       background-color: #3f51b5;
       color: #fff;
-
-      &:hover:not(:disabled) {
-        background-color: #303f9f;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        background-color: #5a7fd5;
-
-        &:hover:not(:disabled) {
-          background-color: #4d6fbf;
-        }
-      }
     }
 
     &.btn-danger {
       background-color: #f44336;
       color: #fff;
-
-      &:hover:not(:disabled) {
-        background-color: #d32f2f;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        background-color: #ff6b63;
-
-        &:hover:not(:disabled) {
-          background-color: #ff5252;
-        }
-      }
     }
 
     &.btn-success {
       background-color: #4caf50;
       color: #fff;
-
-      &:hover:not(:disabled) {
-        background-color: #388e3c;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        background-color: #66bb6a;
-
-        &:hover:not(:disabled) {
-          background-color: #4caf50;
-        }
-      }
     }
   }
 }
