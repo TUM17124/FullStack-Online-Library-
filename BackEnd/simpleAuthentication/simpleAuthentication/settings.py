@@ -76,6 +76,8 @@ WSGI_APPLICATION = 'simpleAuthentication.wsgi.application'
 # ──────────────────────────────────────────────────────────────
 # DATABASE
 # ──────────────────────────────────────────────────────────────
+import dj_database_url
+
 DATABASES = {
     "default": dj_database_url.config(
         default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
