@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { HostListener, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +24,8 @@ import { filter } from 'rxjs/operators';
 export class HeaderComponent implements OnInit {
   showLogout = true;
   menuOpen = false;
+
+   @ViewChild('navContainer') navContainer!: ElementRef;
 
   constructor(private router: Router, public authService: AuthService) {}
 
@@ -42,4 +45,27 @@ export class HeaderComponent implements OnInit {
     // Hide logout button only on dashboard
     this.showLogout = !url.includes('/dashboard');
   }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.closeMenu();
+  }
+
+  // Detect click outside the menu to close it
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (this.menuOpen && !this.navContainer.nativeElement.contains(event.target)) {
+      this.menuOpen = false;
+    } }
+
+
+
 }

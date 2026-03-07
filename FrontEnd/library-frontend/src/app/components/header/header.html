@@ -1,25 +1,25 @@
-<mat-toolbar>
+<mat-toolbar color="primary" class="toolbar">
 
   <span class="title">Library</span>
 
   <span class="spacer"></span>
 
-  <div class="nav-container">
+  <div class="nav-container" #navContainer>
 
-    <button class="menu-toggle"
-            (click)="menuOpen = !menuOpen">
-      <span></span>
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+      &#9776;
     </button>
 
+    <!-- Navigation menu -->
     <div class="nav-menu" [class.open]="menuOpen">
 
-      <button mat-button routerLink="/dashboard">Dashboard</button>
-      <button mat-button routerLink="/books">Books</button>
-      <button mat-button routerLink="/borrowed">My Borrowed</button>
-      <button mat-button routerLink="/overdue">Overdue</button>
-      <button *ngIf="showLogout" mat-raised-button color="warn" (click)="authService.logout()">
-    Logout
-  </button>
+      <button mat-button routerLink="/dashboard" (click)="closeMenu()">Dashboard</button>
+      <button mat-button routerLink="/books" (click)="closeMenu()">Books</button>
+      <button mat-button routerLink="/borrowed" (click)="closeMenu()">My Borrowed</button>
+      <button mat-button routerLink="/overdue" (click)="closeMenu()">Overdue</button>
+
+      <button *ngIf="showLogout" mat-raised-button color="warn" (click)="logout()">Logout</button>
 
     </div>
 
