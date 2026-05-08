@@ -8,8 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
-import { LibraryService } from '../../services/library';
-import { Observable, BehaviorSubject, switchMap } from 'rxjs';  
 
 @Component({
   selector: 'app-login',
@@ -28,31 +26,33 @@ import { Observable, BehaviorSubject, switchMap } from 'rxjs';
   styleUrl: './login.scss'
 })
 export class LoginComponent {
-  private refreshTrigger = new BehaviorSubject<void>(undefined);
-  login$: Observable<any>;
+
   username = '';
   password = '';
+  isLoading = false;
 
-  constructor(private authService: AuthService, private libraryService: LibraryService, private router: Router) {
-    // Automatically refresh books when refreshTrigger emits
-    this.login$ = this.refreshTrigger.asObservable().pipe(
-      switchMap(() => this.libraryService.getBooks())
-    );
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   login() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
-        // Refresh login status immediately
         this.authService.refreshLoginStatus();
-        
-        // Trigger data refresh
-        this.refreshTrigger.next();
-        
-        // Redirect to books page fast
         this.router.navigate(['/books']);
       },
-      error: () => alert('Invalid username or password')
+      error: () => {
+        alert('Invalid username or password');
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 }

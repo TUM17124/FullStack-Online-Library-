@@ -15,9 +15,12 @@
           <input matInput type="password" [(ngModel)]="password" name="password" required>
           <mat-icon matSuffix>lock</mat-icon>
         </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" class="full-width">
-          Login
-        </button>
+        <button mat-raised-button color="primary"
+        type="submit"
+        class="full-width"
+        [disabled]="isLoading">
+  {{ isLoading ? 'Logging in...' : 'Login' }}
+</button>
       </form>
       <div class="links">
         <a routerLink="/forgot-password">Forgot Password?</a> <br>
