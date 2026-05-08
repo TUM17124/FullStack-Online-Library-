@@ -135,8 +135,10 @@ class ReadBookView(APIView):
         if not book.file:
             return Response({"error": "Book file not available"}, status=404)
 
-        # Return file URL (Supabase signed URL)
-        return Response({"url": book.file})
+        # SAFE FIX: return URL as string
+        return Response({
+            "url": str(book.file.url)  # IMPORTANT FIX
+        })
 
 
 class OverdueBooksView(APIView):
