@@ -1,5 +1,4 @@
-// pdf-reader.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -8,9 +7,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   standalone: true,
   imports: [CommonModule, PdfViewerModule],
   template: `
-    <div class="pdf-overlay" *ngIf="pdfSrc">
-      <button class="close-btn" (click)="closeReader()">✕</button>
+    <div class="pdf-wrapper">
+      <button class="close-btn" (click)="onClose.emit()">✕</button>
+
       <pdf-viewer
+        *ngIf="pdfSrc"
         [src]="pdfSrc"
         [render-text]="true"
         [show-all]="true"
@@ -20,12 +21,13 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     </div>
   `,
   styles: [`
-    .pdf-overlay {
+    .pdf-wrapper {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
+      inset: 0;
+      background: rgba(0,0,0,0.9);
       z-index: 1000;
     }
+
     .close-btn {
       position: absolute;
       top: 10px;
@@ -40,9 +42,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   `]
 })
 export class PdfReaderComponent {
-  @Input() pdfSrc!: string | null;
+  @Input() pdfSrc: string | null = null;
 
-  closeReader() {
-    this.pdfSrc = null;
-  }
+  // IMPORTANT: parent controls closing
+  @Output() onClose = new EventEmitter<void>();
 }

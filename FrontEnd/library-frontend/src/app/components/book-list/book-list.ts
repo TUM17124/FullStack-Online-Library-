@@ -26,7 +26,7 @@ import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
   styleUrls: ['./book-list.scss']
 })
 export class BookListComponent {
-  private refreshTrigger = new BehaviorSubject<void>(undefined);
+  private refreshTrigger = new BehaviorSubject<number>(0);
   books$: Observable<Book[]>;
   readingBookUrl: string | null = null;
 
@@ -44,7 +44,7 @@ export class BookListComponent {
     this.libraryService.borrowBook(id).subscribe({
       next: () => {
         this.snackBar.open('Book borrowed successfully!', 'Close', { duration: 4000 });
-        this.refreshTrigger.next();
+        this.refreshTrigger.next(Date.now());
       },
       error: (err) => {
         const msg = err.error?.error || 'Cannot borrow this book';
@@ -57,7 +57,7 @@ export class BookListComponent {
     this.libraryService.returnBook(id).subscribe({
       next: () => {
         this.snackBar.open('Book returned successfully!', 'Close', { duration: 4000 });
-        this.refreshTrigger.next();
+        this.refreshTrigger.next(Date.now());
       },
       error: (err) => {
         const msg = err.error?.error || 'Cannot return this book';
@@ -68,11 +68,19 @@ export class BookListComponent {
 
   // Open PDF in embedded viewer
   readBook(bookId: number) {
-    this.libraryService.readBook(bookId).subscribe({
-      next: (res: any) => this.readingBookUrl = res.url,
-      error: (err: any) => this.snackBar.open('Error opening book', 'Close', { duration: 4000 })
-    });
-  }
+  this.readingBookUrl = null; // reset first
+
+  this.libraryService.readBook(bookId).subscribe({
+    next: (res: any) => {
+      setTimeout(() => {
+        this.readingBookUrl = res.url;
+      }, 50); // forces UI refresh
+    },
+    error: () => {
+      this.snackBar.open('Error opening book', 'Close', { duration: 4000 });
+    }
+  });
+}
 
   closeReader() {
     this.readingBookUrl = null;

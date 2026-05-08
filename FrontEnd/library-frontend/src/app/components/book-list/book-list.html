@@ -8,7 +8,10 @@
     <div class="pdf-header">
       <button mat-raised-button color="warn" (click)="closeReader()">Close</button>
     </div>
-    <app-pdf-reader [pdfSrc]="readingBookUrl"></app-pdf-reader>
+    <app-pdf-reader
+  [pdfSrc]="readingBookUrl"
+  (onClose)="closeReader()">
+</app-pdf-reader>
   </div>
 
   <ng-container *ngIf="books$ | async as books; else loading">
