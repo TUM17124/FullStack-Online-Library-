@@ -128,17 +128,19 @@ class ReadBookView(APIView):
     def get(self, request, book_id):
         book = get_object_or_404(Book, id=book_id)
 
-        # Check if user borrowed the book
         if not Borrow.objects.filter(user=request.user, book=book, returned=False).exists():
             return HttpResponseForbidden("You must borrow this book to read it.")
 
         if not book.file:
             return Response({"error": "Book file not available"}, status=404)
 
-        # SAFE FIX: return URL as string
-        return Response({
-            "url": str(book.file.url)  # IMPORTANT FIX
-        })
+        file_url = str(book.file)
+
+        # If it's NOT a full URL, build Supabase URL
+        if not file_url.startswith("http"):
+            file_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/{file_url}"
+
+        return Response({"url": file_url})
 
 
 class OverdueBooksView(APIView):
