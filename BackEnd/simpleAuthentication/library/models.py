@@ -46,6 +46,29 @@ class Book(models.Model):
             # store ONLY path
             self.file = file_name
 
+             # ─────────────────────────────────────────────
+        # 2. UPLOAD PHOTO TO SUPABASE (OPTIONAL BUT RECOMMENDED)
+        # ─────────────────────────────────────────────
+        if self.photo and not str(self.photo).startswith("http"):
+
+            photo = self.photo
+            photo.seek(0)
+
+            photo_name = f"book_photos/{photo.name}"
+
+            supabase.storage.from_("media").upload(
+                photo_name,
+                photo.read(),
+                {
+                    "content-type": "image/jpeg",
+                    "upsert": "true"
+                }
+            )
+
+            self.photo = photo_name
+
+            
+
         super().save(*args, **kwargs)
     
     @property
