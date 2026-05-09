@@ -128,18 +128,28 @@ class ReadBookView(APIView):
     def get(self, request, book_id):
         book = get_object_or_404(Book, id=book_id)
 
-        if not Borrow.objects.filter(user=request.user, book=book, returned=False).exists():
+        if not Borrow.objects.filter(
+            user=request.user,
+            book=book,
+            returned=False
+        ).exists():
             return HttpResponseForbidden("You must borrow this book to read it.")
 
         if not book.file:
             return Response({"error": "Book file not available"}, status=404)
 
-        file_path = str(book.file)
+        file_path = str(book.file).lstrip("/")
 
+        # if already full URL
         if file_path.startswith("http"):
             file_url = file_path
         else:
-            file_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/{file_path}"
+            file_url = (
+                f"{settings.SUPABASE_URL}"
+                f"/storage/v1/object/public/media/{file_path}"
+            )
+            print("FILE PATH:", file_path)
+            print("SUPABASE FINAL URL:", file_url)
 
         return Response({"url": file_url})
 
