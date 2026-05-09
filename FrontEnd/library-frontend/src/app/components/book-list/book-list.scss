@@ -145,6 +145,17 @@ app-pdf-reader {
   color:#666;
 }
 
+.book-description{
+  font-size:.8rem;
+  color:#555;
+  margin-top:.5rem;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
 /* ===== BOOK ACTIONS ===== */
 
 .book-actions{

@@ -7,6 +7,7 @@ export interface Book {
   id: number;
   title: string;
   author: string;
+  description?: string; // ← added description
   photo?: string;        // URL of the book cover
   is_borrowed?: boolean; // borrowed status
   file_url?: string;     // link to read the book
