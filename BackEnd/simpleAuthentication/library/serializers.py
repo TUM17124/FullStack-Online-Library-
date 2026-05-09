@@ -1,4 +1,7 @@
+from httpx import request
 from rest_framework import serializers
+
+from simpleAuthentication import settings
 from .models import Book, Borrow
 from django.utils import timezone
 
@@ -30,7 +33,6 @@ class BookSerializer(serializers.ModelSerializer):
         if not request:
             return None
 
-        # Only allow access if borrowed
         is_borrowed = obj.borrows.filter(
             user=request.user,
             returned=False
@@ -39,7 +41,14 @@ class BookSerializer(serializers.ModelSerializer):
         if not is_borrowed:
             return None
 
-        return request.build_absolute_uri(f'/api/books/{obj.id}/read/')
+        if obj.file:
+            file_path = str(obj.file).lstrip("/")
+            if file_path.startswith("http"):
+                return file_path
+
+            return f"{settings.SUPABASE_URL}/storage/v1/object/public/media/{file_path}"
+
+        return None
 
 class BorrowSerializer(serializers.ModelSerializer):
     title = serializers.CharField(source='book.title', read_only=True)
