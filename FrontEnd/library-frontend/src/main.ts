@@ -16,10 +16,12 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app/app';
 import { routes } from './app/app.routes';
 import { authInterceptor } from './app/interceptors/auth-interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
+    provideAnimations(),
     provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(
       BrowserAnimationsModule,

@@ -1,118 +1,127 @@
 <app-header></app-header>
 
-<main class="landing">
+<main class="landing" [@fadeSlide]>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="container hero-content">
-      <div class="hero-text">
-        <h1>Learn to Code by Yourself</h1>
-        <p>
-          Free structured PDF guides to master Flutter, Django, FastAPI,
-          and build your own local AI with RAG-powered LLMs.
-        </p>
+    <div class="container animate">
 
-        <div class="hero-actions">
-          <button mat-raised-button color="primary" routerLink="/register">
-            Join Free Library
-          </button>
-          <a href="#features">Explore More</a>
-        </div>
+      <div class="hero-badge">🚀 Free Coding Library</div>
+
+      <h1>Learn Practical Software Development</h1>
+
+      <p class="hero-text">
+        Master Flutter, Django, FastAPI, and build your own AI systems using RAG.
+        Everything is structured into real-world PDF guides built for self-learners.
+      </p>
+
+      <div class="hero-actions">
+        <button mat-raised-button color="primary" routerLink="/register">
+          Get Started Free
+        </button>
+
+        <button mat-stroked-button routerLink="/login">
+          Login
+        </button>
       </div>
 
-      <div class="hero-card">
-        <div class="badge">100% Free Learning</div>
-        <h3>Start building real projects today</h3>
-        <p>No tutorials fluff. Only practical coding skills.</p>
+      <div class="hero-note">
+        No payments. No spam. Just practical learning.
       </div>
+
     </div>
   </section>
 
   <!-- FEATURES -->
-  <section id="features" class="features">
+  <section class="features">
     <div class="container">
-      <h2>What You'll Learn</h2>
+
+      <h2 class="animate">What You'll Learn</h2>
 
       <div class="grid">
-        <div class="card">
+
+        <div class="card animate">
           <mat-icon>phone_iphone</mat-icon>
           <h3>Flutter & Dart</h3>
-          <p>Build cross-platform mobile apps with clean UI.</p>
+          <p>Build beautiful cross-platform mobile apps.</p>
         </div>
 
-        <div class="card">
+        <div class="card animate">
           <mat-icon>api</mat-icon>
-          <h3>Backend Systems</h3>
-          <p>Django & FastAPI APIs with authentication & scaling.</p>
+          <h3>Django & FastAPI</h3>
+          <p>Create scalable backend APIs and authentication systems.</p>
         </div>
 
-        <div class="card">
+        <div class="card animate">
           <mat-icon>psychology</mat-icon>
-          <h3>Local AI (RAG)</h3>
-          <p>Create your own AI tools using retrieval-augmented generation.</p>
+          <h3>AI & RAG Systems</h3>
+          <p>Learn local AI development using modern LLM workflows.</p>
         </div>
 
-        <div class="card">
-          <mat-icon>build</mat-icon>
-          <h3>Automation</h3>
-          <p>Build tools that save time and automate workflows.</p>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section class="projects">
-    <div class="container">
-      <h2>Build Real Projects</h2>
+  <!-- LEARNING PATH -->
+  <section class="path">
+    <div class="container animate">
 
-      <div class="grid">
-        <div class="project">
-          <h3>Mobile Apps</h3>
-          <p>Production-ready Flutter apps with real architecture.</p>
-        </div>
+      <h2>Your Learning Path</h2>
 
-        <div class="project">
-          <h3>APIs & Backend</h3>
-          <p>Secure REST APIs using Django & FastAPI.</p>
-        </div>
+      <ol class="steps">
+        <li>Start with Flutter or Backend Development</li>
+        <li>Build real-world projects</li>
+        <li>Learn AI automation and RAG pipelines</li>
+        <li>Deploy your applications online</li>
+      </ol>
 
-        <div class="project">
-          <h3>AI Tools</h3>
-          <p>Local AI assistants powered by RAG pipelines.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta">
-    <div class="container">
-      <h2>Start Learning Today</h2>
-      <p>Join thousands of self-learners building real skills.</p>
-      <button mat-raised-button color="primary" routerLink="/register">
-        Get Free Access
-      </button>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="contact">
-    <div class="container">
-      <h2>Contact</h2>
+    <div class="container animate">
 
-      <form target="_blank"
-            action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a"
-            method="POST">
+      <h2>Need Help or Guidance?</h2>
 
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email Address" required>
-        <textarea name="message" rows="5" placeholder="Your Message"></textarea>
+      <p class="contact-text">
+        Have questions about coding, projects, AI, or your learning journey?
+        Send me a message — I personally reply to learners.
+      </p>
+
+      <form
+        target="_blank"
+        action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a"
+        method="POST"
+      >
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          required
+        />
+
+        <textarea
+          name="message"
+          rows="6"
+          placeholder="Tell me what you need help with..."
+          required
+        ></textarea>
 
         <button mat-raised-button color="primary" type="submit">
           Send Message
         </button>
+
       </form>
+
     </div>
   </section>
 
