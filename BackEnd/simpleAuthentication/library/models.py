@@ -11,9 +11,9 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    photo = models.CharField(max_length=500, blank=True, null=True)
-    file = models.CharField(max_length=500, blank=True, null=True)
+    photo = models.ImageField(upload_to='book_photos/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='books/', blank=True, null=True)  # The eBook
     is_borrowed = models.BooleanField(default=False)
     
     @property
