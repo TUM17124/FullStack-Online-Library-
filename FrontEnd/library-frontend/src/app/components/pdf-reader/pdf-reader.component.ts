@@ -1,61 +1,74 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-pdf-reader',
   standalone: true,
-  imports: [CommonModule, PdfViewerModule],
+  imports: [CommonModule, SafeUrlPipe],
   template: `
-
     <div class="pdf-container">
 
-      <div class="toolbar">
-        <button (click)="onClose.emit()">
-          Close
+      <div class="pdf-toolbar">
+        <button class="close-btn" (click)="onClose.emit()">
+          ✕ Close
         </button>
       </div>
 
-      <pdf-viewer
-        *ngIf="pdfSrc"
-        [src]="pdfSrc"
-        [render-text]="true"
-        [original-size]="false"
-        [show-all]="true"
-        style="display:block;width:100%;height:100vh;"
-      >
-      </pdf-viewer>
+      <object
+  *ngIf="pdfSrc"
+  [data]="pdfSrc | safeUrl"
+  type="application/pdf"
+  class="pdf-frame">
+</object>
 
     </div>
-
   `,
   styles: [`
-
     .pdf-container{
       width:100%;
       height:100%;
+      display:flex;
+      flex-direction:column;
       background:#111;
+      border-radius:10px;
+      overflow:hidden;
     }
 
-    .toolbar{
-      padding:1rem;
-      background:#222;
+    .pdf-toolbar{
+      display:flex;
+      justify-content:flex-end;
+      padding:0.7rem;
+      background:#1e1e1e;
+      border-bottom:1px solid #333;
     }
 
-    button{
-      padding:0.6rem 1rem;
-      border:none;
+    .close-btn{
       background:#d32f2f;
       color:white;
+      border:none;
+      padding:0.6rem 1rem;
       border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
     }
 
+    .close-btn:hover{
+      opacity:0.9;
+    }
+
+    .pdf-frame{
+      width:100%;
+      height:100%;
+      min-height:85vh;
+      border:none;
+      background:white;
+      flex:1;
+    }
   `]
 })
 export class PdfReaderComponent {
-
-  @Input() pdfSrc!: string;
+  @Input() pdfSrc!: string | null;
 
   @Output() onClose = new EventEmitter<void>();
-
 }

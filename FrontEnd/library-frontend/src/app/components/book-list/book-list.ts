@@ -116,15 +116,9 @@ export class BookListComponent {
 
   this.libraryService.readBook(bookId).subscribe({
 
-    next: (blob: Blob) => {
+    next: (res: any) => {
 
-      const pdfBlob = new Blob(
-        [blob],
-        { type: 'application/pdf' }
-      );
-
-      this.readingBookUrl =
-        URL.createObjectURL(pdfBlob);
+      this.readingBookUrl = res.url;
 
     },
 
