@@ -3,6 +3,13 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
 import random
+from supabase import create_client
+from django.conf import settings
+
+supabase = create_client(
+    settings.SUPABASE_URL,
+    settings.SUPABASE_KEY
+)
 
 def get_default_due_date():
     return timezone.now() + timedelta(days=14)
@@ -15,6 +22,31 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='books/', blank=True, null=True)  # The eBook
     is_borrowed = models.BooleanField(default=False)
+     
+    def save(self, *args, **kwargs):
+
+        # only upload if file is new AND not already a Supabase URL
+        if self.file and not str(self.file).startswith("http"):
+
+            file = self.file
+            file.seek(0)  # 🔥 IMPORTANT FIX
+
+            file_name = f"books/{file.name}"
+
+            # upload safely (overwrite enabled)
+            supabase.storage.from_("media").upload(
+                file_name,
+                file.read(),
+                {
+                    "content-type": "application/pdf",
+                    "upsert": "true"   # 🔥 prevents duplicate error
+                }
+            )
+
+            # store ONLY path
+            self.file = file_name
+
+        super().save(*args, **kwargs)
     
     @property
     def is_borrowed(self):

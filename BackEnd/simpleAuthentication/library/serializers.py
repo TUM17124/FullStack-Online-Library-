@@ -1,9 +1,8 @@
-from httpx import request
 from rest_framework import serializers
-
+from django.utils import timezone
 from simpleAuthentication import settings
 from .models import Book, Borrow
-from django.utils import timezone
+
 
 class BookSerializer(serializers.ModelSerializer):
     is_borrowed = serializers.SerializerMethodField()
@@ -24,15 +23,21 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_is_borrowed(self, obj):
         request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            return obj.borrows.filter(user=request.user, returned=False).exists()
-        return False
+        if not request or not request.user.is_authenticated:
+            return False
+
+        return obj.borrows.filter(
+            user=request.user,
+            returned=False
+        ).exists()
 
     def get_file_url(self, obj):
         request = self.context.get('request')
-        if not request:
+
+        if not request or not request.user.is_authenticated:
             return None
 
+        # Only allow access if borrowed
         is_borrowed = obj.borrows.filter(
             user=request.user,
             returned=False
@@ -41,14 +46,20 @@ class BookSerializer(serializers.ModelSerializer):
         if not is_borrowed:
             return None
 
-        if obj.file:
-            file_path = str(obj.file).lstrip("/")
-            if file_path.startswith("http"):
-                return file_path
+        if not obj.file:
+            return None
 
-            return f"{settings.SUPABASE_URL}/storage/v1/object/public/media/{file_path}"
+        file_path = str(obj.file).lstrip("/")
 
-        return None
+        # If already full URL, return it
+        if file_path.startswith("http"):
+            return file_path
+
+        # Build Supabase Storage URL safely
+        bucket = "media"  # change if your bucket name differs
+
+        return f"{settings.SUPABASE_URL}/storage/v1/object/public/{bucket}/{file_path}"
+
 
 class BorrowSerializer(serializers.ModelSerializer):
     title = serializers.CharField(source='book.title', read_only=True)
@@ -71,8 +82,6 @@ class BorrowSerializer(serializers.ModelSerializer):
         ]
 
     def get_is_overdue(self, obj):
-        if obj.returned:
-            return False
-        if not obj.return_due:
+        if obj.returned or not obj.return_due:
             return False
         return timezone.now() > obj.return_due

@@ -78,9 +78,10 @@ WSGI_APPLICATION = 'simpleAuthentication.wsgi.application'
 # ──────────────────────────────────────────────────────────────
 DATABASES = {
     "default": dj_database_url.config(
-        default=config("DATABASE_URL"),  # Must be Supabase Postgres URL
+        default=config("DATABASE_URL"),
         conn_max_age=600,
-        ssl_require=True  # Required for Supabase
+        ssl_require=True,
+        engine="django.db.backends.postgresql",
     )
 }
 
