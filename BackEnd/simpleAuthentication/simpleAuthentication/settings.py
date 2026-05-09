@@ -122,6 +122,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "https://mindandmoney.onrender.com",
+    "https://practicalcodingpdfs.com",
     "http://localhost:4200",
 ]
 
