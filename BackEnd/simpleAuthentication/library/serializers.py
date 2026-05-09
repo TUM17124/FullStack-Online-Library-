@@ -23,9 +23,18 @@ class BookSerializer(serializers.ModelSerializer):
         ]
 
     def get_photo_url(self, obj):
-        if obj.photo:
-            return f"https://YOUR_PROJECT.supabase.co/storage/v1/object/public/media/{obj.photo}"
-        return None    
+        if not obj.photo:
+            return None
+
+        photo_path = str(obj.photo).lstrip("/")
+
+    # If already full URL, return it
+        if photo_path.startswith("http"):
+            return photo_path
+
+        bucket = "media"  # change if your bucket name differs
+
+        return f"{settings.SUPABASE_URL}/storage/v1/object/public/{bucket}/{photo_path}"
 
     def get_is_borrowed(self, obj):
         request = self.context.get('request')
