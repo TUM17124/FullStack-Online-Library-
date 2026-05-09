@@ -9,7 +9,6 @@ import { Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
 
-
 @Component({
   selector: 'app-book-list',
   standalone: true,
@@ -32,7 +31,6 @@ export class BookListComponent {
   books$: Observable<Book[]>;
 
   readingBookUrl: string | null = null;
-  isLoadingBook = false;
 
   constructor(
     private libraryService: LibraryService,
@@ -48,63 +46,102 @@ export class BookListComponent {
 
   borrowBook(id: number) {
 
-  this.closeReader(); // ✅ close PDF
+    this.libraryService.borrowBook(id).subscribe({
 
-  this.libraryService.borrowBook(id).subscribe({
-    next: () => {
-      this.snackBar.open('Book borrowed successfully!', 'Close', { duration: 4000 });
-      this.refreshTrigger.next(Date.now());
-    },
-    error: (err) => {
-      const msg = err.error?.error || 'Cannot borrow this book';
-      this.snackBar.open(msg, 'Close', { duration: 4000 });
-    }
-  });
+      next: () => {
 
-}
+        this.snackBar.open(
+          'Book borrowed successfully!',
+          'Close',
+          { duration: 4000 }
+        );
 
- returnBook(id: number) {
+        this.refreshTrigger.next(Date.now());
 
-  this.closeReader(); // ✅ close PDF here too
+      },
 
-  this.libraryService.returnBook(id).subscribe({
-    next: () => {
-      this.snackBar.open('Book returned successfully!', 'Close', { duration: 4000 });
-      this.refreshTrigger.next(Date.now());
-    },
-    error: (err) => {
-      const msg = err.error?.error || 'Cannot return this book';
-      this.snackBar.open(msg, 'Close', { duration: 4000 });
-    }
-  });
+      error: (err) => {
 
-}
+        const msg =
+          err.error?.error ||
+          'Cannot borrow this book';
 
-readBook(bookId: number) {
+        this.snackBar.open(
+          msg,
+          'Close',
+          { duration: 4000 }
+        );
 
-  if (this.isLoadingBook) return;
+      }
 
-  this.isLoadingBook = true;
+    });
+
+  }
+
+  returnBook(id: number) {
+
+    this.libraryService.returnBook(id).subscribe({
+
+      next: () => {
+
+        this.snackBar.open(
+          'Book returned successfully!',
+          'Close',
+          { duration: 4000 }
+        );
+
+        this.refreshTrigger.next(Date.now());
+
+      },
+
+      error: (err) => {
+
+        const msg =
+          err.error?.error ||
+          'Cannot return this book';
+
+        this.snackBar.open(
+          msg,
+          'Close',
+          { duration: 4000 }
+        );
+
+      }
+
+    });
+
+  }
+
+  readBook(bookId: number) {
+
+  // Reset first
+  this.readingBookUrl = null;
 
   this.libraryService.readBook(bookId).subscribe({
+
     next: (res: any) => {
 
-      // 🔥 ensure state change is clean
-      this.readingBookUrl = null;
-
+      // Small delay forces component refresh
       setTimeout(() => {
         this.readingBookUrl = res.url;
-        this.isLoadingBook = false;
       });
 
     },
+
     error: () => {
-      this.isLoadingBook = false;
-      this.snackBar.open('Error opening PDF', 'Close', { duration: 4000 });
+
+      this.snackBar.open(
+        'Error opening PDF',
+        'Close',
+        { duration: 4000 }
+      );
+
     }
+
   });
 
 }
+
   closeReader() {
 
     this.readingBookUrl = null;

@@ -5,10 +5,10 @@
   <h1 class="page-title">Available Books</h1>
 
   <!-- PDF OVERLAY -->
-  <div class="pdf-overlay" >
+  <div class="pdf-overlay" *ngIf="readingBookUrl">
 
     <app-pdf-reader
-      *ngIf="readingBookUrl"
+      
       [pdfSrc]="readingBookUrl"
       (onClose)="closeReader()">
     </app-pdf-reader>
