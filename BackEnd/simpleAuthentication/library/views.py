@@ -139,7 +139,7 @@ class ReadBookView(APIView):
         if file_path.startswith("http"):
             file_url = file_path
         else:
-            file_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/media/{file_path}"
+            file_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/{file_path}"
 
         return Response({"url": file_url})
 
