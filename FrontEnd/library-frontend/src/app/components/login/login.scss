@@ -13,6 +13,30 @@ $tablet: 1024px;
 
 
 /* ======================================
+   GLOBAL RESET
+====================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+
+/* ======================================
    LOGIN CONTAINER
 ====================================== */
 
@@ -21,15 +45,21 @@ $tablet: 1024px;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1.5rem;
-  background: linear-gradient(135deg,#f0f2f5,#e9ecef);
+  width: 100%;
+  padding: 1rem;
+  overflow: hidden; // removes unnecessary scrolling
+  background: linear-gradient(135deg, #f0f2f5, #e9ecef);
   position: relative;
 
   &::before {
     content: "";
     position: absolute;
-    inset: -50%;
-    background: radial-gradient(circle, rgba(58,123,213,.08) 1px, transparent 1px);
+    inset: 0;
+    background: radial-gradient(
+      circle,
+      rgba(58, 123, 213, 0.08) 1px,
+      transparent 1px
+    );
     background-size: 50px 50px;
     pointer-events: none;
   }
@@ -42,17 +72,17 @@ $tablet: 1024px;
 
 .login-card {
   width: 100%;
-  max-width: 450px;
+  max-width: 430px;
   padding: 2rem;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.12);
-  transition: .3s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transition: 0.3s;
   position: relative;
   z-index: 1;
 
   &:hover {
-    box-shadow: 0 16px 40px rgba(0,0,0,.16);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
   }
 
   &:focus-within {
@@ -64,14 +94,14 @@ $tablet: 1024px;
     font-size: 1.8rem;
     color: $text-dark;
     text-align: center;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   p {
     text-align: center;
     color: #666;
-    margin-bottom: 2rem;
-    font-size: .95rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -82,7 +112,7 @@ $tablet: 1024px;
 
 .full-width {
   width: 100%;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1rem;
 
   mat-form-field {
     width: 100%;
@@ -91,15 +121,15 @@ $tablet: 1024px;
   input,
   textarea {
     width: 100%;
-    padding: .8rem;
+    padding: 0.8rem;
     border-radius: 6px;
     border: 1px solid #ddd;
-    transition: .25s;
+    transition: 0.25s;
 
     &:focus {
       outline: none;
       border-color: $primary;
-      box-shadow: 0 0 0 3px rgba(63,81,181,.12);
+      box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.12);
     }
   }
 }
@@ -111,12 +141,12 @@ $tablet: 1024px;
 
 .login-card button {
   width: 100%;
-  padding: .9rem;
+  padding: 0.9rem;
   border-radius: 8px;
   border: none;
   font-weight: 600;
   cursor: pointer;
-  transition: .25s;
+  transition: 0.25s;
   margin-bottom: 1rem;
 
   &:hover:not(:disabled) {
@@ -124,7 +154,7 @@ $tablet: 1024px;
   }
 
   &:disabled {
-    opacity: .6;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 }
@@ -147,7 +177,7 @@ $tablet: 1024px;
   background: transparent;
 
   &:hover {
-    background: rgba(63,81,181,.08);
+    background: rgba(63, 81, 181, 0.08);
   }
 }
 
@@ -158,21 +188,21 @@ $tablet: 1024px;
 
 .links {
   text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1.2rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
   border-top: 1px solid $border;
 
   p {
-    font-size: .9rem;
+    font-size: 0.9rem;
     color: #666;
-    margin-bottom: .7rem;
+    margin-bottom: 0.7rem;
   }
 
   a {
     color: $primary;
     font-weight: 600;
     text-decoration: none;
-    margin: 0 .4rem;
+    margin: 0 0.4rem;
 
     &:hover {
       text-decoration: underline;
@@ -187,17 +217,17 @@ $tablet: 1024px;
 
 .error-message {
   color: #d32f2f;
-  font-size: .85rem;
-  margin-top: .4rem;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
 }
 
 .success-message {
-  padding: .8rem;
-  background: rgba(56,142,60,.1);
+  padding: 0.8rem;
+  background: rgba(56, 142, 60, 0.1);
   border-left: 4px solid #388e3c;
   border-radius: 6px;
   margin-bottom: 1rem;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 
@@ -206,7 +236,7 @@ $tablet: 1024px;
 ====================================== */
 
 .loading {
-  opacity: .6;
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -215,20 +245,19 @@ $tablet: 1024px;
    MOBILE
 ====================================== */
 
-@media (max-width:$mobile) {
-
+@media (max-width: $mobile) {
   .login-container {
-    padding: 1rem;
+    padding: 0.8rem;
   }
 
   .login-card {
-    padding: 1.4rem;
-    border-radius: 8px;
+    padding: 1.3rem;
+    border-radius: 10px;
   }
 
   .links a {
     display: block;
-    margin: .4rem 0;
+    margin: 0.4rem 0;
   }
 }
 
@@ -237,12 +266,10 @@ $tablet: 1024px;
    TABLET
 ====================================== */
 
-@media (min-width:600px) and (max-width:$tablet) {
-
+@media (min-width: 600px) and (max-width: $tablet) {
   .login-card {
     max-width: 420px;
   }
-
 }
 
 
@@ -251,9 +278,8 @@ $tablet: 1024px;
 ====================================== */
 
 @media (prefers-color-scheme: dark) {
-
   .login-container {
-    background: linear-gradient(135deg,#1a1a1a,#262626);
+    background: linear-gradient(135deg, #1a1a1a, #262626);
   }
 
   .login-card {
@@ -261,7 +287,8 @@ $tablet: 1024px;
     color: $text-light;
   }
 
-  input, textarea {
+  input,
+  textarea {
     background: #333;
     border-color: #444;
     color: $text-light;
@@ -282,10 +309,8 @@ $tablet: 1024px;
 ====================================== */
 
 @media (prefers-reduced-motion: reduce) {
-
   * {
     animation: none !important;
     transition: none !important;
   }
-
 }
