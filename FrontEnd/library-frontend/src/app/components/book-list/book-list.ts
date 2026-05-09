@@ -114,17 +114,11 @@ export class BookListComponent {
 
   readBook(bookId: number) {
 
-  // Reset first
-  this.readingBookUrl = null;
-
   this.libraryService.readBook(bookId).subscribe({
 
     next: (res: any) => {
 
-      // Small delay forces component refresh
-      setTimeout(() => {
-        this.readingBookUrl = res.url;
-      });
+      this.readingBookUrl = res.url;
 
     },
 
