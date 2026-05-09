@@ -9,6 +9,7 @@ import { Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
 
+
 @Component({
   selector: 'app-book-list',
   standalone: true,
@@ -31,6 +32,7 @@ export class BookListComponent {
   books$: Observable<Book[]>;
 
   readingBookUrl: string | null = null;
+  isLoadingBook = false;
 
   constructor(
     private libraryService: LibraryService,
@@ -113,22 +115,26 @@ export class BookListComponent {
   }
 
   readBook(bookId: number) {
-    this.libraryService.readBook(bookId).subscribe({
-      next: (res: any) => {
-        this.readingBookUrl = null;
-        setTimeout(() => {
-          this.readingBookUrl = res.url;
-        });
+  if (this.isLoadingBook) return; // 🚫 block multiple clicks
+
+  this.isLoadingBook = true;
+
+  this.libraryService.readBook(bookId).subscribe({
+    next: (res: any) => {
+      this.readingBookUrl = res.url;
+      this.isLoadingBook = false;
     },
-      error: () => {
-        this.snackBar.open(
-          'Error opening PDF',
-          'Close',
-          { duration: 4000 }
-        );
-      }
-    });
-  }      
+    error: () => {
+      this.isLoadingBook = false;
+
+      this.snackBar.open(
+        'Error opening PDF',
+        'Close',
+        { duration: 4000 }
+      );
+    }
+  });
+}
   
   closeReader() {
 
