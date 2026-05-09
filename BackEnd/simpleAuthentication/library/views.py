@@ -134,14 +134,14 @@ class ReadBookView(APIView):
         if not book.file:
             return Response({"error": "Book file not available"}, status=404)
 
-        file_url = str(book.file)
+        file_path = str(book.file)
 
-        # If it's NOT a full URL, build Supabase URL
-        if not file_url.startswith("http"):
-            file_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/{file_url}"
+        if file_path.startswith("http"):
+            file_url = file_path
+        else:
+            file_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/media/{file_path}"
 
         return Response({"url": file_url})
-
 
 class OverdueBooksView(APIView):
     permission_classes = [IsAuthenticated]
