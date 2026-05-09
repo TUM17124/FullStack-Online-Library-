@@ -113,33 +113,22 @@ export class BookListComponent {
   }
 
   readBook(bookId: number) {
-
-  this.libraryService.readBook(bookId).subscribe({
-
-    next: (res: any) => {
-
-      // force iframe reload trick
-      this.readingBookUrl = null;
-
-      setTimeout(() => {
-        this.readingBookUrl = res.url;
-      });
-
+    this.libraryService.readBook(bookId).subscribe({
+      next: (res: any) => {
+        this.readingBookUrl = null;
+        setTimeout(() => {
+          this.readingBookUrl = res.url;
+        });
     },
-
-    error: () => {
-
-      this.snackBar.open(
-        'Error opening PDF',
-        'Close',
-        { duration: 4000 }
-      );
-
-    }
-
-  });
-
-}
+      error: () => {
+        this.snackBar.open(
+          'Error opening PDF',
+          'Close',
+          { duration: 4000 }
+        );
+      }
+    });
+  }      
   
   closeReader() {
 
