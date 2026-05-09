@@ -1,49 +1,73 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-pdf-reader',
   standalone: true,
-  imports: [CommonModule, PdfViewerModule],
+  imports: [CommonModule, SafeUrlPipe],
   template: `
-    <div class="pdf-wrapper">
-      <button class="close-btn" (click)="onClose.emit()">✕</button>
+    <div class="pdf-container">
 
-      <pdf-viewer
+      <div class="pdf-toolbar">
+        <button class="close-btn" (click)="onClose.emit()">
+          ✕ Close
+        </button>
+      </div>
+
+      <iframe
         *ngIf="pdfSrc"
-        [src]="pdfSrc"
-        [render-text]="true"
-        [show-all]="true"
-        [zoom]="1.2"
-        style="display:block; width:100%; height:100vh;">
-      </pdf-viewer>
+        [src]="pdfSrc | safeUrl"
+        class="pdf-frame">
+      </iframe>
+
     </div>
   `,
   styles: [`
-    .pdf-wrapper {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      z-index: 1000;
+    .pdf-container{
+      width:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      background:#111;
+      border-radius:10px;
+      overflow:hidden;
     }
 
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      z-index: 1001;
-      font-size: 1.5rem;
-      background: transparent;
-      color: white;
-      border: none;
-      cursor: pointer;
+    .pdf-toolbar{
+      display:flex;
+      justify-content:flex-end;
+      padding:0.7rem;
+      background:#1e1e1e;
+      border-bottom:1px solid #333;
+    }
+
+    .close-btn{
+      background:#d32f2f;
+      color:white;
+      border:none;
+      padding:0.6rem 1rem;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .close-btn:hover{
+      opacity:0.9;
+    }
+
+    .pdf-frame{
+      width:100%;
+      height:100%;
+      min-height:85vh;
+      border:none;
+      background:white;
+      flex:1;
     }
   `]
 })
 export class PdfReaderComponent {
-  @Input() pdfSrc: string | null = null;
+  @Input() pdfSrc!: string | null;
 
-  // IMPORTANT: parent controls closing
   @Output() onClose = new EventEmitter<void>();
 }

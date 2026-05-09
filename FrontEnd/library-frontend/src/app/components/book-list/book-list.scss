@@ -7,20 +7,18 @@
 /* book-list.scss */
 
 /* PDF Overlay */
-.pdf-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.8);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  overflow: auto;
+
+.pdf-overlay{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,.85);
+  z-index:9999;
+  padding:1rem;
+  display:flex;
 }
+
 
 .pdf-header {
   width: 100%;

@@ -9,7 +9,6 @@ import { Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
 
-
 @Component({
   selector: 'app-book-list',
   standalone: true,
@@ -26,8 +25,11 @@ import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
   styleUrls: ['./book-list.scss']
 })
 export class BookListComponent {
+
   private refreshTrigger = new BehaviorSubject<number>(0);
+
   books$: Observable<Book[]>;
+
   readingBookUrl: string | null = null;
 
   constructor(
@@ -35,58 +37,116 @@ export class BookListComponent {
     private snackBar: MatSnackBar,
     public authService: AuthService
   ) {
+
     this.books$ = this.refreshTrigger.asObservable().pipe(
       switchMap(() => this.libraryService.getBooks())
     );
+
   }
 
   borrowBook(id: number) {
+
     this.libraryService.borrowBook(id).subscribe({
+
       next: () => {
-        this.snackBar.open('Book borrowed successfully!', 'Close', { duration: 4000 });
+
+        this.snackBar.open(
+          'Book borrowed successfully!',
+          'Close',
+          { duration: 4000 }
+        );
+
         this.refreshTrigger.next(Date.now());
+
       },
+
       error: (err) => {
-        const msg = err.error?.error || 'Cannot borrow this book';
-        this.snackBar.open(msg, 'Close', { duration: 4000 });
+
+        const msg =
+          err.error?.error ||
+          'Cannot borrow this book';
+
+        this.snackBar.open(
+          msg,
+          'Close',
+          { duration: 4000 }
+        );
+
       }
+
     });
+
   }
 
   returnBook(id: number) {
+
     this.libraryService.returnBook(id).subscribe({
+
       next: () => {
-        this.snackBar.open('Book returned successfully!', 'Close', { duration: 4000 });
+
+        this.snackBar.open(
+          'Book returned successfully!',
+          'Close',
+          { duration: 4000 }
+        );
+
         this.refreshTrigger.next(Date.now());
+
       },
+
       error: (err) => {
-        const msg = err.error?.error || 'Cannot return this book';
-        this.snackBar.open(msg, 'Close', { duration: 4000 });
+
+        const msg =
+          err.error?.error ||
+          'Cannot return this book';
+
+        this.snackBar.open(
+          msg,
+          'Close',
+          { duration: 4000 }
+        );
+
       }
+
     });
+
   }
 
-  // Open PDF in embedded viewer
   readBook(bookId: number) {
-  this.readingBookUrl = null; // reset first
 
-  this.libraryService.readBook(bookId).subscribe({
-    next: (res: any) => {
-      setTimeout(() => {
+    this.libraryService.readBook(bookId).subscribe({
+
+      next: (res: any) => {
+
         this.readingBookUrl = res.url;
-      }, 50); // forces UI refresh
-    },
-    error: () => {
-      this.snackBar.open('Error opening book', 'Close', { duration: 4000 });
-    }
-  });
-}
+
+      },
+
+      error: () => {
+
+        this.snackBar.open(
+          'Error opening PDF',
+          'Close',
+          { duration: 4000 }
+        );
+
+      }
+
+    });
+
+  }
 
   closeReader() {
+
     this.readingBookUrl = null;
+
   }
 
   onImageError(event: any) {
-    event.target.src = 'https://via.placeholder.com/120x180?text=No+Cover';
+
+    event.target.src =
+      'https://via.placeholder.com/120x180?text=No+Cover';
+
   }
+
 }
