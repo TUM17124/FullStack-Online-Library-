@@ -6,13 +6,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.http import FileResponse, HttpResponseForbidden, HttpResponse
+from django.http import FileResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.encoding import smart_str
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
+import requests
 from rest_framework import status, serializers
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -28,13 +29,6 @@ from .serializers import BookSerializer, BorrowSerializer
 from .throttles import OTPThrottle
 
 from django.shortcuts import redirect
-
-import requests
-
-
-
-
-
 
 
 from django.http import JsonResponse
@@ -130,33 +124,24 @@ class BookListView(ListAPIView):
 
 
 class ReadBookView(APIView):
-
     permission_classes = [IsAuthenticated]
 
     def get(self, request, book_id):
-
         book = get_object_or_404(Book, id=book_id)
 
-        borrowed = Borrow.objects.filter(
+        if not Borrow.objects.filter(
             user=request.user,
             book=book,
             returned=False
-        ).exists()
-
-        if not borrowed:
-            return HttpResponseForbidden(
-                "You must borrow this book to read it."
-            )
+        ).exists():
+            return HttpResponseForbidden("You must borrow this book to read it.")
 
         if not book.file:
-            return HttpResponse(
-                "Book file not available",
-                status=404
-            )
+            return Response({"error": "Book file not available"}, status=404)
 
         file_path = str(book.file).lstrip("/")
 
-        # Build Supabase file URL
+        # if already full URL
         if file_path.startswith("http"):
             file_url = file_path
         else:
@@ -164,26 +149,19 @@ class ReadBookView(APIView):
                 f"{settings.SUPABASE_URL}"
                 f"/storage/v1/object/public/media/{file_path}"
             )
+            print("FILE PATH:", file_path)
+            print("SUPABASE FINAL URL:", file_url)
 
-        # Fetch PDF from Supabase
         response = requests.get(file_url, stream=True)
-
         if response.status_code != 200:
-            return HttpResponse(
-                "Could not fetch PDF",
-                status=404
-            )
-
-        # Stream PDF to browser
-        pdf_response = HttpResponse(
+            return Response({"error": "Failed to retrieve book file"}, status=404)
+        pdf_response = HttpResponseForbidden(
             response.content,
             content_type='application/pdf'
         )
-
-        # IMPORTANT
-        pdf_response['Content-Disposition'] = 'inline'
-
+        pdf_response['Content-Disposition'] = f'inline; filename="{smart_str(book.title)}.pdf"'
         return pdf_response
+        
 
 class OverdueBooksView(APIView):
     permission_classes = [IsAuthenticated]
