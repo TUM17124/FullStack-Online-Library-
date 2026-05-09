@@ -116,14 +116,15 @@ export class BookListComponent {
 
   this.libraryService.readBook(bookId).subscribe({
 
-    next: (res: any) => {
+    next: (blob: Blob) => {
 
-      // force iframe reload trick
-      this.readingBookUrl = null;
+      const pdfBlob = new Blob(
+        [blob],
+        { type: 'application/pdf' }
+      );
 
-      setTimeout(() => {
-        this.readingBookUrl = res.url;
-      });
+      this.readingBookUrl =
+        URL.createObjectURL(pdfBlob);
 
     },
 

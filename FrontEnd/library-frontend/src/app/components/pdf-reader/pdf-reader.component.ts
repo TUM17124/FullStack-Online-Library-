@@ -1,73 +1,61 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-pdf-reader',
   standalone: true,
-  imports: [CommonModule, SafeUrlPipe],
+  imports: [CommonModule, PdfViewerModule],
   template: `
+
     <div class="pdf-container">
 
-      <div class="pdf-toolbar">
-        <button class="close-btn" (click)="onClose.emit()">
-          ✕ Close
+      <div class="toolbar">
+        <button (click)="onClose.emit()">
+          Close
         </button>
       </div>
 
-      <iframe
+      <pdf-viewer
         *ngIf="pdfSrc"
-        [src]="pdfSrc | safeUrl"
-        class="pdf-frame">
-      </iframe>
+        [src]="pdfSrc"
+        [render-text]="true"
+        [original-size]="false"
+        [show-all]="true"
+        style="display:block;width:100%;height:100vh;"
+      >
+      </pdf-viewer>
 
     </div>
+
   `,
   styles: [`
+
     .pdf-container{
       width:100%;
       height:100%;
-      display:flex;
-      flex-direction:column;
       background:#111;
-      border-radius:10px;
-      overflow:hidden;
     }
 
-    .pdf-toolbar{
-      display:flex;
-      justify-content:flex-end;
-      padding:0.7rem;
-      background:#1e1e1e;
-      border-bottom:1px solid #333;
+    .toolbar{
+      padding:1rem;
+      background:#222;
     }
 
-    .close-btn{
+    button{
+      padding:0.6rem 1rem;
+      border:none;
       background:#d32f2f;
       color:white;
-      border:none;
-      padding:0.6rem 1rem;
       border-radius:6px;
-      cursor:pointer;
-      font-weight:600;
     }
 
-    .close-btn:hover{
-      opacity:0.9;
-    }
-
-    .pdf-frame{
-      width:100%;
-      height:100%;
-      min-height:85vh;
-      border:none;
-      background:white;
-      flex:1;
-    }
   `]
 })
 export class PdfReaderComponent {
-  @Input() pdfSrc!: string | null;
+
+  @Input() pdfSrc!: string;
 
   @Output() onClose = new EventEmitter<void>();
+
 }

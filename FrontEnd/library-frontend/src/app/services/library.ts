@@ -38,7 +38,14 @@ export class LibraryService {
   }
 
   readBook(bookId: number) {
-  return this.http.get<{url: string}>(`${this.baseUrl}/api/books/${bookId}/read/`);
+
+  return this.http.get(
+    `${this.baseUrl}/api/books/${bookId}/read/`,
+    {
+      responseType: 'blob'
+    }
+  );
+
 }
 
   getOverdueBooks() {
