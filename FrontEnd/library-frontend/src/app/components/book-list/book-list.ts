@@ -84,14 +84,19 @@ readBook(bookId: number) {
 
   if (this.isLoadingBook) return;
 
-  this.closeReader(); // 🔥 IMPORTANT: always reset first
-
   this.isLoadingBook = true;
 
   this.libraryService.readBook(bookId).subscribe({
     next: (res: any) => {
-      this.readingBookUrl = res.url;
-      this.isLoadingBook = false;
+
+      // 🔥 ensure state change is clean
+      this.readingBookUrl = null;
+
+      setTimeout(() => {
+        this.readingBookUrl = res.url;
+        this.isLoadingBook = false;
+      });
+
     },
     error: () => {
       this.isLoadingBook = false;
