@@ -48,74 +48,43 @@ export class BookListComponent {
 
   borrowBook(id: number) {
 
-    this.libraryService.borrowBook(id).subscribe({
+  this.closeReader(); // ✅ close PDF
 
-      next: () => {
+  this.libraryService.borrowBook(id).subscribe({
+    next: () => {
+      this.snackBar.open('Book borrowed successfully!', 'Close', { duration: 4000 });
+      this.refreshTrigger.next(Date.now());
+    },
+    error: (err) => {
+      const msg = err.error?.error || 'Cannot borrow this book';
+      this.snackBar.open(msg, 'Close', { duration: 4000 });
+    }
+  });
 
-        this.snackBar.open(
-          'Book borrowed successfully!',
-          'Close',
-          { duration: 4000 }
-        );
+}
 
-        this.refreshTrigger.next(Date.now());
+ returnBook(id: number) {
 
-      },
+  this.closeReader(); // ✅ close PDF here too
 
-      error: (err) => {
+  this.libraryService.returnBook(id).subscribe({
+    next: () => {
+      this.snackBar.open('Book returned successfully!', 'Close', { duration: 4000 });
+      this.refreshTrigger.next(Date.now());
+    },
+    error: (err) => {
+      const msg = err.error?.error || 'Cannot return this book';
+      this.snackBar.open(msg, 'Close', { duration: 4000 });
+    }
+  });
 
-        const msg =
-          err.error?.error ||
-          'Cannot borrow this book';
+}
 
-        this.snackBar.open(
-          msg,
-          'Close',
-          { duration: 4000 }
-        );
+readBook(bookId: number) {
 
-      }
+  if (this.isLoadingBook) return;
 
-    });
-
-  }
-
-  returnBook(id: number) {
-
-    this.libraryService.returnBook(id).subscribe({
-
-      next: () => {
-
-        this.snackBar.open(
-          'Book returned successfully!',
-          'Close',
-          { duration: 4000 }
-        );
-
-        this.refreshTrigger.next(Date.now());
-
-      },
-
-      error: (err) => {
-
-        const msg =
-          err.error?.error ||
-          'Cannot return this book';
-
-        this.snackBar.open(
-          msg,
-          'Close',
-          { duration: 4000 }
-        );
-
-      }
-
-    });
-
-  }
-
-  readBook(bookId: number) {
-  if (this.isLoadingBook) return; // 🚫 block multiple clicks
+  this.closeReader(); // 🔥 IMPORTANT: always reset first
 
   this.isLoadingBook = true;
 
@@ -126,16 +95,11 @@ export class BookListComponent {
     },
     error: () => {
       this.isLoadingBook = false;
-
-      this.snackBar.open(
-        'Error opening PDF',
-        'Close',
-        { duration: 4000 }
-      );
+      this.snackBar.open('Error opening PDF', 'Close', { duration: 4000 });
     }
   });
+
 }
-  
   closeReader() {
 
     this.readingBookUrl = null;

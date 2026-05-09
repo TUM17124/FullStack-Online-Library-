@@ -8,6 +8,7 @@
   <div class="pdf-overlay" *ngIf="readingBookUrl">
 
     <app-pdf-reader
+      
       [pdfSrc]="readingBookUrl"
       (onClose)="closeReader()">
     </app-pdf-reader>
