@@ -7,6 +7,7 @@ from .models import Book, Borrow
 class BookSerializer(serializers.ModelSerializer):
     is_borrowed = serializers.SerializerMethodField()
     file_url = serializers.SerializerMethodField()
+    photo_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -15,11 +16,16 @@ class BookSerializer(serializers.ModelSerializer):
             'title',
             'author',
             'description',
-            'photo',
+            'photo_url',
             'created_at',
             'is_borrowed',
             'file_url'
         ]
+
+    def get_photo_url(self, obj):
+        if obj.photo:
+            return f"https://YOUR_PROJECT.supabase.co/storage/v1/object/public/media/{obj.photo}"
+        return None    
 
     def get_is_borrowed(self, obj):
         request = self.context.get('request')
