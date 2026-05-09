@@ -113,24 +113,34 @@ export class BookListComponent {
   }
 
   readBook(bookId: number) {
-  // Immediately hide the current reader (if any) to force Angular to destroy it
-  this.readingBookUrl = null;
 
   this.libraryService.readBook(bookId).subscribe({
+
     next: (res: any) => {
-      // Use setTimeout(0) + ChangeDetectorRef for reliable re-initialization
-      // This is the most common reliable pattern when you need to destroy + recreate
-      // a component (like PdfReaderComponent) on the same property.
+
+      // force iframe reload trick
+      this.readingBookUrl = null;
+
       setTimeout(() => {
         this.readingBookUrl = res.url;
-      }, 0);
-    },
-    error: () => {
-      this.snackBar.open('Error opening PDF', 'Close', { duration: 4000 });
-    }
-  });
-}
+      });
 
+    },
+
+    error: () => {
+
+      this.snackBar.open(
+        'Error opening PDF',
+        'Close',
+        { duration: 4000 }
+      );
+
+    }
+
+  });
+
+}
+  
   closeReader() {
 
     this.readingBookUrl = null;

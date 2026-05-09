@@ -28,7 +28,7 @@
         </div>
 
         <img
-          [src]="book.photo_url"
+          [src]="book.photo_url || 'assets/default-book-cover.jpg'"
           alt="{{book.title}}"
           class="book-cover"
           (error)="onImageError($event)"
