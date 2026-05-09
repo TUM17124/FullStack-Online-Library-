@@ -152,16 +152,7 @@ class ReadBookView(APIView):
             print("FILE PATH:", file_path)
             print("SUPABASE FINAL URL:", file_url)
 
-        response = requests.get(file_url, stream=True)
-        if response.status_code != 200:
-            return Response({"error": "Failed to retrieve book file"}, status=404)
-        pdf_response = HttpResponseForbidden(
-            response.content,
-            content_type='application/pdf'
-        )
-        pdf_response['Content-Disposition'] = f'inline; filename="{smart_str(book.title)}.pdf"'
-        return pdf_response
-        
+        return Response({"url": file_url})
 
 class OverdueBooksView(APIView):
     permission_classes = [IsAuthenticated]
