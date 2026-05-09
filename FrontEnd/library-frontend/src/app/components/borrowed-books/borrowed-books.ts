@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { HeaderComponent } from '../header/header';
@@ -27,16 +27,20 @@ interface BorrowedBook {
   templateUrl: './borrowed-books.html',
   styleUrl: './borrowed-books.scss'
 })
-export class BorrowedBooksComponent implements OnInit{
-
-  borrowed$: BorrowedBook[] = [];
+export class BorrowedBooksComponent {
+  borrowed$: Observable<BorrowedBook[]>;
   displayedColumns = ['title', 'author', 'borrow_date', 'return_due'];
   snackBar: any;
 
-  constructor(private libraryService: LibraryService) {}
-  ngOnInit() {
-    this.libraryService.getBorrowedBooks().subscribe(data => this.borrowed$ = data);
+  constructor(private libraryService: LibraryService) {
+    this.borrowed$ = this.libraryService.getBorrowedBooks() as Observable<BorrowedBook[]>;
+  }
+    returnBook(bookId: number) {
+    this.libraryService.returnBook(bookId).subscribe({
+      next: () => {
+        // Refresh the list so the returned book disappears
+        this.borrowed$ = this.libraryService.getBorrowedBooks() as Observable<BorrowedBook[]>;
+      }
+    });
   }
 }
-
-   
