@@ -4,79 +4,76 @@
 
   <!-- HERO SECTION -->
   <section class="hero">
-    <div class="container hero-content">
+    <div class="container">
       <h1>Learn to Code by Yourself</h1>
-      <p>
-        Free step-by-step PDF guides to help you master coding fundamentals and build practical applications. 
-        Learn how to tune RAG-based LLMs to create and run your own local AI systems.
+      <p class="hero-subtitle">
+        Free step-by-step PDF guides to master Flutter & Dart, Django, FastAPI, 
+        and how to tune RAG-based LLMs to build your own local AI.
       </p>
-      <div class="buttons">
-        <button mat-raised-button color="primary" routerLink="/register">Join the Library - It's Free</button>
-      </div>
+      <button mat-raised-button color="primary" routerLink="/register" class="cta-btn">
+        Join the Library - It's Free
+      </button>
     </div>
   </section>
 
-  <!-- SKILLS SECTION -->
-  <section class="skills">
+  <!-- FEATURES / WHAT YOU'LL LEARN -->
+  <section class="features">
     <div class="container">
       <h2>What You'll Learn</h2>
-      <div class="skills-grid">
-        <mat-card class="skill-card">
-          <mat-icon>code</mat-icon>
-          <h3>Full-Stack Development</h3>
-          <p>Angular, TypeScript, FastAPI, and modern web development practices.</p>
-        </mat-card>
-
-        <mat-card class="skill-card">
+      <div class="features-grid">
+        <div class="feature-card">
+          <mat-icon>phone_iphone</mat-icon>
+          <h3>Flutter & Dart</h3>
+          <p>Build beautiful cross-platform mobile applications.</p>
+        </div>
+        <div class="feature-card">
+          <mat-icon>api</mat-icon>
+          <h3>Django & FastAPI</h3>
+          <p>Develop secure and high-performance backend systems.</p>
+        </div>
+        <div class="feature-card">
           <mat-icon>memory</mat-icon>
-          <h3>Local AI & RAG Systems</h3>
-          <p>Tune RAG-based Large Language Models and build your own local AI solutions.</p>
-        </mat-card>
-
-        <mat-card class="skill-card">
+          <h3>Local AI with RAG</h3>
+          <p>Tune RAG-based LLMs and create your own local AI applications.</p>
+        </div>
+        <div class="feature-card">
           <mat-icon>build</mat-icon>
-          <h3>Marketing Tools & Automation</h3>
-          <p>Develop automation scripts, bots, and tools for practical business use.</p>
-        </mat-card>
-
-        <mat-card class="skill-card">
-          <mat-icon>lightbulb</mat-icon>
-          <h3>Practical Project Development</h3>
-          <p>Build real-world applications and systems from start to finish.</p>
-        </mat-card>
+          <h3>Automation Tools</h3>
+          <p>Build practical marketing tools, scripts, and automation solutions.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS SECTION -->
+  <!-- PROJECTS -->
   <section class="projects">
     <div class="container">
-      <h2>Build Real Applications</h2>
+      <h2>Practical Projects You Can Build</h2>
       <div class="projects-grid">
         <mat-card class="project-card">
           <mat-card-header>
-            <mat-card-title>Marketing Automation Tools</mat-card-title>
+            <mat-card-title>Flutter Mobile Apps</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Lead generation systems, content tools, and workflow automation.</p>
+            <p>Real-world mobile applications with clean code and modern architecture.</p>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="project-card">
           <mat-card-header>
-            <mat-card-title>Local AI Systems</mat-card-title>
+            <mat-card-title>FastAPI & Django Backends</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Custom RAG pipelines and locally hosted AI assistants.</p>
+            <p>RESTful APIs, authentication, and scalable backend solutions.</p>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="project-card">
           <mat-card-header>
-            <mat-card-title>Web Applications & Scripts</mat-card-title>
+            <mat-card-title>Local AI Applications</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Complete full-stack projects and utility tools.</p>
+            <p>Custom RAG-powered AI tools running locally on your machine.</p>
           </mat-card-content>
         </mat-card>
       </div>
@@ -88,21 +85,21 @@
     <div class="container">
       <h2>Free Coding Library</h2>
       <p>
-        Join this library to access free step-by-step PDF guides for learning how to code independently. 
-        The resources cover coding fundamentals and advanced topics including tuning RAG-based LLMs to create your own local AI systems. 
-        Ideal for building practical tools in marketing, automation, and software development.
+        Join this library to get free step-by-step PDF guides. The resources are designed 
+        for self-learners who want to master Flutter/Dart, Django, FastAPI, and learn how 
+        to tune RAG-based LLMs to create their own local AI.
       </p>
-      <div class="buttons">
-        <button mat-raised-button color="primary" routerLink="/register">Join the Library Free</button>
-      </div>
+      <button mat-raised-button color="primary" routerLink="/register" class="cta-btn">
+        Join the Library Free
+      </button>
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
+  <!-- CONTACT -->
   <section id="contact" class="contact">
     <div class="container">
       <h2>Get in Touch</h2>
-      <p>Have questions or need guidance? Feel free to send a message.</p>
+      <p>Have questions? Send a message and I’ll help you.</p>
       <form target="_blank" action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a" method="POST">
         <mat-form-field appearance="outline">
           <mat-label>Full Name</mat-label>
@@ -116,7 +113,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Your Message</mat-label>
-          <textarea matInput name="message" rows="6" required></textarea>
+          <textarea matInput name="message" rows="5" required></textarea>
         </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit">Send Message</button>
