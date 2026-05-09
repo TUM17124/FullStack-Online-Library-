@@ -59,6 +59,15 @@ export class AuthService {
     this.isLoggedIn$.next(isLoggedIn);
   }
 
+  refreshToken() {
+  const refresh = localStorage.getItem('refresh');
+
+  return this.http.post<any>(
+    `${environment.apiUrl}/api/token/refresh/`,
+    { refresh }
+  );
+}
+
   getBooks(): Observable<any> {
     const token = this.getToken();
     if (!token) throw new Error('User not authenticated');
