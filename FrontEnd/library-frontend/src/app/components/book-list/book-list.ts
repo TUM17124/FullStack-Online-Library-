@@ -114,27 +114,34 @@ export class BookListComponent {
 
   readBook(bookId: number) {
 
+  this.readingBookUrl = null;
+
   this.libraryService.readBook(bookId).subscribe({
 
     next: (res: any) => {
 
-      this.readingBookUrl = res.url;
+      setTimeout(() => {
+
+        this.readingBookUrl = res.url;
+
+      }, 0);
 
     },
 
-    error: () => {
+      error: () => {
 
-      this.snackBar.open(
-        'Error opening PDF',
-        'Close',
-        { duration: 4000 }
-      );
+        this.snackBar.open(
+          'Error opening PDF',
+          'Close',
+          { duration: 4000 }
+        );
 
-    }
+      }
 
-  });
+    });
 
-}
+  }
+
 
   closeReader() {
 
