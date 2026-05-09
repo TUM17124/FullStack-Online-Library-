@@ -114,13 +114,19 @@ export class BookListComponent {
 
   readBook(bookId: number) {
 
-    this.libraryService.readBook(bookId).subscribe({
+  this.readingBookUrl = null;
 
-      next: (res: any) => {
+  this.libraryService.readBook(bookId).subscribe({
+
+    next: (res: any) => {
+
+      setTimeout(() => {
 
         this.readingBookUrl = res.url;
 
-      },
+      }, 0);
+
+    },
 
       error: () => {
 
