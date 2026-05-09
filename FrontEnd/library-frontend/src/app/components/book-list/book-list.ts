@@ -118,7 +118,12 @@ export class BookListComponent {
 
     next: (res: any) => {
 
-      this.readingBookUrl = res.url;
+      // force iframe reload trick
+      this.readingBookUrl = null;
+
+      setTimeout(() => {
+        this.readingBookUrl = res.url;
+      });
 
     },
 
