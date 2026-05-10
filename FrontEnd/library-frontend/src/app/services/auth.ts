@@ -19,30 +19,43 @@ export class AuthService {
     private snackBar: MatSnackBar
   ) {}
   
-
-  initAuth(): void {
+initAuth(): Promise<void> {
   const token = this.getToken();
   const refresh = localStorage.getItem('refresh_token');
 
-  if (!token && refresh) {
-    this.refreshToken().subscribe({
-      next: (res) => {
-        localStorage.setItem(this.tokenKey, res.access);
-        this.isLoggedIn$.next(true);
-      },
-      error: () => {
-        this.logout();
-      }
-    });
-  } else if (token) {
-    this.isLoggedIn$.next(true);
+  // No tokens at all
+  if (!token && !refresh) {
+    this.isLoggedIn$.next(false);
+    return Promise.resolve();
   }
-}
 
+  // If no access token but refresh exists → restore session
+  if (!token && refresh) {
+    return new Promise((resolve) => {
+      this.refreshToken().subscribe({
+        next: (res) => {
+          localStorage.setItem(this.tokenKey, res.access);
+          this.isLoggedIn$.next(true);
+          resolve();
+        },
+        error: () => {
+          this.logout();
+          resolve();
+        }
+      });
+    });
+  }
+
+  // ⚠️ IMPORTANT: even if token exists, still trust it for UI only
+  this.isLoggedIn$.next(true);
+  return Promise.resolve();
+}
+ 
   login(username: string, password: string) {
     return this.http.post<any>(`${this.baseUrl}/api/token/`, { username, password }).pipe(
       tap(res => {
         localStorage.setItem(this.tokenKey, res.access);
+        localStorage.setItem('refresh_token', res.refresh);
         this.isLoggedIn$.next(true);
         this.snackBar.open('Login successful!', 'Close', { duration: 3000 });
         this.router.navigate(['/books']);
@@ -81,6 +94,11 @@ export class AuthService {
 
   refreshToken() {
   const refresh = localStorage.getItem('refresh_token');
+
+  if (!refresh) {
+    this.logout();
+    return new Observable(); // stops execution safely
+  }
 
   return this.http.post<any>(
     `${environment.apiUrl}/api/token/refresh/`,
