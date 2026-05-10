@@ -114,6 +114,8 @@ export class BookListComponent {
 
   readBook(bookId: number) {
 
+  this.readingBookUrl = null;
+
   this.libraryService.readBook(bookId).subscribe({
 
     next: (res: { url: string }) => {
@@ -124,10 +126,14 @@ export class BookListComponent {
 
     error: (err) => {
 
-      console.error(err);
+      this.readingBookUrl = null;
+      
+      const msg =
+        err.error?.error ||
+        'Error opening PDF';
 
       this.snackBar.open(
-        'Error opening PDF',
+        msg,
         'Close',
         { duration: 4000 }
       );

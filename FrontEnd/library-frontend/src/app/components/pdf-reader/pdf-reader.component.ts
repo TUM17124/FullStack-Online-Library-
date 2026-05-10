@@ -3,10 +3,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnInit,
-  AfterViewInit,
-  ElementRef,
-  ViewChild
+  OnInit
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -19,6 +16,11 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
   template: `
 
+
+    <div *ngIf="pdfSrc === 'loading'" class="loading-pdf">
+  Loading PDF...
+    </div> 
+    
     <!-- OVERLAY -->
     <div class="pdf-overlay"
          (click)="onOverlayClick($event)">
@@ -69,7 +71,7 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
         <!-- PDF VIEWER -->
 <iframe
   #pdfFrame
-  *ngIf="pdfSrc && !isMobile"
+  *ngIf="pdfSrc && pdfSrc !== 'loading' && !isMobile"
   [src]="pdfSrc | safeUrl"
   class="pdf-frame">
 </iframe>
@@ -83,6 +85,7 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
   styles: [`
 
     .pdf-overlay {
+      pointer-events: auto;
       position: fixed;
       inset: 0;
       width: 100vw;
@@ -185,10 +188,7 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
   `]
 
 })
-export class PdfReaderComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('pdfFrame')
-pdfFrame!: ElementRef<HTMLIFrameElement>;
+export class PdfReaderComponent implements OnInit {
 
   @Input() pdfSrc!: string | null;
 
@@ -202,15 +202,6 @@ pdfFrame!: ElementRef<HTMLIFrameElement>;
     this.detectMobile();
 
   }
-  ngAfterViewInit(): void {
-
-  setTimeout(() => {
-
-    this.pdfFrame?.nativeElement.focus();
-
-  }, 300);
-
-}
 
   detectMobile(): void {
 
@@ -223,17 +214,14 @@ pdfFrame!: ElementRef<HTMLIFrameElement>;
 
   }
 
-  onOverlayClick(event: MouseEvent): void {
+  onOverlayClick(event: MouseEvent) {
 
-    if (
-      (event.target as HTMLElement)
-        .classList.contains('pdf-overlay')
-    ) {
+  const target = event.target as HTMLElement;
 
-      this.onClose.emit();
-
-    }
-
+  if (target === event.currentTarget) {
+    this.onClose.emit();
   }
+
+}
 
 }
