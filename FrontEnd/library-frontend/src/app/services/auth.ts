@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
 
@@ -97,7 +97,7 @@ initAuth(): Promise<void> {
 
   if (!refresh) {
     this.logout();
-    return new Observable(); // stops execution safely
+    return throwError(() => new Error('No refresh token'));
   }
 
   return this.http.post<any>(
@@ -105,7 +105,7 @@ initAuth(): Promise<void> {
     { refresh }
   ).pipe(
     tap(res => {
-      localStorage.setItem(this.tokenKey, res.access);
+      localStorage.setItem('access_token', res.access);
     })
   );
 }
