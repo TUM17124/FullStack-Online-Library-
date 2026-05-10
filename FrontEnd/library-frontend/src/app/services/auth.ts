@@ -18,6 +18,26 @@ export class AuthService {
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
+  
+
+  initAuth(): void {
+  const token = this.getToken();
+  const refresh = localStorage.getItem('refresh_token');
+
+  if (!token && refresh) {
+    this.refreshToken().subscribe({
+      next: (res) => {
+        localStorage.setItem(this.tokenKey, res.access);
+        this.isLoggedIn$.next(true);
+      },
+      error: () => {
+        this.logout();
+      }
+    });
+  } else if (token) {
+    this.isLoggedIn$.next(true);
+  }
+}
 
   login(username: string, password: string) {
     return this.http.post<any>(`${this.baseUrl}/api/token/`, { username, password }).pipe(
@@ -60,11 +80,15 @@ export class AuthService {
   }
 
   refreshToken() {
-  const refresh = localStorage.getItem('refresh');
+  const refresh = localStorage.getItem('refresh_token');
 
   return this.http.post<any>(
     `${environment.apiUrl}/api/token/refresh/`,
     { refresh }
+  ).pipe(
+    tap(res => {
+      localStorage.setItem(this.tokenKey, res.access);
+    })
   );
 }
 
