@@ -121,6 +121,7 @@ export class BookListComponent {
     next: (res: { url: string }) => {
 
       this.readingBookUrl = res.url;
+      this.refreshTrigger.next(Date.now());
 
     },
 
