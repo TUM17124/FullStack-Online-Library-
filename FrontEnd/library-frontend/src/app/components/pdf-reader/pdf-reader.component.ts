@@ -64,17 +64,12 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
         </div>
 
         <!-- PDF VIEWER -->
-        <object
-          *ngIf="pdfSrc && !isMobile"
-          [data]="pdfSrc | safeUrl"
-          type="application/pdf"
-          class="pdf-frame">
+<iframe
+  *ngIf="pdfSrc && !isMobile"
+  [src]="pdfSrc | safeUrl"
+  class="pdf-frame">
 
-          <p class="pdf-fallback">
-            Unable to display PDF.
-          </p>
-
-        </object>
+</iframe>
 
       </div>
 

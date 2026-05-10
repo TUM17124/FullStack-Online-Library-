@@ -116,13 +116,9 @@ export class BookListComponent {
 
   this.libraryService.readBook(bookId).subscribe({
 
-    next: (blob: Blob) => {
+    next: (res: { url: string }) => {
 
-      const pdfUrl =
-        URL.createObjectURL(blob);
-
-      this.readingBookUrl =
-        pdfUrl;
+      this.readingBookUrl = res.url;
 
     },
 
@@ -141,7 +137,6 @@ export class BookListComponent {
   });
 
 }
-
 
   closeReader() {
 
