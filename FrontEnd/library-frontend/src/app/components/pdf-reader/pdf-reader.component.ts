@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
@@ -6,94 +13,216 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
   selector: 'app-pdf-reader',
   standalone: true,
   imports: [CommonModule, SafeUrlPipe],
+
   template: `
-    <div class="pdf-overlay" (click)="onOverlayClick($event)">
+
+    <!-- OVERLAY -->
+    <div class="pdf-overlay"
+         (click)="onOverlayClick($event)">
+
       <div class="pdf-container">
 
+        <!-- TOOLBAR -->
         <div class="pdf-toolbar">
-          <button class="close-btn" (click)="onClose.emit()">
+
+          <h3 class="toolbar-title">
+            PDF Reader
+          </h3>
+
+          <button
+            class="close-btn"
+            (click)="onClose.emit()">
+
             ✕ Close
+
           </button>
+
         </div>
 
+        <!-- MOBILE BLOCK -->
+        <div *ngIf="isMobile"
+             class="mobile-warning">
+
+          <div class="warning-box">
+
+            <h2>
+              Desktop Required
+            </h2>
+
+            <p>
+              PDF reading is only supported on
+              laptops and desktop computers.
+            </p>
+
+            <p>
+              Please open this platform on a computer
+              for the best reading experience.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- PDF VIEWER -->
         <object
-          *ngIf="pdfSrc"
+          *ngIf="pdfSrc && !isMobile"
           [data]="pdfSrc | safeUrl"
           type="application/pdf"
           class="pdf-frame">
+
+          <p class="pdf-fallback">
+            Unable to display PDF.
+          </p>
+
         </object>
 
       </div>
+
     </div>
+
   `,
+
   styles: [`
+
     .pdf-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.9);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       z-index: 9999;
+      backdrop-filter: blur(4px);
     }
 
     .pdf-container {
-      width: 95vw;
-      max-width: 1400px;
-      height: 95vh;
-      background: #111;
-      border-radius: 12px;
+      width: 96vw;
+      height: 96vh;
+      background: #121212;
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
     }
 
     .pdf-toolbar {
-      display: flex;
-      justify-content: flex-end;
-      padding: 0.8rem 1rem;
-      background: #1e1e1e;
+      height: 70px;
+      background: #1f1f1f;
       border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.2rem;
       flex-shrink: 0;
     }
 
+    .toolbar-title {
+      color: white;
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
     .close-btn {
+      border: none;
       background: #d32f2f;
       color: white;
-      border: none;
-      padding: 0.65rem 1.2rem;
-      border-radius: 6px;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 1rem;
+      transition: 0.2s ease;
     }
 
     .close-btn:hover {
       background: #b71c1c;
+      transform: scale(1.03);
     }
 
     .pdf-frame {
-      flex: 1;
       width: 100%;
       height: 100%;
       border: none;
       background: white;
+      flex: 1;
     }
+
+    .mobile-warning {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .warning-box {
+      max-width: 500px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      padding: 2rem;
+      border-radius: 14px;
+    }
+
+    .warning-box h2 {
+      color: #ff5252;
+      margin-bottom: 1rem;
+    }
+
+    .warning-box p {
+      color: #ddd;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .pdf-fallback {
+      color: white;
+      padding: 2rem;
+    }
+
   `]
+
 })
-export class PdfReaderComponent {
+export class PdfReaderComponent implements OnInit {
+
   @Input() pdfSrc!: string | null;
 
-  @Output() onClose = new EventEmitter<void>();
+  @Output() onClose =
+    new EventEmitter<void>();
 
-  onOverlayClick(event: MouseEvent) {
-    // Close when clicking outside the container
-    if ((event.target as HTMLElement).classList.contains('pdf-overlay')) {
-      this.onClose.emit();
-    }
+  isMobile = false;
+
+  ngOnInit(): void {
+
+    this.detectMobile();
+
   }
+
+  detectMobile(): void {
+
+    const width = window.innerWidth;
+
+    this.isMobile =
+      width <= 768 ||
+      /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+        .test(navigator.userAgent);
+
+  }
+
+  onOverlayClick(event: MouseEvent): void {
+
+    if (
+      (event.target as HTMLElement)
+        .classList.contains('pdf-overlay')
+    ) {
+
+      this.onClose.emit();
+
+    }
+
+  }
+
 }

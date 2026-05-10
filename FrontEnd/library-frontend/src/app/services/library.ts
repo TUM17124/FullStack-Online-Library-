@@ -38,8 +38,15 @@ export class LibraryService {
     return this.http.get<any[]>(`${this.baseUrl}/api/borrowed/`);   // ← added /
   }
 
-  readBook(bookId: number) {
-  return this.http.get<{url: string}>(`${this.baseUrl}/api/books/${bookId}/read/`);
+  readBook(bookId: number): Observable<Blob> {
+
+  return this.http.get(
+    `${this.baseUrl}/api/books/${bookId}/read/`,
+    {
+      responseType: 'blob'
+    }
+  ) as Observable<Blob>;
+
 }
 
   getOverdueBooks() {
