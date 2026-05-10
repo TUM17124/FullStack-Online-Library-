@@ -3,7 +3,10 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
+  AfterViewInit,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -65,10 +68,10 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
         <!-- PDF VIEWER -->
 <iframe
+  #pdfFrame
   *ngIf="pdfSrc && !isMobile"
   [src]="pdfSrc | safeUrl"
   class="pdf-frame">
-
 </iframe>
 
       </div>
@@ -143,6 +146,7 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
       border: none;
       background: white;
       flex: 1;
+      outline: none;
     }
 
     .mobile-warning {
@@ -181,7 +185,10 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
   `]
 
 })
-export class PdfReaderComponent implements OnInit {
+export class PdfReaderComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('pdfFrame')
+pdfFrame!: ElementRef<HTMLIFrameElement>;
 
   @Input() pdfSrc!: string | null;
 
@@ -195,6 +202,15 @@ export class PdfReaderComponent implements OnInit {
     this.detectMobile();
 
   }
+  ngAfterViewInit(): void {
+
+  setTimeout(() => {
+
+    this.pdfFrame?.nativeElement.focus();
+
+  }, 300);
+
+}
 
   detectMobile(): void {
 
