@@ -159,21 +159,23 @@ SIMPLE_JWT = {
     #"USER_AUTHENTICATION_RULE": "library.auth_rules.active_user_only",
 }
 
-ACCOUNT_LOGIN_METHODS = {"email"}
 
-ACCOUNT_SIGNUP_FIELDS = [
-    "email*",
-    "password1*",
-    "password2*",
-]
+# Allauth Settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_LOGIN_METHODS = {'email'}
 
-SOCIALACCOUNT_LOGIN_ON_GET = True
+# Social Account Settings
 SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_EMAIL_REQUIRED = True
 
-SOCIALACCOUNT_STORE_TOKENS = True
-SOCIALACCOUNT_ADAPTER = "allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
+# This is often needed
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
 
 SITE_ID = 1
 
