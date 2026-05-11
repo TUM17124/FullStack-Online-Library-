@@ -3,11 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-social-success',
-  template: `
-    <div class="loading-container">
-      <h2>Signing you in...</h2>
-    </div>
-  `,
+  standalone: true,
+  templateUrl: './social-success.html',
+  styleUrls: ['./social-success.scss']
 })
 export class SocialSuccessComponent implements OnInit {
 
@@ -28,10 +26,12 @@ export class SocialSuccessComponent implements OnInit {
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
 
+        // Redirect to books page
         this.router.navigate(['/books']);
 
       } else {
 
+        // Failed login
         this.router.navigate(['/login']);
       }
     });
