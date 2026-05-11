@@ -134,14 +134,84 @@ mat-card-subtitle {
   margin-top: 0.5rem;
 }
 
-/* =========================================
-   GOOGLE BUTTON + DIVIDER
-========================================= */
+/* ======================================
+   SECURITY BANNER
+====================================== */
+
+.security-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  color: #2e7d32;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.security-banner mat-icon {
+  font-size: 1.2rem;
+}
+
+/* ======================================
+   GOOGLE POLICY
+====================================== */
+
+.google-policy {
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #666;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.google-policy a {
+  color: #4285f4;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.google-policy a:hover {
+  text-decoration: underline;
+}
+
+/* ======================================
+   DARK MODE SUPPORT
+====================================== */
+
+@media (prefers-color-scheme: dark) {
+
+  .security-banner {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: rgba(76, 175, 80, 0.3);
+    color: #81c784;
+  }
+
+  .google-policy {
+    color: #bbb;
+  }
+
+  .google-policy a {
+    color: #8ab4f8;
+  }
+}
+
+/* ======================================
+   GOOGLE BUTTON + IMPROVED DIVIDER
+====================================== */
 
 .google-btn {
   background-color: #4285f4 !important;
   color: white !important;
   margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
   &:hover {
     background-color: #3367d6 !important;
@@ -149,8 +219,11 @@ mat-card-subtitle {
 }
 
 .google-icon {
-  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  transform: translateY(5px);
 }
+
 
 .divider {
   text-align: center;

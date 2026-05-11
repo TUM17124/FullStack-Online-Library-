@@ -65,7 +65,6 @@ body {
   width: 100%;
   max-width: 430px;
   padding: 2rem;
-  background: white;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   transition: 0.3s;
@@ -74,6 +73,73 @@ body {
 
   &:hover {
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+  }
+}
+
+
+/* ======================================
+   SECURITY BANNER
+====================================== */
+
+.security-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  color: #2e7d32;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.security-banner mat-icon {
+  font-size: 1.2rem;
+}
+
+/* ======================================
+   GOOGLE POLICY
+====================================== */
+
+.google-policy {
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #666;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.google-policy a {
+  color: #4285f4;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.google-policy a:hover {
+  text-decoration: underline;
+}
+
+/* ======================================
+   DARK MODE SUPPORT
+====================================== */
+
+@media (prefers-color-scheme: dark) {
+
+  .security-banner {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: rgba(76, 175, 80, 0.3);
+    color: #81c784;
+  }
+
+  .google-policy {
+    color: #bbb;
+  }
+
+  .google-policy a {
+    color: #8ab4f8;
   }
 }
 
@@ -96,8 +162,11 @@ body {
 }
 
 .google-icon {
-  font-size: 1.4rem;
+  width: 20px;
+  height: 20px;
+  transform: translateY(5px);
 }
+
 
 .divider {
   display: flex;

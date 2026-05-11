@@ -6,7 +6,9 @@ import { DashboardComponent } from './components/dashboard/dashboard';
 import { BookListComponent } from './components/book-list/book-list';
 import { BorrowedBooksComponent } from './components/borrowed-books/borrowed-books';
 import { OverdueBooksComponent } from './components/overdue-books/overdue-books';
+import { PrivacyComponent } from './privacy/privacy'
 import { AuthGuard } from './guards/auth-guard';
+import { TermsComponent } from './terms/terms';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },  // ← Start at dashboard
@@ -19,6 +21,8 @@ export const routes: Routes = [
   { path: 'books', component: BookListComponent, canActivate: [AuthGuard] },
   { path: 'borrowed', component: BorrowedBooksComponent, canActivate: [AuthGuard] },
   { path: 'overdue', component: OverdueBooksComponent, canActivate: [AuthGuard] },
+  { path: 'privacy', component: PrivacyComponent },
+  { path: 'terms', component: TermsComponent },
 
   // Wildcard: redirect unknown paths to dashboard (only if logged in, otherwise guard handles it)
   { path: '**', redirectTo: '/dashboard' }
