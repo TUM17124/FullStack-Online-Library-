@@ -176,6 +176,7 @@ SOCIALACCOUNT_EMAIL_REQUIRED = True
 
 # This is often needed
 SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 
 SITE_ID = 1
 
