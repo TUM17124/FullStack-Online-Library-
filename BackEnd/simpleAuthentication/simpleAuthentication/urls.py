@@ -19,6 +19,7 @@ from library.views import (
     ResendVerificationCodeView,
     PasswordResetRequestView,
     PasswordResetConfirmView,
+    google_login_redirect,
     health_check
 )
 
@@ -29,6 +30,9 @@ urlpatterns = [
 
     # HEALTH
     path('health/', health_check, name='health-check'),
+
+    # GOOGLE OAUTH REDIRECT
+    path("accounts/profile/",google_login_redirect,name="google_login_redirect"),
 
     # AUTH
     path('api/register/', RegisterView.as_view(), name="register"),

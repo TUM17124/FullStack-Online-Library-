@@ -7,7 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import FileResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404 , redirect
 from django.utils import timezone
 from django.utils.encoding import smart_str
 from django.utils.decorators import method_decorator
@@ -21,6 +21,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.conf import settings
 from .utils import send_email_async
@@ -35,6 +36,27 @@ from django.http import JsonResponse
 
 def health_check(request):
     return JsonResponse({'status': 'ok'})
+
+
+def google_login_redirect(request):
+
+    user = request.user
+
+    # User authenticated successfully
+    if user.is_authenticated:
+
+        refresh = RefreshToken.for_user(user)
+
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+
+        return redirect(
+            f"https://practicalcodingpdfs.com/auth/social-success/"
+            f"?access={access_token}&refresh={refresh_token}"
+        )
+
+    # Failed login
+    return redirect("https://practicalcodingpdfs.com/login")    
 
 # ──────────────────────────────────────────────────────────────
 # CUSTOM JWT LOGIN (BLOCK INACTIVE USERS)

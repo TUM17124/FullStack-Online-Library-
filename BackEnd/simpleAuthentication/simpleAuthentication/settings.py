@@ -20,6 +20,8 @@ ALLOWED_HOSTS = [
     "localhost",
     ".onrender.com",
     "online-library-tum.onrender.com",
+    "practicalcodingpdfs.com",
+    "www.practicalcodingpdfs.com",
 ]
 
 # ──────────────────────────────────────────────────────────────
@@ -147,7 +149,9 @@ CORS_EXPOSE_HEADERS = ["content-type", "x-csrftoken", "authorization"]
 CORS_PREFLIGHT_MAX_AGE = 86400
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.onrender.com"
+    "https://*.onrender.com",
+     "https://practicalcodingpdfs.com",
+    "https://www.practicalcodingpdfs.com",
 ]
 
 from datetime import timedelta
@@ -199,7 +203,7 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "none"
-LOGIN_REDIRECT_URL = "https://practicalcodingpdfs.com/books"
+LOGIN_REDIRECT_URL = "/accounts/profile/"
 
 # ──────────────────────────────────────────────────────────────
 # EMAIL SETTINGS (Resend via django-anymail)

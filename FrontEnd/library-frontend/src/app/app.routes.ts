@@ -9,6 +9,7 @@ import { OverdueBooksComponent } from './components/overdue-books/overdue-books'
 import { PrivacyComponent } from './privacy/privacy'
 import { AuthGuard } from './guards/auth-guard';
 import { TermsComponent } from './terms/terms';
+import { SocialSuccessComponent } from './social-success/social-success';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },  // ← Start at dashboard
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: 'overdue', component: OverdueBooksComponent, canActivate: [AuthGuard] },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'terms', component: TermsComponent },
+  {path: 'auth/social-success',component: SocialSuccessComponent},
 
   // Wildcard: redirect unknown paths to dashboard (only if logged in, otherwise guard handles it)
   { path: '**', redirectTo: '/dashboard' }
