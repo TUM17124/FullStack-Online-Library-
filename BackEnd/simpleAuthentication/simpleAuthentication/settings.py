@@ -36,6 +36,11 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'anymail',               # ← Added: required for Resend integration
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'library',
 ]
 
@@ -45,11 +50,18 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
+    'django.contrib.sessions.middleware.SessionMiddleware',
+
     'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -123,7 +135,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://mindandmoney.onrender.com",
     "https://practicalcodingpdfs.com",
-    "http://localhost:4200",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -144,8 +156,47 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
-    "USER_AUTHENTICATION_RULE": "library.auth_rules.active_user_only",
+    #"USER_AUTHENTICATION_RULE": "library.auth_rules.active_user_only",
 }
+
+ACCOUNT_LOGIN_METHODS = {"email"}
+
+ACCOUNT_SIGNUP_FIELDS = [
+    "email*",
+    "password1*",
+    "password2*",
+]
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+
+SOCIALACCOUNT_STORE_TOKENS = True
+SOCIALACCOUNT_ADAPTER = "allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+            "prompt": "select_account",
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    }
+}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = "none"
+LOGIN_REDIRECT_URL = "/"
 
 # ──────────────────────────────────────────────────────────────
 # EMAIL SETTINGS (Resend via django-anymail)
