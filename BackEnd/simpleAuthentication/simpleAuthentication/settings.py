@@ -216,7 +216,7 @@ ANYMAIL = {
 
 # Must be a verified sender in Resend dashboard
 # Use onboarding@resend.dev for testing; later change to e.g. "no-reply@yourdomain.com"
-DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
+DEFAULT_FROM_EMAIL = "support@practicalcodingpdfs.com"
 
 
 # Safety check for production
