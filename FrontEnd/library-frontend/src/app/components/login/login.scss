@@ -11,7 +11,6 @@ $border: #e0e0e0;
 $mobile: 599px;
 $tablet: 1024px;
 
-
 /* ======================================
    GLOBAL RESET
 ====================================== */
@@ -22,8 +21,7 @@ $tablet: 1024px;
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -34,7 +32,6 @@ body {
 body {
   font-family: Arial, sans-serif;
 }
-
 
 /* ======================================
    LOGIN CONTAINER
@@ -47,7 +44,6 @@ body {
   min-height: 100vh;
   width: 100%;
   padding: 1rem;
-  overflow: hidden; // removes unnecessary scrolling
   background: linear-gradient(135deg, #f0f2f5, #e9ecef);
   position: relative;
 
@@ -55,16 +51,11 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      circle,
-      rgba(58, 123, 213, 0.08) 1px,
-      transparent 1px
-    );
+    background: radial-gradient(circle, rgba(58, 123, 213, 0.08) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
   }
 }
-
 
 /* ======================================
    LOGIN CARD
@@ -84,65 +75,20 @@ body {
   &:hover {
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
   }
-
-  &:focus-within {
-    outline: 2px solid $primary;
-    outline-offset: 4px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-    color: $text-dark;
-    text-align: center;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    text-align: center;
-    color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-  }
 }
 
-
 /* ======================================
-   FORM FIELDS
-====================================== */
-
-.full-width {
-  width: 100%;
-  margin-bottom: 1rem;
-
-  mat-form-field {
-    width: 100%;
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    transition: 0.25s;
-
-    &:focus {
-      outline: none;
-      border-color: $primary;
-      box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.12);
-    }
-  }
-}
-
-
-/* ======================================
-   GOOGLE BUTTON + DIVIDER
+   GOOGLE BUTTON + IMPROVED DIVIDER
 ====================================== */
 
 .google-btn {
   background-color: #4285f4 !important;
   color: white !important;
   margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
   &:hover {
     background-color: #3367d6 !important;
@@ -150,35 +96,58 @@ body {
 }
 
 .google-icon {
-  margin-right: 10px;
+  font-size: 1.4rem;
 }
 
 .divider {
-  text-align: center;
-  margin: 1.5rem 0;
-  color: #666;
-  position: relative;
+  display: flex;
+  align-items: center;
+  color: #888;
+  margin: 1.8rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: #ddd;
-  }
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
 
-  span {
-    background: white;
-    padding: 0 15px;
-    position: relative;
-  }
+.divider::before {
+  margin-right: 15px;
+}
+
+.divider::after {
+  margin-left: 15px;
 }
 
 /* ======================================
-   BUTTONS
+   FORM FIELDS & BUTTONS
 ====================================== */
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.full-width input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  transition: 0.25s;
+}
+
+.full-width input:focus {
+  outline: none;
+  border-color: $primary;
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.12);
+}
 
 .login-card button {
   width: 100%;
@@ -189,39 +158,16 @@ body {
   cursor: pointer;
   transition: 0.25s;
   margin-bottom: 1rem;
-
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
 }
-
-
-/* Material overrides */
 
 .mat-raised-button {
   background: $primary;
   color: white;
-
-  &:hover {
-    background: $primary-dark;
-  }
 }
 
-.mat-stroked-button {
-  border: 2px solid $primary;
-  color: $primary;
-  background: transparent;
-
-  &:hover {
-    background: rgba(63, 81, 181, 0.08);
-  }
+.mat-raised-button:hover {
+  background: $primary-dark;
 }
-
 
 /* ======================================
    LINKS
@@ -229,90 +175,22 @@ body {
 
 .links {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 1.2rem;
   padding-top: 1rem;
   border-top: 1px solid $border;
-
-  p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 0.7rem;
-  }
-
-  a {
-    color: $primary;
-    font-weight: 600;
-    text-decoration: none;
-    margin: 0 0.4rem;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 
-
-/* ======================================
-   MESSAGES
-====================================== */
-
-.error-message {
-  color: #d32f2f;
-  font-size: 0.85rem;
-  margin-top: 0.4rem;
+.links a {
+  color: $primary;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 0.3rem 0;
+  display: inline-block;
 }
 
-.success-message {
-  padding: 0.8rem;
-  background: rgba(56, 142, 60, 0.1);
-  border-left: 4px solid #388e3c;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+.links a:hover {
+  text-decoration: underline;
 }
-
-
-/* ======================================
-   LOADING STATE
-====================================== */
-
-.loading {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-
-/* ======================================
-   MOBILE
-====================================== */
-
-@media (max-width: $mobile) {
-  .login-container {
-    padding: 0.8rem;
-  }
-
-  .login-card {
-    padding: 1.3rem;
-    border-radius: 10px;
-  }
-
-  .links a {
-    display: block;
-    margin: 0.4rem 0;
-  }
-}
-
-
-/* ======================================
-   TABLET
-====================================== */
-
-@media (min-width: 600px) and (max-width: $tablet) {
-  .login-card {
-    max-width: 420px;
-  }
-}
-
 
 /* ======================================
    DARK MODE
@@ -328,11 +206,15 @@ body {
     color: $text-light;
   }
 
-  input,
-  textarea {
+  .full-width input {
     background: #333;
     border-color: #444;
     color: $text-light;
+  }
+
+  .divider::before,
+  .divider::after {
+    background: #444;
   }
 
   .links {
@@ -340,18 +222,22 @@ body {
   }
 
   .links a {
-    color: #6f8cff;
+    color: #7da3e8;
   }
 }
 
-
 /* ======================================
-   ACCESSIBILITY
+   MOBILE & ACCESSIBILITY
 ====================================== */
+
+@media (max-width: $mobile) {
+  .login-card {
+    padding: 1.5rem;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * {
-    animation: none !important;
     transition: none !important;
   }
 }
