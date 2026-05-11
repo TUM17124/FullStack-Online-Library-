@@ -208,7 +208,7 @@ class RegisterView(APIView):
                     last_name=data['last_name'],
                 )
                 print("User created, sending email...")
-                user.is_active = True  # Set to False if you want to require email verification before login
+                user.is_active = False  # Set to False if you want to require email verification before login
                 user.save()
                 EmailVerificationCode.objects.filter(user=user).delete()
                 verification = EmailVerificationCode.objects.create(user=user, expires_at=timezone.now() + timedelta(minutes=15))
