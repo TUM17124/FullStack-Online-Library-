@@ -36,6 +36,14 @@ export class LoginComponent {
     private router: Router
   ) {}
 
+  // ── Google Login ───────────────────────────────────────────────────────────
+  loginWithGoogle() {
+    this.isLoading = true;
+    const googleLoginUrl = 'https://online-library-tum.onrender.com/accounts/google/login/?process=login';
+    window.location.href = googleLoginUrl;
+  }
+
+  // ── Traditional Login ──────────────────────────────────────────────────────
   login() {
     if (this.isLoading) return;
 
@@ -44,11 +52,11 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
         this.authService.refreshLoginStatus();
-        this.router.navigate(['/books']);
+        this.router.navigate(['/books']);   // or '/dashboard'
       },
-      error: () => {
+      error: (err) => {
+        console.error(err);
         alert('Invalid username or password');
-        this.isLoading = false;
       },
       complete: () => {
         this.isLoading = false;

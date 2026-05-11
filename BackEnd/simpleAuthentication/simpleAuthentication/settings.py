@@ -199,7 +199,7 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "none"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "https://practicalcodingpdfs.com/books"
 
 # ──────────────────────────────────────────────────────────────
 # EMAIL SETTINGS (Resend via django-anymail)

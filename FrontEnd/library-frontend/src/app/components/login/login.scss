@@ -136,6 +136,47 @@ body {
 
 
 /* ======================================
+   GOOGLE BUTTON + DIVIDER
+====================================== */
+
+.google-btn {
+  background-color: #4285f4 !important;
+  color: white !important;
+  margin-bottom: 1.2rem;
+
+  &:hover {
+    background-color: #3367d6 !important;
+  }
+}
+
+.google-icon {
+  margin-right: 10px;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #666;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #ddd;
+  }
+
+  span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+  }
+}
+
+/* ======================================
    BUTTONS
 ====================================== */
 

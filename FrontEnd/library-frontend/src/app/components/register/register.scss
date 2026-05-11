@@ -13,7 +13,6 @@ $text-light: #e0e0e0;
 $mobile: 599px;
 $tablet: 1024px;
 
-
 /* =========================================
    GLOBAL RESET
 ========================================= */
@@ -36,7 +35,6 @@ body {
 body {
   font-family: Arial, sans-serif;
 }
-
 
 /* =========================================
    REGISTER CONTAINER
@@ -68,13 +66,9 @@ body {
 
   @media (max-width: $mobile) {
     padding: 0.8rem;
-
-    &::before {
-      display: none;
-    }
+    &::before { display: none; }
   }
 }
-
 
 /* =========================================
    REGISTER CARD
@@ -106,7 +100,6 @@ body {
   }
 }
 
-
 /* =========================================
    CARD HEADER
 ========================================= */
@@ -123,7 +116,6 @@ mat-card-header {
   );
   border-radius: 10px 10px 0 0;
 }
-
 
 /* =========================================
    TITLES
@@ -142,6 +134,46 @@ mat-card-subtitle {
   margin-top: 0.5rem;
 }
 
+/* =========================================
+   GOOGLE BUTTON + DIVIDER
+========================================= */
+
+.google-btn {
+  background-color: #4285f4 !important;
+  color: white !important;
+  margin-bottom: 1.2rem;
+
+  &:hover {
+    background-color: #3367d6 !important;
+  }
+}
+
+.google-icon {
+  margin-right: 10px;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #666;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #ddd;
+  }
+
+  span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+  }
+}
 
 /* =========================================
    FORM FIELDS
@@ -177,7 +209,6 @@ mat-card-subtitle {
   }
 }
 
-
 /* =========================================
    BUTTONS
 ========================================= */
@@ -211,18 +242,7 @@ button.full-width {
       background: $primary-dark;
     }
   }
-
-  &.mat-stroked-button {
-    background: transparent;
-    border: 2px solid $primary;
-    color: $primary;
-
-    &:hover {
-      background: rgba(63, 81, 181, 0.08);
-    }
-  }
 }
-
 
 /* =========================================
    LINKS
@@ -244,7 +264,6 @@ button.full-width {
     color: $primary;
     font-weight: 600;
     text-decoration: none;
-    margin: 0 0.5rem;
 
     &:hover {
       text-decoration: underline;
@@ -259,7 +278,6 @@ button.full-width {
   }
 }
 
-
 /* =========================================
    ICONS
 ========================================= */
@@ -269,98 +287,11 @@ mat-icon {
   color: rgba(0, 0, 0, 0.6);
 }
 
-
 /* =========================================
-   PASSWORD STRENGTH
-========================================= */
-
-.password-strength {
-  display: flex;
-  gap: 4px;
-  margin-top: 0.5rem;
-  height: 4px;
-
-  .strength-bar {
-    flex: 1;
-    border-radius: 3px;
-    background: #ddd;
-
-    &.weak {
-      background: $error;
-    }
-
-    &.medium {
-      background: orange;
-    }
-
-    &.strong {
-      background: $success;
-    }
-
-    &.very-strong {
-      background: #1976d2;
-    }
-  }
-}
-
-
-/* =========================================
-   TERMS CHECKBOX
-========================================= */
-
-.terms-checkbox {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1.2rem;
-
-  input {
-    width: 18px;
-    height: 18px;
-    accent-color: $primary;
-    margin-top: 2px;
-  }
-
-  a {
-    color: $primary;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-
-/* =========================================
-   MESSAGES
-========================================= */
-
-.error-message {
-  color: $error;
-  font-size: 0.85rem;
-  margin-top: 0.3rem;
-}
-
-.success-message {
-  color: $success;
-  background: rgba(56, 142, 60, 0.1);
-  border-left: 4px solid $success;
-  padding: 0.8rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-
-/* =========================================
-   DARK MODE
+   DARK MODE (Restored & Improved)
 ========================================= */
 
 @media (prefers-color-scheme: dark) {
-
   .register-container {
     background: linear-gradient(135deg, #1a1a1a, #262626);
   }
@@ -368,6 +299,7 @@ mat-icon {
   .register-card {
     background: #2a2a2a;
     color: $text-light;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
   }
 
   mat-card-title {
@@ -376,31 +308,39 @@ mat-icon {
 
   mat-card-subtitle,
   .links p,
-  .terms-checkbox {
+  .terms-checkbox,
+  .divider {
     color: #b0b0b0;
   }
 
+  .divider::before {
+    background: #444;
+  }
+
+  .divider span {
+    background: #2a2a2a;
+  }
+
   input,
-  textarea {
+  textarea,
+  mat-form-field .mat-mdc-form-field-flex {
     background: #333;
     border-color: #444;
     color: $text-light;
   }
 
-  .links a,
-  .terms-checkbox a {
+  .links {
+    border-color: #444;
+  }
+
+  .links a {
     color: #7da3e8;
   }
 
   mat-icon {
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .links {
-    border-color: #444;
+    color: rgba(255, 255, 255, 0.7);
   }
 }
-
 
 /* =========================================
    ACCESSIBILITY
