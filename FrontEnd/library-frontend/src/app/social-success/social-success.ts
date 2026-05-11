@@ -34,7 +34,7 @@ export class SocialSuccessComponent implements OnInit {
         // Delay redirect (2–3 seconds is enough)
         setTimeout(() => {
           this.router.navigate(['/books']);
-        }, 2500);
+        }, 1500);
 
       } else {
 
