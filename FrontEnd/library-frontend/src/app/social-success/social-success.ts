@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SocialSuccessComponent implements OnInit {
 
+  message = 'Signing you in...';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router
@@ -26,13 +28,21 @@ export class SocialSuccessComponent implements OnInit {
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
 
-        // Redirect to books page
-        this.router.navigate(['/books']);
+        // Show success message first
+        this.message = 'Login successful! Redirecting...';
+
+        // Delay redirect (2–3 seconds is enough)
+        setTimeout(() => {
+          this.router.navigate(['/books']);
+        }, 2500);
 
       } else {
 
-        // Failed login
-        this.router.navigate(['/login']);
+        this.message = 'Login failed. Redirecting...';
+
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
       }
     });
   }
