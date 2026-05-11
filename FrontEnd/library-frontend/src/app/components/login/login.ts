@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ import { AuthService } from '../../services/auth';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss'
@@ -33,12 +35,16 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   // ── Google Login ───────────────────────────────────────────────────────────
   loginWithGoogle() {
     this.isLoading = true;
+    this.snackBar.open('Redirecting to Google login...', 'Close', {
+    duration: 2000
+  });
     const googleLoginUrl = 'https://online-library-tum.onrender.com/accounts/google/login/?process=login';
     window.location.href = googleLoginUrl;
   }
@@ -52,11 +58,18 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
         this.authService.refreshLoginStatus();
+        this.snackBar.open('Login successful!', 'Close', {
+        duration: 3000,
+        panelClass: ['success-snackbar']
+      });
         this.router.navigate(['/books']);   // or '/dashboard'
       },
       error: (err) => {
         console.error(err);
-        alert('Invalid username or password');
+        this.snackBar.open('Invalid username or password', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
       },
       complete: () => {
         this.isLoading = false;
