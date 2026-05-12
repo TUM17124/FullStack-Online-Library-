@@ -75,24 +75,45 @@ export class LoginComponent {
       },
 
       error: (err) => {
-        console.error(err);
+  console.error(err);
 
-        this.snackBar.open(
-           'Login failed. Please check credentials or verify your email before logging in.',
-          'Close',
-          {
-            duration: 4000,
-            panelClass: ['error-snackbar']
-          }
-        );
+  const code = err.error?.code;
 
-        this.isLoading = false; // ✅ important fix
-      },
+  // 🔥 EMAIL NOT VERIFIED → SEND TO REGISTER VERIFY STEP
+  if (code === 'EMAIL_NOT_VERIFIED') {
 
-      complete: () => {
-        this.isLoading = false;
-        this.refreshTrigger.next(Date.now());
+    // store email so it is NEVER lost
+    localStorage.setItem('pendingVerificationEmail', this.loginIdentifier);
+
+    this.snackBar.open(
+      'Email not verified. Redirecting to activation...',
+      'Close',
+      { duration: 3000 }
+    );
+
+    this.router.navigate(['/register'], {
+      queryParams: {
+        step: 'verify',
+        email: this.loginIdentifier
       }
     });
+
+    this.isLoading = false;
+    return;
+  }
+
+  // ❌ NORMAL LOGIN ERROR
+  this.snackBar.open(
+    'Login failed. Please check credentials.',
+    'Close',
+    {
+      duration: 4000,
+      panelClass: ['error-snackbar']
+    }
+  );
+
+  this.isLoading = false;
+      }
+    }); 
   }
 }

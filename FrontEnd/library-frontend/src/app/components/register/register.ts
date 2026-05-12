@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth';
 
@@ -32,7 +33,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
   step: 'register' | 'verify' = 'register';
@@ -66,16 +67,25 @@ export class RegisterComponent {
 
   ngOnInit() {
   this.route.queryParams.subscribe(params => {
-    if (params['step'] === 'verify') {
+
+    const step = params['step'];
+    const emailFromUrl = params['email'];
+    const emailFromStorage = localStorage.getItem('pendingVerificationEmail');
+
+    // 🔥 FORCE VERIFY STEP
+    if (step === 'verify' || emailFromStorage) {
       this.step = 'verify';
-
-      if (params['email']) {
-        this.email = params['email'];
-        this.emailFormControl.setValue(this.email);
-      }
-
-      this.cd.detectChanges();
     }
+
+    // 🔥 SET EMAIL
+    const finalEmail = emailFromUrl || emailFromStorage;
+
+    if (finalEmail) {
+      this.email = finalEmail;
+      this.emailFormControl.setValue(finalEmail, { emitEvent: false });
+    }
+
+    this.cd.detectChanges();
   });
 }
 
@@ -168,11 +178,14 @@ export class RegisterComponent {
 
     this.authService.verifyEmail({ email: this.email.trim(), code: this.code.trim() }).subscribe({
       next: () => {
-        this.isLoading = false;
-        this.cd.detectChanges();
-        this.snackBar.open('Email verified successfully!', 'Close', { duration: 4000 });
-        this.router.navigate(['/login']);
-      },
+  this.isLoading = false;
+
+  localStorage.removeItem('pendingVerificationEmail');
+
+  this.cd.detectChanges();
+  this.snackBar.open('Email verified successfully!', 'Close', { duration: 4000 });
+  this.router.navigate(['/login']);
+},
       error: () => {
         this.isLoading = false;
         this.snackBar.open('Invalid or expired verification code', 'Close', { duration: 5000 });
