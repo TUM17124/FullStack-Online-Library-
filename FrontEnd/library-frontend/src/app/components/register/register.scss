@@ -1,456 +1,345 @@
-/* =========================================
-   VARIABLES
-========================================= */
-
-$primary: #3f51b5;
-$primary-dark: #303f9f;
-$success: #388e3c;
-$error: #d32f2f;
-
-$text-dark: #1f2a38;
-$text-light: #e0e0e0;
-
-$mobile: 599px;
-$tablet: 1024px;
-
-/* =========================================
-   GLOBAL RESET
-========================================= */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  font-family: Arial, sans-serif;
-}
-
-/* =========================================
-   REGISTER CONTAINER
-========================================= */
+/* =========================
+   REGISTER PAGE - DASHBOARD THEME
+========================= */
 
 .register-container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
-  padding: 1rem;
-  overflow: hidden;
-  position: relative;
-  background: linear-gradient(135deg, #f0f2f5, #e9ecef);
+  padding: 2rem;
 
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle,
-      rgba(63, 81, 181, 0.08) 1px,
-      transparent 1px
-    );
-    background-size: 50px 50px;
-    pointer-events: none;
-  }
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.25), transparent 30%),
+    linear-gradient(135deg, #0f172a, #111827, #1e293b);
 
-  @media (max-width: $mobile) {
-    padding: 0.8rem;
-    &::before { display: none; }
-  }
+  font-family: 'Inter', sans-serif;
 }
 
-/* =========================================
-   REGISTER CARD
-========================================= */
+/* =========================
+   CARD
+========================= */
 
 .register-card {
   width: 100%;
-  max-width: 480px;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
-  position: relative;
-  z-index: 1;
-  transition: 0.3s;
+  max-width: 560px;
 
-  &:hover {
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
-  }
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(18px);
 
-  &:focus-within {
-    outline: 2px solid $primary;
-    outline-offset: 3px;
-  }
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
 
-  @media (max-width: $mobile) {
-    padding: 1.3rem;
-    border-radius: 10px;
-  }
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.45),
+    0 0 30px rgba(59, 130, 246, 0.15);
+
+  padding: 1rem;
+  color: #f8fafc;
 }
 
-/* =========================================
-   CARD HEADER
-========================================= */
+/* =========================
+   HEADER
+========================= */
 
 mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 1.5rem 1rem;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(63, 81, 181, 0.12);
-  background: linear-gradient(
-    135deg,
-    rgba(63, 81, 181, 0.05),
-    rgba(63, 81, 181, 0.02)
-  );
-  border-radius: 10px 10px 0 0;
 }
 
-/* =========================================
-   TITLES
-========================================= */
-
 mat-card-title {
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  font-weight: 700;
-  color: $text-dark;
-  letter-spacing: -0.5px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
 }
 
 mat-card-subtitle {
+  color: #cbd5e1;
   font-size: 0.95rem;
-  color: #666;
-  margin-top: 0.5rem;
 }
 
-/* ======================================
+/* =========================
    SECURITY BANNER
-====================================== */
+========================= */
 
 .security-banner {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(76, 175, 80, 0.1);
-  border: 1px solid rgba(76, 175, 80, 0.25);
-  color: #2e7d32;
-  padding: 0.9rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.2rem;
-  font-size: 0.7rem;
-  font-weight: 500;
-}
+  gap: 0.8rem;
 
-.security-banner mat-icon {
-  font-size: 1.2rem;
-}
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
 
-/* ======================================
-   GOOGLE POLICY
-====================================== */
+  padding: 1rem;
+  border-radius: 16px;
 
-.google-policy {
-  text-align: center;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: #666;
-  margin-top: -0.5rem;
   margin-bottom: 1.5rem;
-}
 
-.google-policy a {
-  color: #4285f4;
-  text-decoration: none;
-  font-weight: 600;
-}
+  color: #dbeafe;
+  font-size: 0.92rem;
 
-.google-policy a:hover {
-  text-decoration: underline;
-}
-
-/* ======================================
-   DARK MODE SUPPORT
-====================================== */
-
-@media (prefers-color-scheme: dark) {
-
-  .security-banner {
-    background: rgba(76, 175, 80, 0.15);
-    border-color: rgba(76, 175, 80, 0.3);
-    color: #81c784;
-  }
-
-  .google-policy {
-    color: #bbb;
-  }
-
-  .google-policy a {
-    color: #8ab4f8;
+  mat-icon {
+    color: #60a5fa;
   }
 }
 
-/* ======================================
-   GOOGLE BUTTON + IMPROVED DIVIDER
-====================================== */
+/* =========================
+   GOOGLE BUTTON
+========================= */
 
 .google-btn {
-  background-color: #4285f4 !important;
-  color: white !important;
-  margin-bottom: 1.2rem;
+  width: 100%;
+  height: 52px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+
+  background: #ffffff !important;
+  color: #111827 !important;
+
+  font-weight: 700;
+  font-size: 0.95rem;
+
+  border-radius: 14px;
+
+  transition: all 0.3s ease;
+
+  margin-bottom: 1rem;
 
   &:hover {
-    background-color: #3367d6 !important;
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 10px 20px rgba(255, 255, 255, 0.12);
   }
 }
 
 .google-icon {
-  width: 20px;
-  height: 20px;
-  transform: translateY(5px);
+  width: 22px;
+  height: 22px;
 }
 
+/* =========================
+   POLICY
+========================= */
+
+.google-policy {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+
+  a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* =========================
+   DIVIDER
+========================= */
 
 .divider {
-  text-align: center;
-  margin: 1.5rem 0;
-  color: #666;
   position: relative;
+  text-align: center;
+  margin: 2rem 0;
+  color: #94a3b8;
+  font-size: 0.85rem;
 
   &::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 0;
-    right: 0;
+    width: 42%;
     height: 1px;
-    background: #ddd;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 42%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
   }
 
   span {
-    background: white;
-    padding: 0 15px;
+    background: #0f172a;
+    padding: 0 1rem;
     position: relative;
+    z-index: 2;
   }
 }
 
-/* =========================================
+/* =========================
    FORM FIELDS
-========================================= */
+========================= */
 
 .full-width {
   width: 100%;
-  margin-bottom: 1rem;
-
-  mat-form-field {
-    width: 100%;
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    padding: 0.85rem;
-    font-size: 0.95rem;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    transition: 0.2s;
-
-    &:focus {
-      outline: none;
-      border-color: $primary;
-      box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.12);
-    }
-  }
-
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
 }
 
-/* VERIFY EMAIL MESSAGE */
-.verify-message {
-  margin-bottom: 16px;
-  padding: 12px;
-  border-radius: 8px;
-  background: #f5f7ff;
-  color: #1e293b;
-  font-size: 14px;
-  text-align: center;
-  border: 1px solid #dbeafe;
-}
-
-.verify-message strong {
-  color: #2563eb;
-  word-break: break-word;
-}
-
-/* WARNING MESSAGE */
-.warning-text {
-  margin-bottom: 16px;
-  padding: 12px;
-  border-radius: 8px;
-  background: #fff7ed;
-  color: #c2410c;
-  font-size: 14px;
-  text-align: center;
-  border: 1px solid #fdba74;
-}
-
-/* =========================================
-   BUTTONS
-========================================= */
-
-button.full-width {
+mat-form-field {
   width: 100%;
-  height: 48px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  cursor: pointer;
-  transition: 0.25s;
   margin-bottom: 1rem;
+}
 
-  &:hover:not(:disabled) {
+/* Angular Material Dark Theme Fields */
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-radius: 14px !important;
+}
+
+::ng-deep .mdc-notched-outline__leading,
+::ng-deep .mdc-notched-outline__notch,
+::ng-deep .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+::ng-deep .mat-mdc-input-element {
+  color: #ffffff !important;
+}
+
+::ng-deep .mat-mdc-form-field-label {
+  color: #cbd5e1 !important;
+}
+
+::ng-deep .mat-icon {
+  color: #94a3b8;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button[color="primary"] {
+  height: 52px;
+
+  background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+  font-size: 1rem;
+
+  margin-top: 0.5rem;
+
+  transition: all 0.3s ease;
+
+  &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-  }
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  &.mat-raised-button {
-    background: $primary;
-    color: white;
-
-    &:hover {
-      background: $primary-dark;
-    }
+    box-shadow:
+      0 10px 25px rgba(37, 99, 235, 0.35),
+      0 0 20px rgba(79, 70, 229, 0.25);
   }
 }
 
-/* =========================================
+button[color="accent"] {
+  margin-top: 1rem;
+  border-radius: 14px;
+}
+
+/* =========================
+   VERIFY SECTION
+========================= */
+
+.verify-message {
+  text-align: center;
+  margin-bottom: 1rem;
+
+  color: #cbd5e1;
+  line-height: 1.6;
+
+  strong {
+    color: #ffffff;
+  }
+}
+
+.warning-text {
+  display: block;
+  margin-bottom: 1rem;
+
+  font-size: 0.85rem;
+  line-height: 1.6;
+
+  color: #fbbf24;
+
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+
+  padding: 0.9rem;
+  border-radius: 14px;
+}
+
+/* =========================
    LINKS
-========================================= */
+========================= */
 
 .links {
+  margin-top: 2rem;
   text-align: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-
-  p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 0.6rem;
-  }
+  line-height: 2;
 
   a {
-    color: $primary;
-    font-weight: 600;
+    color: #60a5fa;
     text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
 
     &:hover {
+      color: #93c5fd;
       text-decoration: underline;
     }
   }
-
-  @media (max-width: $mobile) {
-    a {
-      display: block;
-      margin: 0.4rem 0;
-    }
-  }
 }
 
-/* =========================================
-   ICONS
-========================================= */
+/* =========================
+   SPACING
+========================= */
 
-mat-icon {
-  font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.6);
+.mt-2 {
+  margin-top: 0.75rem;
 }
 
-/* =========================================
-   DARK MODE (Restored & Improved)
-========================================= */
+/* =========================
+   RESPONSIVE
+========================= */
 
-@media (prefers-color-scheme: dark) {
+@media (max-width: 600px) {
+
   .register-container {
-    background: linear-gradient(135deg, #1a1a1a, #262626);
+    padding: 1rem;
   }
 
   .register-card {
-    background: #2a2a2a;
-    color: $text-light;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    padding: 0.5rem;
   }
 
   mat-card-title {
-    color: #fff;
+    font-size: 1.6rem;
   }
 
-  mat-card-subtitle,
-  .links p,
-  .terms-checkbox,
-  .divider {
-    color: #b0b0b0;
-  }
-
-  .divider::before {
-    background: #444;
-  }
-
-  .divider span {
-    background: #2a2a2a;
-  }
-
-  input,
-  textarea,
-  mat-form-field .mat-mdc-form-field-flex {
-    background: #333;
-    border-color: #444;
-    color: $text-light;
-  }
-
-  .links {
-    border-color: #444;
-  }
-
-  .links a {
-    color: #7da3e8;
-  }
-
-  mat-icon {
-    color: rgba(255, 255, 255, 0.7);
-  }
-}
-
-/* =========================================
-   ACCESSIBILITY
-========================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
+  .security-banner {
+    flex-direction: column;
+    text-align: center;
   }
 }
