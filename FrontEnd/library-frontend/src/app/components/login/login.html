@@ -7,6 +7,9 @@
       <mat-card-subtitle>
         Secure authentication powered by Google
       </mat-card-subtitle>
+      <mat-card-subtitle>
+        Accounts need to be 
+      </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -91,10 +94,17 @@
       <!-- LINKS -->
       <div class="links">
         <a routerLink="/dashboard">Access Dashboard</a><br>
-        <a routerLink="/forgot-password">Forgot Password?</a><br>
+        <a routerLink="/forgot-password">Forgot Password ? </a><br>
         <a routerLink="/register">
-          Don't have an account? Register here
-        </a>
+          Don't have an account ? Register here
+        </a> <br>
+        <a routerLink="/forgot-password" class="activation-link">
+  Activate your email account
+</a>
+
+<span class="warning-text">
+  If you skipped email verification during registration, you must return to the activation page before you can log in.
+</span>
       </div>
 
     </mat-card-content>
