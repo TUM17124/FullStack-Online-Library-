@@ -68,11 +68,25 @@ initAuth(): Promise<void> {
   }
 
   logout() {
-    localStorage.removeItem(this.tokenKey);
-    this.isLoggedIn$.next(false);
-    this.snackBar.open('Logged out', 'Close', { duration: 3000 });
-    this.router.navigate(['/login']);
-  }
+
+  // Remove all authentication tokens
+  localStorage.removeItem(this.tokenKey);
+  localStorage.removeItem('refresh_token');
+
+  // Optional: clear all session/local storage
+  sessionStorage.clear();
+
+  // Update auth state
+  this.isLoggedIn$.next(false);
+
+  // Notification
+  this.snackBar.open('Logged out successfully', 'Close', {
+    duration: 3000
+  });
+
+  // Redirect
+  this.router.navigate(['/login']);
+}
 
   isLoggedIn(): boolean {
     return this.hasToken();
