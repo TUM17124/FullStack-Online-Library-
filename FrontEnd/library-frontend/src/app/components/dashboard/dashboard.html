@@ -1,175 +1,120 @@
 <app-header></app-header>
+<!-- AUTH SECTION -->
+<section class="auth-section">
 
-<main class="landing" [@fadeSlide]>
+  <div class="auth-overlay"></div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container animate">
+  <div class="container">
 
-      <div class="hero-badge">🚀 Free Coding Library</div>
+    <div class="auth-wrapper">
 
-      <h1>Learn Practical Software Development</h1>
+      <!-- LEFT SIDE -->
+      <div class="auth-info">
 
-      <div class="trust-bar">
-  <span>✔ Beginner Friendly</span>
-  <span>✔ Project-Based Learning</span>
-  <span>✔ Real-World Systems</span>
-</div>
-
-      <p class="hero-text">
-  Master Flutter, Django, FastAPI, Angular, Machine Learning (ML), and Deep Learning (DL),
-  and build your own AI systems using RAG.
-  Everything is structured into real-world PDF guides built for self-learners.
-</p>
-
-      <div class="hero-actions">
-        <button mat-raised-button color="primary" routerLink="/register">
-          Get Started Free
-        </button>
-
-        <button mat-stroked-button routerLink="/login">
-          Login
-        </button>
-      </div>
-
-      <div class="hero-note">
-        No payments. No spam. Just practical learning.
-      </div>
-
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="features">
-    <div class="container">
-
-      <h2 class="animate">What You'll Learn</h2>
-
-      <div class="grid">
-
-        <div class="card animate">
-          <mat-icon>phone_iphone</mat-icon>
-          <h3>Flutter & Dart</h3>
-          <p>Build beautiful cross-platform mobile apps.</p>
+        <div class="auth-badge">
+          🚀 Trusted Developer Library
         </div>
 
-        <div class="card animate">
-          <mat-icon>api</mat-icon>
-          <h3>Django & FastAPI</h3>
-          <p>Create scalable backend APIs and authentication systems.</p>
+        <h1>
+          Learn Real Software Development With
+          <span>Tested PDF Guides</span>
+        </h1>
+
+        <p class="auth-description">
+          Access production-style coding tutorials covering Angular,
+          Flutter, Django, FastAPI, AI systems, Machine Learning,
+          Deep Learning, and RAG development workflows.
+        </p>
+
+        <div class="auth-features">
+
+          <div class="feature">
+            <mat-icon>verified</mat-icon>
+            <span>Verified & Tested Code</span>
+          </div>
+
+          <div class="feature">
+            <mat-icon>menu_book</mat-icon>
+            <span>Structured PDF Learning Paths</span>
+          </div>
+
+          <div class="feature">
+            <mat-icon>terminal</mat-icon>
+            <span>Production-Level Projects</span>
+          </div>
+
+          <div class="feature">
+            <mat-icon>support_agent</mat-icon>
+            <span>Developer Support Available</span>
+          </div>
+
         </div>
 
-        <div class="card animate">
-          <mat-icon>psychology</mat-icon>
-          <h3>AI & RAG Systems</h3>
-          <p>Learn local AI development using modern LLM workflows.</p>
+        <div class="support-email">
+          <mat-icon>mail</mat-icon>
+          <a href="mailto:support@practicalcoding.com">
+            support@practicalcoding.com
+          </a>
         </div>
-
-        <div class="card animate">
-  <mat-icon>insights</mat-icon>
-  <h3>Angular & Modern Frontend</h3>
-  <p>Build scalable enterprise-grade web apps using Angular fundamentals and best practices.</p>
-</div>
-
-<div class="card animate">
-  <mat-icon>hub</mat-icon>
-  <h3>Machine Learning & Deep Learning</h3>
-  <p>Understand ML/DL basics and how modern AI systems are trained and deployed.</p>
-</div>
 
       </div>
-    </div>
-  </section>
 
-  <!-- LEARNING PATH -->
-  <section class="path">
-    <div class="container animate">
+      <!-- RIGHT SIDE -->
+      <div class="auth-card">
 
-      <h2>Your Learning Path</h2>
+        <div class="card-top">
+          <div class="library-logo">
+            <mat-icon>library_books</mat-icon>
+          </div>
 
-      <ol class="steps">
-  <li>Start with Angular or Backend (Django/FastAPI) fundamentals</li>
-  <li>Understand core programming concepts before jumping into frameworks</li>
-  <li>Build real-world production-style projects</li>
-  <li>Learn Machine Learning (ML) and Deep Learning (DL) basics</li>
-  <li>Explore AI systems like RAG and automation workflows</li>
-  <li>Deploy your applications like real software systems used in industry</li>
-</ol>
+          <h2>Join Practical Coding Library</h2>
 
-    </div>
-  </section>
+          <p>
+            Create your free account and start learning modern software engineering.
+          </p>
+        </div>
 
-  <!-- DEVELOPER NOTE -->
-<section class="developer-note-section">
-  <div class="container animate">
+        <div class="auth-buttons">
 
-    <div class="developer-note">
-      <h3>💡 Advice from Software Developers</h3>
-      <p>
-  Modern software engineering is not just about generating code quickly.
-  Systems built in production rely on strong foundations like Angular architecture,
-  Django backend design, and clean software principles.
+          <button
+            mat-raised-button
+            color="primary"
+            class="register-btn"
+            routerLink="/register">
 
-  Learn fundamentals first — then frameworks, then AI systems.
-  That’s how real engineers build scalable products used in production environments.
-</p>
+            <mat-icon>person_add</mat-icon>
+            Register Free
+          </button>
+
+          <button
+            mat-stroked-button
+            class="login-btn"
+            routerLink="/login">
+
+            <mat-icon>login</mat-icon>
+            Login
+          </button>
+
+        </div>
+
+        <div class="security-box">
+
+          <mat-icon>shield</mat-icon>
+
+          <div>
+            <h4>Secure Learning Platform</h4>
+
+            <p>
+              No spam. No hidden payments. Just practical developer education.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
+
 </section>
-
-  <!-- CONTACT -->
-  <section class="contact">
-    <div class="container animate">
-
-      <h2>Need Help or Guidance?</h2>
-
-      <p class="contact-text">
-        Have questions about coding, projects, AI, or your learning journey?
-        Send me a message — I personally reply to learners.
-      </p>
-
-      <form
-        target="_blank"
-        action="https://formsubmit.co/532995f2725a8c447f38569d1fcee84a"
-        method="POST"
-      >
-
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          required
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          required
-        />
-
-        <textarea
-          name="message"
-          rows="6"
-          placeholder="Tell me what you need help with..."
-          required
-        ></textarea>
-
-        <button mat-raised-button color="primary" type="submit">
-          Send Message
-        </button>
-
-      </form>
-
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <p>© 2026 Practical Coding PDFs</p>
-    </div>
-  </footer>
-
-</main>
