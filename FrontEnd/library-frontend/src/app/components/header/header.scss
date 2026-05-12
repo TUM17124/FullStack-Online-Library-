@@ -1,118 +1,82 @@
 /* =========================
-   DASHBOARD HEADER / TOOLBAR THEME
+   TOOLBAR - DARK GLASSMORPHIC THEME
 ========================= */
 
-.toolbar {
+mat-toolbar.toolbar {
+  background: rgba(15, 23, 42, 0.93) !important;
+  backdrop-filter: blur(22px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
+  height: 72px;
+  padding: 0 1.8rem;
   position: sticky;
   top: 0;
-  z-index: 1000;
-
-  height: 64px;
-
-  background: rgba(15, 23, 42, 0.9) !important;
-  backdrop-filter: blur(12px);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-
-  padding: 0 1.5rem;
-
-  display: flex;
-  align-items: center;
+  z-index: 1100;
 }
 
-/* =========================
-   TITLE
-========================= */
-
+/* Title */
 .title {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  letter-spacing: 0.5px;
-
+  letter-spacing: -0.6px;
   color: #ffffff;
+  user-select: none;
 }
 
-/* =========================
-   SPACER
-========================= */
-
+/* Spacer */
 .spacer {
   flex: 1 1 auto;
 }
 
-/* =========================
-   NAV CONTAINER
-========================= */
-
+/* Navigation Container */
 .nav-container {
-  position: relative;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
-/* =========================
-   MENU BUTTON (MOBILE)
-========================= */
-
+/* Hamburger Menu Button */
 .menu-toggle {
   display: none;
-
   background: transparent;
   border: none;
-
-  color: #ffffff;
-  font-size: 1.8rem;
-
+  font-size: 1.85rem;
+  color: #e2e8f0;
   cursor: pointer;
-
-  padding: 0.3rem 0.6rem;
-
-  border-radius: 10px;
-
-  transition: 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
   }
 }
 
-/* =========================
-   NAV MENU (DESKTOP)
-========================= */
-
+/* Navigation Menu */
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
+  gap: 0.4rem;
 
-/* Buttons inside nav */
-.nav-menu button {
-  color: #e2e8f0 !important;
+  button {
+    font-weight: 500;
+    color: #cbd5e1;
+    transition: all 0.3s ease;
+    border-radius: 14px;
+    margin: 0 3px;
 
-  font-weight: 600;
-
-  border-radius: 10px;
-
-  transition: all 0.3s ease;
-
-  padding: 0.4rem 0.8rem;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-1px);
+    &:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.09) !important;
+    }
   }
-}
 
-/* Logout button special styling */
-.nav-menu button[color="warn"] {
-  background: rgba(239, 68, 68, 0.15) !important;
-  color: #fca5a5 !important;
-
-  &:hover {
-    background: rgba(239, 68, 68, 0.25) !important;
+  /* Logout Button */
+  button[color="warn"] {
+    font-weight: 700;
+    margin-left: 15px;
+    background: linear-gradient(135deg, #ef4444, #f87171) !important;
   }
 }
 
@@ -121,55 +85,49 @@
 ========================= */
 
 @media (max-width: 768px) {
-
   .menu-toggle {
     display: block;
   }
 
   .nav-menu {
     position: absolute;
-    top: 64px;
+    top: 72px;
+    left: 0;
     right: 0;
-
-    width: 220px;
-
+    background: rgba(15, 23, 42, 0.97);
+    backdrop-filter: blur(20px);
     flex-direction: column;
     align-items: stretch;
-
-    background: rgba(15, 23, 42, 0.98);
-    backdrop-filter: blur(15px);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-
-    padding: 0.8rem;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-
-    transform: translateY(-10px);
+    padding: 1.2rem 1.8rem;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+    transform: translateY(-15px);
     opacity: 0;
     visibility: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-    transition: all 0.25s ease;
-  }
+    &.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
 
-  .nav-menu.open {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .nav-menu button {
-    width: 100%;
-    text-align: left;
+    button {
+      justify-content: flex-start;
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 1.05rem;
+    }
   }
 }
 
-/* =========================
-   ACTIVE ROUTE HIGHLIGHT (OPTIONAL)
-========================= */
+/* Extra polish for Angular Material */
+.mat-toolbar.mat-primary {
+  background: rgba(15, 23, 42, 0.9) !important;
+}
 
-.nav-menu button[routerLinkActive] {
-  background: rgba(59, 130, 246, 0.15);
-  color: #93c5fd !important;
+.mat-button, .mat-raised-button {
+  text-transform: none !important;
+  font-weight: 500;
 }
