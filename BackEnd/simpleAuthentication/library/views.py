@@ -62,17 +62,24 @@ def google_login_redirect(request):
 # CUSTOM JWT LOGIN (BLOCK INACTIVE USERS)
 # ──────────────────────────────────────────────────────────────
 class StrictTokenObtainPairSerializer(TokenObtainPairSerializer):
+
     def validate(self, attrs):
-        data = super().validate(attrs)
-        if not self.user.is_active:
-            raise serializers.ValidationError(
-                detail={
-                    "error": "account_not_verified",
-                    "message": "Please verify your email before logging in."
-                },
-                code='authorization'
-            )
-        return data
+
+        username = attrs.get("username")
+        password = attrs.get("password")
+
+        user = User.objects.filter(username=username).first()
+
+        # 🔥 CHECK EMAIL BEFORE JWT VALIDATION
+        if user and not user.is_active:
+            raise serializers.ValidationError({
+                "code": "EMAIL_NOT_VERIFIED",
+                "message": "Please verify your email before logging in.",
+                "email": user.email
+            })
+
+        # normal JWT login
+        return super().validate(attrs)
 
 class StrictTokenObtainPairView(TokenObtainPairView):
     serializer_class = StrictTokenObtainPairSerializer
