@@ -51,17 +51,17 @@
       <form (ngSubmit)="login()">
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Username or Email</mat-label>
+  <mat-label>Email or Username</mat-label>
 
-          <input
-  matInput
-  [(ngModel)]="username"
-  name="username"
-  required
-  placeholder="Username or Email">
+  <input
+    matInput
+    [(ngModel)]="loginIdentifier"
+    name="loginIdentifier"
+    required
+    placeholder="Enter email or username">
 
-<mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
+  <mat-icon matSuffix>person</mat-icon>
+</mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>

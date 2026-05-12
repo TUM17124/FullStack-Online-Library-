@@ -31,8 +31,7 @@ import { AuthService } from '../../services/auth';
 })
 export class LoginComponent {
 
-  username = '';
-  email = '';
+  loginIdentifier = '';
   password = '';
   isLoading = false;
 
@@ -47,8 +46,6 @@ export class LoginComponent {
 
   // ── Google Login ─────────────────────────────
   loginWithGoogle() {
-    this.isLoading = true;
-
     this.snackBar.open('Redirecting to Google login...', 'Close', {
       duration: 2000
     });
@@ -65,7 +62,7 @@ export class LoginComponent {
 
     this.isLoading = true;
 
-    this.authService.login(this.username || this.email, this.password).subscribe({
+    this.authService.login(this.loginIdentifier, this.password).subscribe({
       next: () => {
         this.authService.refreshLoginStatus();
 
@@ -81,7 +78,7 @@ export class LoginComponent {
         console.error(err);
 
         this.snackBar.open(
-          'Invalid credentials or unverified account. Please activate your email first.',
+           'Login failed. Please check credentials or verify your email before logging in.',
           'Close',
           {
             duration: 4000,
