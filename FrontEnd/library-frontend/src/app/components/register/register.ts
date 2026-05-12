@@ -69,21 +69,23 @@ export class RegisterComponent implements OnInit {
   this.route.queryParams.subscribe(params => {
 
     const step = params['step'];
-    const emailFromUrl = params['email'];
-    const emailFromStorage = localStorage.getItem('pendingVerificationEmail');
+const emailFromUrl = params['email'];
+const emailFromStorage = localStorage.getItem('pendingVerificationEmail');
 
-    // 🔥 FORCE VERIFY STEP
-    if (step === 'verify' || emailFromUrl || emailFromStorage)  {
-      this.step = 'verify';
-    }
+// ✅ STRICT CONTROL (FIXED)
+if (step === 'verify' || (emailFromStorage && !step)) {
+  this.step = 'verify';
+}
 
-    // 🔥 SET EMAIL
-    const finalEmail = emailFromUrl || emailFromStorage;
+    const finalEmail = emailFromUrl || emailFromStorage || '';
 
-    if (finalEmail) {
-      this.email = finalEmail;
-      this.emailFormControl.setValue(finalEmail, { emitEvent: false });
-    }
+if (finalEmail.trim()) {
+  this.email = finalEmail;
+
+  this.emailFormControl.setValue(finalEmail, {
+    emitEvent: false
+  });
+}
 
     this.cd.detectChanges();
   });
