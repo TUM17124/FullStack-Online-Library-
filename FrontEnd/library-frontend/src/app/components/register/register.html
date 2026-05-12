@@ -98,7 +98,7 @@
       <!-- STEP 2: VERIFY EMAIL -->
       <div *ngIf="step === 'verify'">
         <!-- Your existing verification code remains unchanged -->
-        <p *ngIf="email">
+        <p *ngIf="email" class="verify-message">
   A verification code was sent to
   <strong>{{ email }}</strong>
 </p>

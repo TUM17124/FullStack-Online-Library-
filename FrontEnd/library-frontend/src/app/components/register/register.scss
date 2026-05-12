@@ -282,6 +282,35 @@ mat-card-subtitle {
   }
 }
 
+/* VERIFY EMAIL MESSAGE */
+.verify-message {
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f5f7ff;
+  color: #1e293b;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #dbeafe;
+}
+
+.verify-message strong {
+  color: #2563eb;
+  word-break: break-word;
+}
+
+/* WARNING MESSAGE */
+.warning-text {
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff7ed;
+  color: #c2410c;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #fdba74;
+}
+
 /* =========================================
    BUTTONS
 ========================================= */
