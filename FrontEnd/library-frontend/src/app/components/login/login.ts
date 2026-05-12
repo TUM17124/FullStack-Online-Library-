@@ -82,26 +82,31 @@ export class LoginComponent {
   // 🔥 EMAIL NOT VERIFIED → SEND TO REGISTER VERIFY STEP
   if (code === 'EMAIL_NOT_VERIFIED') {
 
-    // store email so it is NEVER lost
-    localStorage.setItem('pendingVerificationEmail', this.loginIdentifier);
+  // ✅ try to extract real email safely
+  const email = this.loginIdentifier.includes('@')
+    ? this.loginIdentifier
+    : err.error?.email; // backend fallback
 
-    this.snackBar.open(
-      'Email not verified. Redirecting to activation...',
-      'Close',
-      { duration: 3000 }
-    );
-
-    this.router.navigate(['/register'], {
-      queryParams: {
-        step: 'verify',
-        email: this.loginIdentifier
-      }
-    });
-
-    this.isLoading = false;
-    return;
+  if (email) {
+    localStorage.setItem('pendingVerificationEmail', email);
   }
 
+  this.snackBar.open(
+    'Email not verified. Redirecting to activation...',
+    'Close',
+    { duration: 3000 }
+  );
+
+  this.router.navigate(['/register'], {
+    queryParams: {
+      step: 'verify',
+      email: email || ''
+    }
+  });
+
+  this.isLoading = false;
+  return;
+}
   // ❌ NORMAL LOGIN ERROR
   this.snackBar.open(
     'Login failed. Please check credentials.',

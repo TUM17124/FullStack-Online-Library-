@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
     const emailFromStorage = localStorage.getItem('pendingVerificationEmail');
 
     // 🔥 FORCE VERIFY STEP
-    if (step === 'verify' || emailFromStorage) {
+    if (step === 'verify' || emailFromUrl || emailFromStorage)  {
       this.step = 'verify';
     }
 
@@ -137,6 +137,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(userData).subscribe({
       next: () => {
         this.isLoading = false;
+        localStorage.removeItem('pendingVerificationEmail');
         this.step = 'verify';
         this.cd.detectChanges();
         this.snackBar.open('Verification code sent to your email!', 'Close', { duration: 5000 });
