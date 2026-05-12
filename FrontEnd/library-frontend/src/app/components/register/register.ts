@@ -147,7 +147,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(userData).subscribe({
       next: () => {
         this.isLoading = false;
-        localStorage.removeItem('pendingVerificationEmail');
+        localStorage.setItem('pendingVerificationEmail',this.email.trim());
         this.step = 'verify';
         this.cd.detectChanges();
         this.snackBar.open('Verification code sent to your email!', 'Close', { duration: 5000 });

@@ -35,7 +35,6 @@ export class LoginComponent {
   password = '';
   isLoading = false;
 
-  // ✅ define it properly here (NOT in constructor)
   private refreshTrigger = new BehaviorSubject<number>(0);
 
   constructor(
@@ -46,9 +45,14 @@ export class LoginComponent {
 
   // ── Google Login ─────────────────────────────
   loginWithGoogle() {
-    this.snackBar.open('Redirecting to Google login...', 'Close', {
-      duration: 2000
-    });
+
+    this.snackBar.open(
+      'Redirecting to Google login...',
+      'Close',
+      {
+        duration: 2000
+      }
+    );
 
     const googleLoginUrl =
       'https://online-library-tum.onrender.com/accounts/google/login/?process=login';
@@ -58,67 +62,124 @@ export class LoginComponent {
 
   // ── Traditional Login ────────────────────────
   login() {
+
     if (this.isLoading) return;
+
+    // ✅ validation
+    if (!this.loginIdentifier.trim() || !this.password.trim()) {
+
+      this.snackBar.open(
+        'Please enter email/username and password',
+        'Close',
+        {
+          duration: 4000,
+          panelClass: ['error-snackbar']
+        }
+      );
+
+      return;
+    }
 
     this.isLoading = true;
 
-    this.authService.login(this.loginIdentifier, this.password).subscribe({
+    this.authService.login(
+      this.loginIdentifier.trim(),
+      this.password
+    ).subscribe({
+
+      // ✅ SUCCESS LOGIN
       next: () => {
+
         this.authService.refreshLoginStatus();
 
-        this.snackBar.open('Login successful!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
+        // clear pending email if user finally logs in
+        localStorage.removeItem('pendingVerificationEmail');
+
+        this.snackBar.open(
+          'Login successful!',
+          'Close',
+          {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          }
+        );
 
         this.router.navigate(['/books']);
+
+        this.isLoading = false;
       },
 
+      // ❌ LOGIN ERROR
       error: (err) => {
-  console.error(err);
 
-  const code = err.error?.code;
+        console.error('LOGIN ERROR:', err);
 
-  // 🔥 EMAIL NOT VERIFIED → SEND TO REGISTER VERIFY STEP
-  if (code === 'EMAIL_NOT_VERIFIED') {
+        // backend may return:
+        // { code: 'EMAIL_NOT_VERIFIED', email: 'x@gmail.com' }
 
-  // ✅ try to extract real email safely
-  const email = this.loginIdentifier.includes('@')
-    ? this.loginIdentifier
-    : err.error?.email; // backend fallback
+        const errorCode =
+          err?.error?.code ||
+          err?.error?.error;
 
-  if (email) {
-    localStorage.setItem('pendingVerificationEmail', email);
-  }
+        // 🔥 EMAIL NOT VERIFIED
+        if (
+          errorCode === 'EMAIL_NOT_VERIFIED' ||
+          errorCode === 'account_not_verified'
+        ) {
 
-  this.snackBar.open(
-    'Email not verified. Redirecting to activation...',
-    'Close',
-    { duration: 3000 }
-  );
+          // ✅ safely get email
+          const email =
+            this.loginIdentifier.includes('@')
+              ? this.loginIdentifier.trim()
+              : err?.error?.email;
 
-  this.router.navigate(['/register'], {
-    queryParams: {
-      step: 'verify',
-      email: email || ''
-    }
-  });
+          // ✅ save email for verify page
+          if (email) {
+            localStorage.setItem(
+              'pendingVerificationEmail',
+              email
+            );
+          }
 
-  this.isLoading = false;
-  return;
-}
-  // ❌ NORMAL LOGIN ERROR
-  this.snackBar.open(
-    'Login failed. Please check credentials.',
-    'Close',
-    {
-      duration: 4000,
-      panelClass: ['error-snackbar']
-    }
-  );
+          this.snackBar.open(
+            'Email not verified. Redirecting...',
+            'Close',
+            {
+              duration: 3000
+            }
+          );
 
-  this.isLoading = false;
+          this.router.navigate(
+            ['/register'],
+            {
+              queryParams: {
+                step: 'verify',
+                email: email || ''
+              }
+            }
+          );
+
+          this.isLoading = false;
+          return;
+        }
+
+        // ❌ invalid credentials
+        this.snackBar.open(
+          'Invalid username/email or password',
+          'Close',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar']
+          }
+        );
+
+        this.isLoading = false;
+      },
+
+      // ✅ COMPLETE
+      complete: () => {
+        this.refreshTrigger.next(Date.now());
       }
-    }); 
+    });
   }
 }
