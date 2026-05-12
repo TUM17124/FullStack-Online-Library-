@@ -13,6 +13,8 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth';
 
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -53,12 +55,29 @@ export class RegisterComponent {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     this.emailFormControl.valueChanges.subscribe(value => {
       this.email = value || '';
     });
+    
   }
+
+  ngOnInit() {
+  this.route.queryParams.subscribe(params => {
+    if (params['step'] === 'verify') {
+      this.step = 'verify';
+
+      if (params['email']) {
+        this.email = params['email'];
+        this.emailFormControl.setValue(this.email);
+      }
+
+      this.cd.detectChanges();
+    }
+  });
+}
 
   // ── Google Login ───────────────────────────────────────────────────────────
   loginWithGoogle() {
