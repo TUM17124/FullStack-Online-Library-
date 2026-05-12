@@ -7,8 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../services/auth';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
+
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -34,23 +36,30 @@ export class LoginComponent {
   password = '';
   isLoading = false;
 
+  // ✅ define it properly here (NOT in constructor)
+  private refreshTrigger = new BehaviorSubject<number>(0);
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
 
-  // ── Google Login ───────────────────────────────────────────────────────────
+  // ── Google Login ─────────────────────────────
   loginWithGoogle() {
     this.isLoading = true;
+
     this.snackBar.open('Redirecting to Google login...', 'Close', {
-    duration: 2000
-  });
-    const googleLoginUrl = 'https://online-library-tum.onrender.com/accounts/google/login/?process=login';
+      duration: 2000
+    });
+
+    const googleLoginUrl =
+      'https://online-library-tum.onrender.com/accounts/google/login/?process=login';
+
     window.location.href = googleLoginUrl;
   }
 
-  // ── Traditional Login ──────────────────────────────────────────────────────
+  // ── Traditional Login ────────────────────────
   login() {
     if (this.isLoading) return;
 
@@ -59,21 +68,33 @@ export class LoginComponent {
     this.authService.login(this.username || this.email, this.password).subscribe({
       next: () => {
         this.authService.refreshLoginStatus();
+
         this.snackBar.open('Login successful!', 'Close', {
-        duration: 3000,
-        panelClass: ['success-snackbar']
-      });
-        this.router.navigate(['/books']);   // or '/dashboard'
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        this.router.navigate(['/books']);
       },
+
       error: (err) => {
         console.error(err);
-        this.snackBar.open('Invalid username or password', 'Close', {
-          duration: 3000,
-          panelClass: ['error-snackbar']
-        });
+
+        this.snackBar.open(
+          'Invalid credentials or unverified account. Please activate your email first.',
+          'Close',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar']
+          }
+        );
+
+        this.isLoading = false; // ✅ important fix
       },
+
       complete: () => {
         this.isLoading = false;
+        this.refreshTrigger.next(Date.now());
       }
     });
   }
