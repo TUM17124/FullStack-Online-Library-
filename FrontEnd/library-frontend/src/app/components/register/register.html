@@ -98,7 +98,14 @@
       <!-- STEP 2: VERIFY EMAIL -->
       <div *ngIf="step === 'verify'">
         <!-- Your existing verification code remains unchanged -->
-        <p>A verification code was sent to <strong>{{ email }}</strong></p>
+        <p *ngIf="email">
+  A verification code was sent to
+  <strong>{{ email }}</strong>
+</p>
+
+<p *ngIf="!email" class="warning-text">
+  No email found. Please register again or login using your email.
+</p>
         
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>6-Digit Code</mat-label>
