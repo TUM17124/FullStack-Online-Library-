@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HeaderComponent } from '../header/header';
+
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -46,7 +46,6 @@ export const fadeSlide = trigger('fadeSlide', [
   imports: [
     CommonModule,
     RouterLink,
-    HeaderComponent,
     MatCardModule,
     MatIconModule,
     MatFormFieldModule,
