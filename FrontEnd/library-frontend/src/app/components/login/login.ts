@@ -30,6 +30,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class LoginComponent {
 
   username = '';
+  email = '';
   password = '';
   isLoading = false;
 
@@ -55,7 +56,7 @@ export class LoginComponent {
 
     this.isLoading = true;
 
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login(this.username || this.email, this.password).subscribe({
       next: () => {
         this.authService.refreshLoginStatus();
         this.snackBar.open('Login successful!', 'Close', {
