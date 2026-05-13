@@ -1,11 +1,15 @@
 /* =========================
-   AVAILABLE BOOKS PAGE - DARK THEME
+   AVAILABLE BOOKS PAGE - DARK THEME (Optimized)
 ========================= */
 
 /* Global Container */
 .container {
   min-height: 100vh;
   padding: 2rem 1.5rem;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
   background:
     radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 30%),
     radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.25), transparent 30%),
@@ -25,52 +29,54 @@
   letter-spacing: -0.5px;
 }
 
-/* Books Grid */
+/* Books Grid - Smaller Cards */
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.8rem;
-  max-width: 1400px;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); /* Smaller cards */
+  gap: 1.6rem;
+  max-width: 1280px;          /* Prevents stretching on very large screens */
   margin: 0 auto;
 }
 
-/* Book Card */
+/* Book Card - Smaller + Glow */
 .book-card {
   background: rgba(15, 23, 42, 0.92);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 24px;
+  border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   transition: all 0.4s ease;
   position: relative;
+  height: 100%;
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-10px);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.5),
+      0 0 25px rgba(59, 130, 246, 0.5);   /* Blue Glow */
+    border-color: rgba(59, 130, 246, 0.4);
   }
 }
 
 /* Borrowed Badge */
 .borrowed-badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   background: #ef4444;
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  padding: 4px 12px;
+  padding: 4px 11px;
   border-radius: 20px;
   z-index: 10;
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
 }
 
-/* Book Cover */
+/* Book Cover - Reduced Height */
 .book-cover {
   width: 100%;
-  height: 320px;
+  height: 260px;           /* Reduced from 320px */
   object-fit: cover;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: #1e2937;
@@ -78,11 +84,11 @@
 
 /* Book Info */
 .book-info {
-  padding: 1.5rem 1.4rem 1.2rem;
+  padding: 1.3rem 1.25rem 1rem;
 }
 
 .book-title {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin: 0 0 0.4rem 0;
   color: #f1f5f9;
@@ -90,29 +96,28 @@
 }
 
 .book-author {
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   color: #60a5fa;
   margin-bottom: 1rem;
   font-weight: 500;
 }
 
-/* FIXED: Line Clamp Warning */
 .book-description {
   font-size: 0.9rem;
   color: #cbd5e1;
   line-height: 1.6;
-  display: -webkit-box;           /* For Safari & older browsers */
-  display: -moz-box;              /* Firefox */
-  -webkit-line-clamp: 3;          /* WebKit */
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  line-clamp: 3;                  /* Standard property (added) */
+  line-clamp: 3;
   overflow: hidden;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.1rem;
 }
 
 /* Book Actions */
 .book-actions {
-  padding: 0 1.4rem 1.4rem;
+  padding: 0 1.25rem 1.3rem;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
@@ -120,11 +125,10 @@
 
 .book-actions button {
   flex: 1;
-  min-width: 120px;
+  min-width: 110px;
   border-radius: 14px;
   font-weight: 600;
-  padding: 12px 16px;
-  transition: all 0.3s ease;
+  padding: 11px 16px;
 }
 
 .borrowed-actions {
@@ -133,7 +137,7 @@
   width: 100%;
 }
 
-/* Loading & Empty States */
+/* States */
 .loading, .no-books {
   text-align: center;
   font-size: 1.1rem;
@@ -168,15 +172,11 @@
   }
 
   .books-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.4rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.3rem;
   }
 
   .book-cover {
-    height: 260px;
-  }
-
-  .book-card {
-    border-radius: 20px;
+    height: 240px;
   }
 }
