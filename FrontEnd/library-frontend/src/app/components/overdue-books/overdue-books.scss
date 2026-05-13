@@ -1,5 +1,5 @@
 /* =========================
-   OVERDUE BOOKS PAGE - FULL DARK GLASSMORPHIC
+   MY BORROWED BOOKS - FULL DARK THEME
 ========================= */
 
 .container {
@@ -25,27 +25,16 @@ h1 {
   text-align: center;
   margin-bottom: 2.8rem;
   color: #ffffff;
-  letter-spacing: -0.6px;
-}
-
-/* Empty State Message */
-p {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #94a3b8;
-  margin-top: 5rem;
-  padding: 3rem;
 }
 
 /* =========================
-   MATERIAL TABLE - FULLY DARK
+   MATERIAL TABLE - FORCE DARK HEADERS
 ========================= */
 
 .mat-table {
-  background: rgba(15, 23, 42, 0.78) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
   backdrop-filter: blur(24px);
   border-radius: 20px;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
   width: 100%;
@@ -53,18 +42,16 @@ p {
   margin: 0 auto;
 }
 
-/* Header - Strong Override */
+/* === STRONG HEADER OVERRIDES === */
 .mat-header-row {
-  background: rgba(15, 23, 42, 0.96) !important;
-  border-bottom: 2px solid rgba(239, 68, 68, 0.4) !important;
+  background: rgba(15, 23, 42, 0.97) !important;
 }
 
 .mat-header-cell {
+  background: rgba(15, 23, 42, 0.97) !important;
+  color: #60a5fa !important;
   font-weight: 700 !important;
-  color: #f87171 !important;           /* Red accent for overdue */
-  background: rgba(15, 23, 42, 0.96) !important;
   text-transform: uppercase;
-  font-size: 0.9rem;
   letter-spacing: 0.6px;
   padding: 20px 22px !important;
 }
@@ -94,16 +81,20 @@ p {
   background: rgba(59, 130, 246, 0.16) !important;
 }
 
-/* Overdue Days Highlight */
-.overdue-days {
-  color: #f87171 !important;
-  font-weight: 700;
-  font-size: 1.08rem;
-}
-
-/* Last row */
+/* Last Row */
 .mat-row:last-child .mat-cell {
   border-bottom: none !important;
+}
+
+/* =========================
+   STATES
+========================= */
+
+.loading, .empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin-top: 5rem;
 }
 
 /* =========================
@@ -111,18 +102,8 @@ p {
 ========================= */
 
 @media (max-width: 768px) {
-  .container {
-    padding: 1.3rem 1rem;
-  }
-
-  h1 {
-    font-size: 1.9rem;
-  }
-
-  .mat-table {
-    border-radius: 16px;
-    max-width: 100%;
-  }
+  .container { padding: 1.3rem 1rem; }
+  h1 { font-size: 1.9rem; }
 
   .mat-header-cell, .mat-cell {
     padding: 16px 14px !important;
