@@ -188,7 +188,7 @@ class OverdueBooksView(APIView):
 
     def get(self, request):
         now = timezone.now()
-        overdue = Borrow.objects.filter(user=request.user, returned=False, return_due__lt=now)
+        overdue = Borrow.objects.filter(user=request.user, returned=False, return_due__lt=now())
         data = [
             {
                 'id': b.book.id,
