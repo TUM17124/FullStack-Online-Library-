@@ -1,5 +1,5 @@
 /* =========================
-   MY BORROWED BOOKS - DARK THEME (Fully Dark)
+   MY BORROWED BOOKS - FULL DARK GLASSMORPHIC
 ========================= */
 
 .container {
@@ -23,60 +23,60 @@ h1 {
   font-size: 2.2rem;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 2.5rem;
-  color: rgba(59, 130, 246, 0.15) !important;
-  letter-spacing: -0.5px;
+  margin-bottom: 2.8rem;
+  color: #ffffff;
+  letter-spacing: -0.6px;
 }
 
 /* =========================
-   MATERIAL TABLE - FULL DARK
+   MATERIAL TABLE - FULLY DARK
 ========================= */
 
 .mat-table {
-  background: rgba(15, 23, 42, 0.78) !important;
-  backdrop-filter: blur(22px);
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(24px);
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
   width: 100%;
-  max-width: 1100px;
+  max-width: 1150px;
   margin: 0 auto;
 }
 
-/* Header Row - Strong Dark Override */
+/* Header */
 .mat-header-row {
-  background: rgba(15, 23, 42, 0.95) !important;
-  border-bottom: 2px solid rgba(59, 130, 246, 0.3) !important;
+  background: rgba(15, 23, 42, 0.96) !important;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.35) !important;
 }
 
 .mat-header-cell {
   font-weight: 700 !important;
   color: #60a5fa !important;
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: rgba(15, 23, 42, 0.96) !important;
   text-transform: uppercase;
   font-size: 0.9rem;
-  letter-spacing: 0.5px;
-  padding: 18px 20px !important;
+  letter-spacing: 0.6px;
+  padding: 20px 22px !important;
 }
 
-/* Body Rows */
+/* Rows */
 .mat-row {
   background: transparent !important;
   transition: all 0.3s ease;
+}
 
-  &:hover {
-    background: rgba(59, 130, 246, 0.15) !important;
-  }
+.mat-row:hover {
+  background: rgba(59, 130, 246, 0.16) !important;
 }
 
 .mat-cell {
-  color:rgba(59, 130, 246, 0.15) !important;
-  padding: 18px 20px !important;
+  color: #cbd5e1 !important;
+  padding: 18px 22px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
 }
 
-/* Last row */
+/* Last Row */
 .mat-row:last-child .mat-cell {
   border-bottom: none !important;
 }
@@ -87,10 +87,10 @@ h1 {
 
 .loading, .empty {
   text-align: center;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: #94a3b8;
-  margin-top: 4rem;
-  padding: 2rem;
+  margin-top: 5rem;
+  padding: 3rem;
 }
 
 /* =========================
@@ -99,19 +99,21 @@ h1 {
 
 @media (max-width: 768px) {
   .container {
-    padding: 1.2rem 1rem;
+    padding: 1.3rem 1rem;
   }
 
   h1 {
-    font-size: 1.85rem;
+    font-size: 1.9rem;
   }
 
   .mat-table {
     border-radius: 16px;
+    max-width: 100%;
   }
 
   .mat-header-cell, .mat-cell {
-    padding: 15px 14px !important;
+    padding: 16px 14px !important;
+    font-size: 0.95rem;
   }
 }
 
