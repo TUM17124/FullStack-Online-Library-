@@ -188,7 +188,16 @@ class OverdueBooksView(APIView):
 
     def get(self, request):
         now = timezone.now()
-        overdue = Borrow.objects.filter(user=request.user, returned=False, return_due__lt=now())
+
+        overdue = Borrow.objects.filter(
+            returned=False,
+            return_due__lt=now
+        )
+
+        # Normal users only see their books
+        if not request.user.is_staff:
+            overdue = overdue.filter(user=request.user)
+
         data = [
             {
                 'id': b.book.id,
@@ -196,10 +205,13 @@ class OverdueBooksView(APIView):
                 'author': b.book.author,
                 'return_due': b.return_due,
                 'days_overdue': (now - b.return_due).days,
-            } for b in overdue
+                'borrowed_by': b.user.username
+            }
+            for b in overdue
         ]
-        return Response(data)
 
+        return Response(data)
+    
 # ──────────────────────────────────────────────────────────────
 # USER REGISTRATION & EMAIL VERIFICATION
 # ──────────────────────────────────────────────────────────────
