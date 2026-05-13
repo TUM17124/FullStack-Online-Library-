@@ -1,5 +1,5 @@
 /* =========================
-   MY BORROWED BOOKS - DARK THEME (Optimized)
+   MY BORROWED BOOKS - DARK THEME (Fully Dark)
 ========================= */
 
 .container {
@@ -29,25 +29,25 @@ h1 {
 }
 
 /* =========================
-   MATERIAL TABLE STYLING
+   MATERIAL TABLE - DARK GLASSMORPHIC
 ========================= */
 
 .mat-table {
-  background: rgba(15, 23, 42, 0.88) !important;
-  backdrop-filter: blur(20px);
+  background: rgba(15, 23, 42, 0.75) !important;   /* Darker & more transparent */
+  backdrop-filter: blur(22px);
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
   width: 100%;
-  max-width: 1100px;           /* Prevents stretching on large screens */
-  margin: 0 auto;              /* Centers the table */
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* Header */
+/* Header - Darker */
 .mat-header-row {
-  background: rgba(15, 23, 42, 0.95) !important;
-  border-bottom: 2px solid rgba(59, 130, 246, 0.3) !important;
+  background: rgba(15, 23, 42, 0.9) !important;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.25) !important;
 }
 
 .mat-row {
@@ -55,7 +55,7 @@ h1 {
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(59, 130, 246, 0.12) !important;
+    background: rgba(59, 130, 246, 0.15) !important;
   }
 }
 
@@ -63,6 +63,7 @@ h1 {
   color: #e2e8f0 !important;
   padding: 18px 20px !important;
   font-size: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .mat-header-cell {
@@ -71,14 +72,14 @@ h1 {
   text-transform: uppercase;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
+  background: rgba(15, 23, 42, 0.95) !important;
 }
 
 .mat-cell {
   color: #cbd5e1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Last row */
+/* Remove last border */
 .mat-row:last-child .mat-cell {
   border-bottom: none;
 }
