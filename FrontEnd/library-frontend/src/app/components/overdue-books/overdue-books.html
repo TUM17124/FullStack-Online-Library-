@@ -3,7 +3,7 @@
 <div class="container">
   <h1>Overdue Books</h1>
 
-  <ng-container *ngIf="overdue$ | async as overdue">
+  <ng-container *ngIf="overdue$ | async as overdue;else noOverdueBooks">
 
     <p *ngIf="overdue.length === 0; else noOverdueBooks">
       No overdue books — great job keeping up!
@@ -40,6 +40,8 @@
 
   </ng-container>
 
-  <ng-template #noOverdueBooks></ng-template>
+  <ng-template #noOverdueBooks>
+    <p class="loading">Loading your overdued books...</p>
+  </ng-template>
 
 </div>
