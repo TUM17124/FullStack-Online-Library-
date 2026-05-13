@@ -69,20 +69,29 @@ p {
   padding: 20px 22px !important;
 }
 
-/* Body Rows */
-.mat-row {
-  background: transparent !important;
-  transition: all 0.3s ease;
+/* Deeper selectors for stubborn Angular Material styles */
+.mat-mdc-table .mat-header-row {
+  background: rgba(15, 23, 42, 0.97) !important;
 }
 
-.mat-row:hover {
-  background: rgba(239, 68, 68, 0.15) !important;
+.mat-mdc-header-cell {
+  background: rgba(15, 23, 42, 0.97) !important;
+  color: #60a5fa !important;
 }
 
+/* Body Cells */
 .mat-cell {
   color: #cbd5e1 !important;
   padding: 18px 22px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.mat-row {
+  background: transparent !important;
+}
+
+.mat-row:hover {
+  background: rgba(59, 130, 246, 0.16) !important;
 }
 
 /* Overdue Days Highlight */
