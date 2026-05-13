@@ -1,10 +1,14 @@
 /* =========================
-   MY BORROWED BOOKS - DARK THEME
+   MY BORROWED BOOKS - DARK THEME (Optimized)
 ========================= */
 
 .container {
   min-height: 100vh;
   padding: 2rem 1.5rem;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
   background:
     radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 30%),
     radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.25), transparent 30%),
@@ -29,14 +33,18 @@ h1 {
 ========================= */
 
 .mat-table {
-  background: rgba(15, 23, 42, 0.85) !important;
+  background: rgba(15, 23, 42, 0.88) !important;
   backdrop-filter: blur(20px);
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  width: 100%;
+  max-width: 1100px;           /* Prevents stretching on large screens */
+  margin: 0 auto;              /* Centers the table */
 }
 
+/* Header */
 .mat-header-row {
   background: rgba(15, 23, 42, 0.95) !important;
   border-bottom: 2px solid rgba(59, 130, 246, 0.3) !important;
@@ -70,7 +78,7 @@ h1 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Last row border removal */
+/* Last row */
 .mat-row:last-child .mat-cell {
   border-bottom: none;
 }
@@ -81,7 +89,7 @@ h1 {
 
 .loading, .empty {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: #94a3b8;
   margin-top: 4rem;
   padding: 2rem;
@@ -102,15 +110,15 @@ h1 {
 
   .mat-table {
     border-radius: 16px;
+    max-width: 100%;
   }
 
   .mat-header-cell, .mat-cell {
-    padding: 14px 12px !important;
+    padding: 15px 14px !important;
     font-size: 0.95rem;
   }
 }
 
-/* Optional: Make table scrollable on small screens */
 @media (max-width: 600px) {
   .mat-table {
     display: block;
