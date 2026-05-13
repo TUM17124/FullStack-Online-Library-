@@ -1,15 +1,126 @@
+/* =========================
+   OVERDUE BOOKS PAGE - DARK THEME
+========================= */
+
 .container {
-  padding: 40px 20px;
-  max-width: 1000px;
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.25), transparent 30%),
+    linear-gradient(135deg, #0f172a, #111827, #1e293b);
+  
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f8fafc;
+}
+
+/* Page Title */
+h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+/* Empty State Message */
+p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin-top: 4rem;
+  padding: 2rem;
+}
+
+/* =========================
+   MATERIAL TABLE
+========================= */
+
+.mat-table {
+  background: rgba(15, 23, 42, 0.88) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
-h1 {
-  text-align: center;
-  color: #f44336;
+.mat-header-row {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-bottom: 2px solid rgba(239, 68, 68, 0.4) !important;
 }
 
+.mat-row {
+  background: transparent !important;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.12) !important;
+  }
+}
+
+.mat-header-cell, .mat-cell {
+  color: #e2e8f0 !important;
+  padding: 18px 20px !important;
+  font-size: 1rem;
+}
+
+.mat-header-cell {
+  font-weight: 700;
+  color: #f87171 !important;           /* Red accent for overdue */
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.mat-cell {
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Overdue Days Column - Highlight */
 .overdue-days {
-  color: #f44336;
-  font-weight: bold;
+  color: #f87171 !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+/* Last row */
+.mat-row:last-child .mat-cell {
+  border-bottom: none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.2rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.85rem;
+  }
+
+  .mat-table {
+    border-radius: 16px;
+  }
+
+  .mat-header-cell, .mat-cell {
+    padding: 15px 12px !important;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .mat-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }
