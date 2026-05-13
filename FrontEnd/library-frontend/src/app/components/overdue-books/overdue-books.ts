@@ -1,29 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';  // ← Add this
-import { LibraryService } from '../../services/library';
+
 import { HeaderComponent } from '../header/header';
+import { LibraryService } from '../../services/library';
+
+import { Observable } from 'rxjs';
+
+interface OverdueBook {
+  id: number;
+  title: string;
+  author: string;
+  return_due: string;
+  days_overdue: number;
+}
 
 @Component({
   selector: 'app-overdue-books',
   standalone: true,
   imports: [
     CommonModule,
+   // NgIf,
     MatTableModule,
-    NgIf,  // ← Add this
     HeaderComponent
   ],
   templateUrl: './overdue-books.html',
   styleUrl: './overdue-books.scss'
 })
-export class OverdueBooksComponent implements OnInit {
-  overdue: any[] = [];
-  displayedColumns = ['title', 'author', 'return_due', 'days_overdue'];
+export class OverdueBooksComponent {
 
-  constructor(private libraryService: LibraryService) {}
+  overdue$: Observable<OverdueBook[]>;
 
-  ngOnInit() {
-    this.libraryService.getOverdueBooks().subscribe(data => this.overdue = data);
+  displayedColumns = [
+    'title',
+    'author',
+    'return_due',
+    'days_overdue'
+  ];
+
+  constructor(private libraryService: LibraryService) {
+    this.overdue$ = this.libraryService.getOverdueBooks() as Observable<OverdueBook[]>;
+
   }
+
 }
