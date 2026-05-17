@@ -16,85 +16,101 @@
 
   </div>
 
-<ng-container *ngIf="books$ | async as groupedBooks; else loading">
+  <ng-container *ngIf="books$ | async as groupedBooks; else loading">
 
-  <div *ngIf="hasBooks(groupedBooks); else emptyState">
+    <!-- SUB NAV -->
+    <div class="sub-nav" *ngIf="hasBooks(groupedBooks)">
 
-    <div
-      class="category-section"
-      *ngFor="let title of objectKeys(groupedBooks)">
+      <button
+        *ngFor="let key of objectKeys(groupedBooks)"
+        (click)="scrollToCategory(key)">
 
-      <h2 class="category-title">
-        {{ title }}
-      </h2>
+        {{ key | titlecase }}
 
-      <div class="books-grid">
+      </button>
 
-        <div
-          class="book-card"
-          *ngFor="let book of groupedBooks[title]">
+    </div>
 
-          <div *ngIf="book.is_borrowed"
-               class="borrowed-badge">
-            Borrowed
-          </div>
+    <div *ngIf="hasBooks(groupedBooks); else emptyState">
 
-          <img
-            [src]="book.photo_url || 'assets/default-book-cover.jpg'"
-            alt="{{book.title}}"
-            class="book-cover"
-            (error)="onImageError($event)"
-          >
+      <div
+        class="category-section"
+        *ngFor="let title of objectKeys(groupedBooks)"
+        [attr.id]="title">
 
-          <div class="book-info">
+        <h2 class="category-title">
+          {{ title | titlecase }} Books
+        </h2>
 
-            <h3 class="book-title">
-              {{ book.title }}
-            </h3>
+        <div class="books-grid">
 
-            <p class="book-author">
-              {{ book.author }}
-            </p>
-
-            <p class="book-description">
-              {{ book.description }}
-            </p>
-
-          </div>
-
-          <div class="book-actions">
-
-            <button
-              mat-raised-button
-              color="primary"
-              *ngIf="!book.is_borrowed"
-              (click)="borrowBook(book.id)">
-
-              Borrow
-
-            </button>
+          <div
+            class="book-card"
+            *ngFor="let book of groupedBooks[title]">
 
             <div *ngIf="book.is_borrowed"
-                 class="borrowed-actions">
+                 class="borrowed-badge">
+              Borrowed
+            </div>
+
+            <img
+              [src]="book.photo_url || 'assets/default-book-cover.jpg'"
+              alt="{{book.title}}"
+              class="book-cover"
+              (error)="onImageError($event)"
+            >
+
+            <div class="book-info">
+
+              <h3 class="book-title">
+                {{ book.title }}
+              </h3>
+
+              <p class="book-author">
+                {{ book.author }}
+              </p>
+
+              <p class="book-description">
+                {{ book.description }}
+              </p>
+
+            </div>
+
+            <div class="book-actions">
 
               <button
                 mat-raised-button
-                color="warn"
-                (click)="returnBook(book.id)">
+                color="primary"
+                *ngIf="!book.is_borrowed"
+                (click)="borrowBook(book.id)">
 
-                Return
-
-              </button>
-
-              <button
-                mat-raised-button
-                color="accent"
-                *ngIf="book.file_url"
-                (click)="readBook(book.id)">
-
-                Read
+                Borrow
 
               </button>
+
+              <div *ngIf="book.is_borrowed"
+                   class="borrowed-actions">
+
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="returnBook(book.id)">
+
+                  Return
+
+                </button>
+
+                <button
+                  mat-raised-button
+                  color="accent"
+                  *ngIf="book.file_url"
+                  (click)="readBook(book.id)">
+
+                  Read
+
+                </button>
+
+              </div>
 
             </div>
 
@@ -106,19 +122,14 @@
 
     </div>
 
-  </div>
+  </ng-container>
 
-</ng-container>
+  <ng-template #loading>
+    <p class="loading">Loading books...</p>
+  </ng-template>
 
-<ng-template #loading>
-  <p class="loading">
-    Loading books...
-  </p>
-</ng-template>
+  <ng-template #emptyState>
+    <p class="no-books">No books available right now.</p>
+  </ng-template>
 
-<ng-template #emptyState>
-  <p class="no-books">
-    No books available right now.
-  </p>
-</ng-template>
 </div>

@@ -40,166 +40,117 @@ export class BookListComponent {
 
     this.books$ = this.refreshTrigger.asObservable().pipe(
 
-  switchMap(() => this.libraryService.getBooks()),
+      switchMap(() => this.libraryService.getBooks()),
 
-  map((books) => {
+      map((books: Book[]) => {
 
-    const grouped: { [key: string]: Book[] } = {};
+        const grouped: { [key: string]: Book[] } = {};
 
-    books.forEach((book: any) => {
+        books.forEach((book) => {
 
-      const groupkey = book.title || 'General';
+          const key = this.extractKey(book.title);
 
-      if (!grouped[groupkey]) {
+          if (!grouped[key]) {
+            grouped[key] = [];
+          }
 
-        grouped[groupkey] = [];
+          grouped[key].push(book);
 
-      }
+        });
 
-      grouped[groupkey].push(book);
+        return grouped;
 
-    });
+      })
 
-    return grouped;
-
-  })
-
-);
-
-  }
-
-  borrowBook(id: number) {
-
-    this.libraryService.borrowBook(id).subscribe({
-
-      next: () => {
-
-        this.snackBar.open(
-          'Book borrowed successfully!',
-          'Close',
-          { duration: 4000 }
-        );
-
-        this.refreshTrigger.next(Date.now());
-
-      },
-
-      error: (err) => {
-
-        const msg =
-          err.error?.error ||
-          'Cannot borrow this book';
-
-        this.snackBar.open(
-          msg,
-          'Close',
-          { duration: 4000 }
-        );
-
-      }
-
-    });
-
-  }
-
-  returnBook(id: number) {
-
-    this.libraryService.returnBook(id).subscribe({
-
-      next: () => {
-
-        this.snackBar.open(
-          'Book returned successfully!',
-          'Close',
-          { duration: 4000 }
-        );
-
-        this.refreshTrigger.next(Date.now());
-
-      },
-
-      error: (err) => {
-
-        const msg =
-          err.error?.error ||
-          'Cannot return this book';
-
-        this.snackBar.open(
-          msg,
-          'Close',
-          { duration: 4000 }
-        );
-
-      }
-
-    });
-
-  }
-
-  readBook(bookId: number) {
-
-  this.readingBookUrl = null;
-
-  this.libraryService.readBook(bookId).subscribe({
-
-    next: (res: { url: string }) => {
-
-      this.readingBookUrl = res.url;
-      this.refreshTrigger.next(Date.now());
-
-    },
-
-    error: (err) => {
-
-      this.readingBookUrl = null;
-      
-      const msg =
-        err.error?.error ||
-        'Error opening PDF';
-
-      this.snackBar.open(
-        msg,
-        'Close',
-        { duration: 4000 }
-      );
-
-    }
-
-  });
-
-}
-
-  closeReader() {
-
-  if (this.readingBookUrl) {
-
-    URL.revokeObjectURL(
-      this.readingBookUrl
     );
 
   }
 
-  this.readingBookUrl = null;
+  borrowBook(id: number) {
+    this.libraryService.borrowBook(id).subscribe({
+      next: () => {
+        this.snackBar.open('Book borrowed successfully!', 'Close', { duration: 4000 });
+        this.refreshTrigger.next(Date.now());
+      },
+      error: (err) => {
+        this.snackBar.open(err.error?.error || 'Cannot borrow this book', 'Close', { duration: 4000 });
+      }
+    });
+  }
 
-}
+  returnBook(id: number) {
+    this.libraryService.returnBook(id).subscribe({
+      next: () => {
+        this.snackBar.open('Book returned successfully!', 'Close', { duration: 4000 });
+        this.refreshTrigger.next(Date.now());
+      },
+      error: (err) => {
+        this.snackBar.open(err.error?.error || 'Cannot return this book', 'Close', { duration: 4000 });
+      }
+    });
+  }
 
-objectKeys(obj: any): string[] {
+  readBook(bookId: number) {
 
-  return Object.keys(obj);
+    this.readingBookUrl = null;
 
-}
+    this.libraryService.readBook(bookId).subscribe({
 
-hasBooks(groupedBooks: any): boolean {
+      next: (res: { url: string }) => {
+        this.readingBookUrl = res.url;
+        this.refreshTrigger.next(Date.now());
+      },
 
-  return Object.keys(groupedBooks).length > 0;
+      error: (err) => {
+        this.readingBookUrl = null;
+        this.snackBar.open(err.error?.error || 'Error opening PDF', 'Close', { duration: 4000 });
+      }
 
-}
+    });
+
+  }
+
+  closeReader() {
+    if (this.readingBookUrl) {
+      URL.revokeObjectURL(this.readingBookUrl);
+    }
+    this.readingBookUrl = null;
+  }
+
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+
+  hasBooks(groupedBooks: any): boolean {
+    return Object.keys(groupedBooks).length > 0;
+  }
+
+  extractKey(title: string): string {
+
+    const keywords = [
+      'angular', 'react', 'vue',
+      'django', 'python', 'java',
+      'javascript', 'typescript',
+      'node', 'spring', 'html', 'css'
+    ];
+
+    const lowerTitle = title.toLowerCase();
+
+    for (const key of keywords) {
+      if (lowerTitle.includes(key)) {
+        return key.toUpperCase();
+      }
+    }
+
+    return 'OTHER';
+  }
+
+  scrollToCategory(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
 
   onImageError(event: any) {
-
-    event.target.src =
-      'https://via.placeholder.com/120x180?text=No+Cover';
-
+    event.target.src = 'https://via.placeholder.com/120x180?text=No+Cover';
   }
 
 }
