@@ -48,7 +48,7 @@ export class BookListComponent {
 
         books.forEach((book) => {
 
-          const key = this.extractKey(book.title);
+          const key = this.extractKey(book);
 
           if (!grouped[key]) {
             grouped[key] = [];
@@ -125,25 +125,41 @@ export class BookListComponent {
     return Object.keys(groupedBooks).length > 0;
   }
 
-  extractKey(title: string): string {
+  extractKey(book: any): string {
 
-    const keywords = [
-      'angular', 'react', 'vue',
-      'django', 'python', 'java',
-      'javascript', 'typescript',
-      'node', 'spring', 'html', 'css' ,'flutter | dart', 'flask', 'machine learning', 'data science', 'artificial intelligence', 'deep learning', 'retrival augmented generation ', 'natural language processing', 'computer vision', 'cybersecurity', 'blockchain', 'cloud computing', 'devops', 'microservices', 'kubernetes', 'docker'
-    ];
+  const text = `${book.title} ${book.description || ''}`.toLowerCase();
 
-    const lowerTitle = title.toLowerCase();
+  const keywords = [
+    'angular', 'react', 'vue',
+    'django', 'python', 'java',
+    'javascript', 'typescript',
+    'node', 'spring', 'html', 'css',
+    'flutter', 'dart',
+    'flask',
+    'machine learning',
+    'data science',
+    'artificial intelligence',
+    'deep learning',
+    'retrieval augmented generation',
+    'natural language processing',
+    'computer vision',
+    'cybersecurity',
+    'blockchain',
+    'cloud computing',
+    'devops',
+    'microservices',
+    'kubernetes',
+    'docker'
+  ];
 
-    for (const key of keywords) {
-      if (lowerTitle.includes(key)) {
-        return key.toUpperCase();
-      }
+  for (const key of keywords) {
+    if (text.includes(key)) {
+      return key.toUpperCase();
     }
-
-    return 'OTHER';
   }
+
+  return 'GENERAL';
+}
 
   scrollToCategory(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
