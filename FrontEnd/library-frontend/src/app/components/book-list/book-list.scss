@@ -24,22 +24,19 @@
 ========================= */
 
 .page-title {
-  font-size: 2.2rem;
+  font-size: 2.1rem;
   font-weight: 800;
   text-align: center;
   margin-bottom: 0.5rem;
   color: #ffffff;
-  letter-spacing: -0.5px;
 
   position: sticky;
   top: 0;
   z-index: 1500;
 
-  
+  background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
   padding: 1rem 0;
-
 }
-
 
 /* =========================
    SUB NAVIGATION (STICKY UNDER TITLE)
@@ -48,27 +45,32 @@
 .sub-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
-  margin-bottom: 2rem;
 
   position: sticky;
-  top: 70px; /* pushes it below title */
+  top: 72px;
   z-index: 1400;
 
-  padding: 0.8rem 0;
+  padding: 0.6rem 0;
 
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
 }
 
 .sub-nav button {
   background: rgba(59, 130, 246, 0.15);
   color: #e2e8f0;
   border: 1px solid rgba(59, 130, 246, 0.4);
-  padding: 8px 14px;
-  border-radius: 20px;
+
+  padding: 6px 12px;
+  border-radius: 18px;
+
   cursor: pointer;
-  font-weight: 800;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  font-size: 0.85rem;
+
+  transition: 0.3s ease;
 }
 
 .sub-nav button:hover {
@@ -81,53 +83,52 @@
 ========================= */
 
 .category-section {
-  margin-bottom: 4rem;
-  scroll-margin-top: 100px; /* smooth scroll offset */
+  margin-bottom: 3rem;
+  scroll-margin-top: 120px;
 }
 
 .category-title {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: #60a5fa;
-  border-left: 5px solid #3b82f6;
-  padding-left: 1rem;
+  border-left: 4px solid #3b82f6;
+  padding-left: 0.8rem;
 }
 
 /* =========================
-   BOOK GRID
+   BOOK GRID (SMALLER)
 ========================= */
 
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-  gap: 1.6rem;
-  max-width: 1280px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* SMALLER */
+  gap: 1.2rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 /* =========================
-   BOOK CARD
+   BOOK CARD (SMALLER)
 ========================= */
 
 .book-card {
   background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 22px;
+  border-radius: 18px;
+
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: all 0.35s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  transition: 0.3s ease;
   position: relative;
-  height: 100%;
 }
 
 .book-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(59, 130, 246, 0.5);
-  border-color: rgba(59, 130, 246, 0.4);
+    0 15px 30px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(59, 130, 246, 0.4);
 }
 
 /* =========================
@@ -136,59 +137,59 @@
 
 .borrowed-badge {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 10px;
+  right: 10px;
+
   background: #ef4444;
   color: white;
-  font-size: 0.75rem;
+
+  font-size: 0.7rem;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  z-index: 10;
+
+  padding: 3px 9px;
+  border-radius: 14px;
 }
 
 /* =========================
-   BOOK COVER
+   BOOK COVER (SMALLER)
 ========================= */
 
 .book-cover {
   width: 100%;
-  height: 60px;
+  height: 200px; /* SMALLER */
   object-fit: cover;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: #1e2937;
 }
 
 /* =========================
-   BOOK INFO
+   BOOK INFO (COMPACT)
 ========================= */
 
 .book-info {
-  padding: 1.2rem 1.2rem 0.8rem;
+  padding: 0.9rem;
 }
 
 .book-title {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: #f1f5f9;
-  line-height: 1.3;
+  margin-bottom: 0.3rem;
 }
 
 .book-author {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #60a5fa;
-  margin-bottom: 0.8rem;
-  font-weight: 500;
+  margin-bottom: 0.6rem;
 }
 
+/* FIXED line clamp (no SCSS warnings) */
 .book-description {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: #cbd5e1;
-  line-height: 1.6;
+  line-height: 1.5;
+
   display: -webkit-box;
   -webkit-line-clamp: 3;
-   line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -198,24 +199,17 @@
 ========================= */
 
 .book-actions {
-  padding: 0 1.2rem 1.2rem;
+  padding: 0 0.9rem 0.9rem;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .book-actions button {
   flex: 1;
-  min-width: 100px;
-  border-radius: 14px;
-  font-weight: 600;
-}
-
-/* Borrowed actions */
-.borrowed-actions {
-  display: flex;
-  gap: 10px;
-  width: 100%;
+  min-width: 80px;
+  border-radius: 12px;
+  font-size: 0.85rem;
 }
 
 /* =========================
@@ -225,9 +219,9 @@
 .loading,
 .no-books {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #94a3b8;
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 /* =========================
@@ -252,29 +246,15 @@
 
 @media (max-width: 600px) {
 
-  .container {
-    padding: 1.2rem 1rem;
-  }
-
-  .page-title {
-    font-size: 1.85rem;
-  }
-
   .books-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.3rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 
   .book-cover {
-    height: 240px;
+    height: 170px;
   }
 
-  .sub-nav {
-    gap: 6px;
-  }
-
-  .sub-nav button {
-    font-size: 0.85rem;
-    padding: 6px 10px;
+  .page-title {
+    font-size: 1.7rem;
   }
 }
