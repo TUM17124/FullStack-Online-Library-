@@ -2,10 +2,6 @@
 
 <div class="container">
 
-  <h1 class="page-title">
-    Available Books
-  </h1>
-
   <!-- PDF OVERLAY -->
   <div class="pdf-overlay" *ngIf="readingBookUrl">
 
@@ -131,5 +127,9 @@
   <ng-template #emptyState>
     <p class="no-books">No books available right now.</p>
   </ng-template>
+
+  <button class="scroll-top-btn" (click)="scrollToTop()">
+  ↑ Top
+</button>
 
 </div>

@@ -23,24 +23,6 @@
    PAGE TITLE (STICKY)
 ========================= */
 
-.page-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  color: #ffffff;
-  letter-spacing: -0.5px;
-
-  position: sticky;
-  top: 0;
-  z-index: 1500;
-
-  
-  padding: 1rem 0;
-
-}
-
-
 /* =========================
    SUB NAVIGATION (STICKY UNDER TITLE)
 ========================= */
@@ -244,6 +226,37 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+}
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #3b82f6;
+  color: white;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+
+  transition: all 0.3s ease;
+
+  z-index: 4000;
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-4px);
+  background: #2563eb;
 }
 
 /* =========================

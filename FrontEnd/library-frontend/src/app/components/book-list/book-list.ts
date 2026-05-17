@@ -168,5 +168,9 @@ export class BookListComponent {
   onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/120x180?text=No+Cover';
   }
+  
+  scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 }
