@@ -58,4 +58,25 @@ export const fadeSlide = trigger('fadeSlide', [
 
   animations: [fadeSlide] // ✅ IMPORTANT
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+
+  score = 0;
+
+ngOnInit() {
+  document.addEventListener('click', (event: any) => {
+    if (event.target.classList.contains('bee')) {
+      this.addScore(10);
+    }
+
+    if (event.target.classList.contains('minion')) {
+      this.addScore(20);
+    }
+  });
+}
+
+addScore(points: number) {
+  this.score += points;
+  const el = document.getElementById('score');
+  if (el) el.innerText = this.score.toString();
+}
+}
