@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HeaderComponent } from '../header/header';
 import { LibraryService, Book } from '../../services/library';
-import { Observable, BehaviorSubject, switchMap } from 'rxjs';
+import { Observable, BehaviorSubject, switchMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
 
@@ -39,15 +39,16 @@ export class BookListComponent {
   ) {
 
     this.books$ = this.refreshTrigger.asObservable().pipe(
+
   switchMap(() => this.libraryService.getBooks()),
-  switchMap((books) => {
+
+  map((books) => {
 
     const grouped: { [key: string]: Book[] } = {};
 
     books.forEach((book: any) => {
 
-      const category =
-        book.category || 'General';
+      const category = book.category || 'General';
 
       if (!grouped[category]) {
 
@@ -59,9 +60,10 @@ export class BookListComponent {
 
     });
 
-    return [grouped];
+    return grouped;
 
   })
+
 );
 
   }
