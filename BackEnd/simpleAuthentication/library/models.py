@@ -25,49 +25,45 @@ class Book(models.Model):
      
     def save(self, *args, **kwargs):
 
-        # only upload if file is new AND not already a Supabase URL
-        if self.file and not str(self.file).startswith("http"):
+    # ─────────────────────────────
+    # HANDLE FILE UPLOAD (SAFE CHECK)
+    # ─────────────────────────────
+        if self.file and hasattr(self.file, "file") and not isinstance(self.file, str):
 
-            file = self.file
-            file.seek(0)  # 🔥 IMPORTANT FIX
+            file_obj = self.file.file
 
-            file_name = f"books/{file.name}"
+            file_name = f"books/{self.file.name}"
 
-            # upload safely (overwrite enabled)
             supabase.storage.from_("media").upload(
                 file_name,
-                file.read(),
+             file_obj.read(),
                 {
-                    "content-type": "application/pdf",
-                    "upsert": "true"   # 🔥 prevents duplicate error
-                }
+                 "content-type": "application/pdf",
+                 "upsert": "true"
+             }
             )
 
-            # store ONLY path
-            self.file = file_name
+            self.file = file_name  # store path only
 
-             # ─────────────────────────────────────────────
-        # 2. UPLOAD PHOTO TO SUPABASE (OPTIONAL BUT RECOMMENDED)
-        # ─────────────────────────────────────────────
-        if self.photo and not str(self.photo).startswith("http"):
+    # ─────────────────────────────
+    # HANDLE PHOTO UPLOAD (SAFE CHECK)
+    # ─────────────────────────────
+        if self.photo and hasattr(self.photo, "file") and not isinstance(self.photo, str):
 
-            photo = self.photo
-            photo.seek(0)
+            photo_obj = self.photo.file
 
-            photo_name = f"book_photos/{photo.name}"
+            photo_name = f"book_photos/{self.photo.name}"
 
             supabase.storage.from_("media").upload(
-                photo_name,
-                photo.read(),
+             photo_name,
+                photo_obj.read(),
                 {
-                    "content-type": "image/jpeg",
-                    "upsert": "true"
-                }
+                 "content-type": "image/jpeg",
+                 "upsert": "true"
+              }
             )
 
             self.photo = photo_name
-
-            
 
         super().save(*args, **kwargs)
     
