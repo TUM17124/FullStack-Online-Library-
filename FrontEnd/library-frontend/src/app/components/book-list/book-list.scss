@@ -19,7 +19,10 @@
   color: #f8fafc;
 }
 
-/* Page Title */
+/* =========================
+   PAGE TITLE (STICKY)
+========================= */
+
 .page-title {
   font-size: 2.2rem;
   font-weight: 800;
@@ -27,10 +30,20 @@
   margin-bottom: 1.5rem;
   color: #ffffff;
   letter-spacing: -0.5px;
+
+  position: sticky;
+  top: 0;
+  z-index: 1500;
+
+  background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
+  padding: 1rem 0;
+
+  backdrop-filter: blur(10px);
 }
 
+
 /* =========================
-   SUB NAVIGATION
+   SUB NAVIGATION (STICKY UNDER TITLE)
 ========================= */
 
 .sub-nav {
@@ -39,6 +52,16 @@
   gap: 10px;
   justify-content: center;
   margin-bottom: 2rem;
+
+  position: sticky;
+  top: 70px; /* pushes it below title */
+  z-index: 1400;
+
+  padding: 0.8rem 0;
+
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sub-nav button {
