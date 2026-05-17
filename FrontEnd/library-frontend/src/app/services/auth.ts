@@ -89,7 +89,7 @@ initAuth(): Promise<void> {
 }
 
   isLoggedIn(): boolean {
-    return this.hasToken();
+    return !!localStorage.getItem('token');
   }
 
   private hasToken(): boolean {
