@@ -35,10 +35,18 @@ export class HeaderComponent implements OnInit {
 
     // Listen to navigation events
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.updateLogoutVisibility(event.urlAfterRedirects);
-      });
+  .pipe(filter(event => event instanceof NavigationEnd))
+  .subscribe((event: NavigationEnd) => {
+
+    // check authentication first
+    if (this.authService.isLoggedIn()) {
+      this.updateLogoutVisibility(event.urlAfterRedirects);
+    } else {
+      // optional: force logout UI state
+      this.showLogout = false;
+    }
+
+  });
   }
 
   private updateLogoutVisibility(url: string): void {
