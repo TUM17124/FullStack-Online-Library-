@@ -48,15 +48,15 @@ export class BookListComponent {
 
     books.forEach((book: any) => {
 
-      const category = book.category || 'General';
+      const groupkey = book.title || 'General';
 
-      if (!grouped[category]) {
+      if (!grouped[groupkey]) {
 
-        grouped[category] = [];
+        grouped[groupkey] = [];
 
       }
 
-      grouped[category].push(book);
+      grouped[groupkey].push(book);
 
     });
 
