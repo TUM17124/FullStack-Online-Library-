@@ -25,44 +25,12 @@
 }
 
 /* =========================
-   PAGE TITLE
-========================= */
-
-.page-title {
-  position: sticky;
-  top: 0;
-  z-index: 2000;
-
-  text-align: center;
-
-  font-size: 2.3rem;
-  font-weight: 900;
-  letter-spacing: -1px;
-
-  margin-bottom: 0.7rem;
-  padding: 1rem 0;
-
-  color: #ffffff;
-
-  backdrop-filter: blur(18px);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
-  box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.28);
-
-  text-shadow:
-    0 0 15px rgba(255, 255, 255, 0.08),
-    0 0 35px rgba(59, 130, 246, 0.15);
-}
-
-/* =========================
    SUB NAVIGATION
 ========================= */
 
 .sub-nav {
   position: sticky;
-  top: 84px;
+  top: 0;
   z-index: 1900;
 
   display: flex;
@@ -75,7 +43,7 @@
 
   border-radius: 18px;
 
-  backdrop-filter: blur(18px);
+  position: sticky;
 
 }
 
