@@ -22,17 +22,17 @@
 
     <div
       class="category-section"
-      *ngFor="let category of objectKeys(groupedBooks)">
+      *ngFor="let title of objectKeys(groupedBooks)">
 
       <h2 class="category-title">
-        {{ category }}
+        {{ title }}
       </h2>
 
       <div class="books-grid">
 
         <div
           class="book-card"
-          *ngFor="let book of groupedBooks[category]">
+          *ngFor="let book of groupedBooks[title]">
 
           <div *ngIf="book.is_borrowed"
                class="borrowed-badge">
