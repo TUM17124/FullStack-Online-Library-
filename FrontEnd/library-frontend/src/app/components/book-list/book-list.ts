@@ -28,7 +28,7 @@ export class BookListComponent {
 
   private refreshTrigger = new BehaviorSubject<number>(0);
 
-  books$: Observable<Book[]>;
+  books$: Observable<{ [key: string]: Book[] }>;
 
   readingBookUrl: string | null = null;
 
@@ -39,8 +39,30 @@ export class BookListComponent {
   ) {
 
     this.books$ = this.refreshTrigger.asObservable().pipe(
-      switchMap(() => this.libraryService.getBooks())
-    );
+  switchMap(() => this.libraryService.getBooks()),
+  switchMap((books) => {
+
+    const grouped: { [key: string]: Book[] } = {};
+
+    books.forEach((book: any) => {
+
+      const category =
+        book.category || 'General';
+
+      if (!grouped[category]) {
+
+        grouped[category] = [];
+
+      }
+
+      grouped[category].push(book);
+
+    });
+
+    return [grouped];
+
+  })
+);
 
   }
 
@@ -156,6 +178,18 @@ export class BookListComponent {
   }
 
   this.readingBookUrl = null;
+
+}
+
+objectKeys(obj: any): string[] {
+
+  return Object.keys(obj);
+
+}
+
+hasBooks(groupedBooks: any): boolean {
+
+  return Object.keys(groupedBooks).length > 0;
 
 }
 

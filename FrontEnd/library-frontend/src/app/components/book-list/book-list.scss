@@ -38,6 +38,23 @@
   margin: 0 auto;
 }
 
+/* =========================
+   CATEGORY SECTION
+========================= */
+
+.category-section {
+  margin-bottom: 4rem;
+}
+
+.category-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #60a5fa;
+  border-left: 5px solid #3b82f6;
+  padding-left: 1rem;
+}
+
 /* Book Card - Smaller + Glow */
 .book-card {
   background: rgba(15, 23, 42, 0.92);

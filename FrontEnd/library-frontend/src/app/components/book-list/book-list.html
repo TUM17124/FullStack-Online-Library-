@@ -2,86 +2,101 @@
 
 <div class="container">
 
-  <h1 class="page-title">Available Books</h1>
+  <h1 class="page-title">
+    Available Books
+  </h1>
 
   <!-- PDF OVERLAY -->
   <div class="pdf-overlay" *ngIf="readingBookUrl">
 
     <app-pdf-reader
-      
       [pdfSrc]="readingBookUrl"
       (onClose)="closeReader()">
     </app-pdf-reader>
 
   </div>
 
-  <ng-container *ngIf="books$ | async as books; else loading">
+<ng-container *ngIf="books$ | async as groupedBooks; else loading">
 
-    <div *ngIf="books.length > 0; else emptyState"
-         class="books-grid">
+  <div *ngIf="hasBooks(groupedBooks); else emptyState">
 
-      <div class="book-card"
-           *ngFor="let book of books">
+    <div
+      class="category-section"
+      *ngFor="let category of objectKeys(groupedBooks)">
 
-        <div *ngIf="book.is_borrowed"
-             class="borrowed-badge">
-          Borrowed
-        </div>
+      <h2 class="category-title">
+        {{ category }}
+      </h2>
 
-        <img
-          [src]="book.photo_url || 'assets/default-book-cover.jpg'"
-          alt="{{book.title}}"
-          class="book-cover"
-          (error)="onImageError($event)"
-        >
+      <div class="books-grid">
 
-        <div class="book-info">
-          <h3 class="book-title">
-            {{ book.title }}
-          </h3>
-
-          <p class="book-author">
-            {{ book.author }}
-          </p>
-
-          <p class="book-description">
-            {{ book.description }}
-          </p>
-        </div>
-
-        <div class="book-actions">
-
-          <button
-            mat-raised-button
-            color="primary"
-            *ngIf="!book.is_borrowed"
-            (click)="borrowBook(book.id)">
-
-            Borrow
-
-          </button>
+        <div
+          class="book-card"
+          *ngFor="let book of groupedBooks[category]">
 
           <div *ngIf="book.is_borrowed"
-               class="borrowed-actions">
+               class="borrowed-badge">
+            Borrowed
+          </div>
+
+          <img
+            [src]="book.photo_url || 'assets/default-book-cover.jpg'"
+            alt="{{book.title}}"
+            class="book-cover"
+            (error)="onImageError($event)"
+          >
+
+          <div class="book-info">
+
+            <h3 class="book-title">
+              {{ book.title }}
+            </h3>
+
+            <p class="book-author">
+              {{ book.author }}
+            </p>
+
+            <p class="book-description">
+              {{ book.description }}
+            </p>
+
+          </div>
+
+          <div class="book-actions">
 
             <button
               mat-raised-button
-              color="warn"
-              (click)="returnBook(book.id)">
+              color="primary"
+              *ngIf="!book.is_borrowed"
+              (click)="borrowBook(book.id)">
 
-              Return
-
-            </button>
-
-            <button
-              mat-raised-button
-              color="accent"
-              *ngIf="book.file_url"
-              (click)="readBook(book.id)">
-
-              Read
+              Borrow
 
             </button>
+
+            <div *ngIf="book.is_borrowed"
+                 class="borrowed-actions">
+
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="returnBook(book.id)">
+
+                Return
+
+              </button>
+
+              <button
+                mat-raised-button
+                color="accent"
+                *ngIf="book.file_url"
+                (click)="readBook(book.id)">
+
+                Read
+
+              </button>
+
+            </div>
 
           </div>
 
@@ -91,16 +106,18 @@
 
     </div>
 
-  </ng-container>
+  </div>
 
-  <ng-template #loading>
-    <p class="loading">Loading books...</p>
-  </ng-template>
+</ng-container>
 
-  <ng-template #emptyState>
-    <p class="no-books">
-      No books available right now.
-    </p>
-  </ng-template>
+<ng-template #loading>
+  <p class="loading">
+    Loading books...
+  </p>
+</ng-template>
 
-</div>
+<ng-template #emptyState>
+  <p class="no-books">
+    No books available right now.
+  </p>
+</ng-template>
