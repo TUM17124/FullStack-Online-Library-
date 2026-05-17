@@ -8,6 +8,8 @@ import { LibraryService, Book } from '../../services/library';
 import { Observable, BehaviorSubject, switchMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
+import { HostListener } from '@angular/core';
+
 
 @Component({
   selector: 'app-book-list',
@@ -19,7 +21,8 @@ import { PdfReaderComponent } from '../pdf-reader/pdf-reader.component';
     MatTableModule,
     MatButtonModule,
     HeaderComponent,
-    PdfReaderComponent
+    PdfReaderComponent,
+    
   ],
   templateUrl: './book-list.html',
   styleUrls: ['./book-list.scss']
@@ -31,6 +34,8 @@ export class BookListComponent {
   books$: Observable<{ [key: string]: Book[] }>;
 
   readingBookUrl: string | null = null;
+
+  showScrollTop = false;
 
   constructor(
     private libraryService: LibraryService,
@@ -169,8 +174,13 @@ export class BookListComponent {
     event.target.src = 'https://via.placeholder.com/120x180?text=No+Cover';
   }
   
-  scrollToTop() {
+  scrollToTop(): void {
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+  
+  @HostListener('window:scroll', [])
+onScroll() {
+  this.showScrollTop = window.scrollY > 300;
 }
 
 }

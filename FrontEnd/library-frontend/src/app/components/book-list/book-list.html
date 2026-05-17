@@ -128,8 +128,11 @@
     <p class="no-books">No books available right now.</p>
   </ng-template>
 
-  <button class="scroll-top-btn" (click)="scrollToTop()">
-  ↑ Top
+ <button
+  class="scroll-top-btn"
+  *ngIf="showScrollTop"
+  (click)="scrollToTop()">
+  ↑
 </button>
 
 </div>
