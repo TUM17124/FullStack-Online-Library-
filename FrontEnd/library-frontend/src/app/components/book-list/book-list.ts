@@ -131,7 +131,7 @@ export class BookListComponent {
       'angular', 'react', 'vue',
       'django', 'python', 'java',
       'javascript', 'typescript',
-      'node', 'spring', 'html', 'css'
+      'node', 'spring', 'html', 'css' ,'flutter | dart', 'flask', 'machine learning', 'data science', 'artificial intelligence', 'deep learning', 'retrival augmented generation ', 'natural language processing', 'computer vision', 'cybersecurity', 'blockchain', 'cloud computing', 'devops', 'microservices', 'kubernetes', 'docker'
     ];
 
     const lowerTitle = title.toLowerCase();
