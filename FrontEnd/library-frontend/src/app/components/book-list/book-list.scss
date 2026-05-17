@@ -25,13 +25,13 @@
 }
 
 /* =========================
-   SUB NAVIGATION
+   SUB NAVIGATION (STICKY)
 ========================= */
 
 .sub-nav {
   position: sticky;
   top: 0;
-  z-index: 1900;
+  z-index: 2500;
 
   display: flex;
   flex-wrap: wrap;
@@ -39,70 +39,79 @@
   gap: 10px;
 
   margin-bottom: 2rem;
-  padding: 0.9rem 1rem;
+  padding: 1rem;
 
+  background: rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 18px;
 
-  position: sticky;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35);
 
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* NAV BUTTONS */
+
 .sub-nav button {
-  position: relative;
+  appearance: none;
+  border: none;
+  outline: none;
 
-  background: rgba(59, 130, 246, 0.12);
-  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  border: 1px solid rgba(59, 130, 246, 0.28);
+  padding: 0.7rem 1rem;
 
-  padding: 8px 14px;
+  min-width: fit-content;
+  max-width: 100%;
 
   border-radius: 999px;
 
+  background: rgba(59, 130, 246, 0.14);
+  color: #e2e8f0;
+
+  border: 1px solid rgba(59, 130, 246, 0.22);
+
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+
   cursor: pointer;
 
-  font-size: 0.88rem;
-  font-weight: 700;
-
-  overflow: hidden;
+  white-space: nowrap;
 
   transition:
-    transform 0.35s ease,
-    background 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease;
 }
 
-.sub-nav button::before {
-  content: '';
-
-  position: absolute;
-  inset: 0;
-
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.12),
-    transparent
-  );
-
-  transform: translateX(-120%);
-  transition: transform 0.6s ease;
-}
-
-.sub-nav button:hover::before {
-  transform: translateX(120%);
-}
+/* BUTTON HOVER */
 
 .sub-nav button:hover {
-  background: rgba(59, 130, 246, 0.28);
+  background: rgba(59, 130, 246, 0.24);
 
-  border-color: rgba(96, 165, 250, 0.7);
+  border-color: rgba(96, 165, 250, 0.55);
 
-  transform: translateY(-3px);
+  color: #ffffff;
+
+  transform: translateY(-2px);
 
   box-shadow:
-    0 0 18px rgba(59, 130, 246, 0.25);
+    0 8px 20px rgba(59, 130, 246, 0.22);
+}
+
+/* BUTTON ACTIVE */
+
+.sub-nav button:active {
+  transform: scale(0.97);
 }
 
 /* =========================
@@ -111,7 +120,7 @@
 
 .category-section {
   margin-bottom: 4rem;
-  scroll-margin-top: 150px;
+  scroll-margin-top: 120px;
 }
 
 .category-title {
@@ -173,22 +182,6 @@
   height: 100%;
 }
 
-.book-card::before {
-  content: '';
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      140deg,
-      rgba(255, 255, 255, 0.03),
-      transparent 35%
-    );
-
-  pointer-events: none;
-}
-
 .book-card:hover {
   transform: translateY(-10px);
 
@@ -197,32 +190,6 @@
   box-shadow:
     0 22px 45px rgba(0, 0, 0, 0.48),
     0 0 28px rgba(59, 130, 246, 0.22);
-}
-
-/* =========================
-   BORROWED BADGE
-========================= */
-
-.borrowed-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-
-  color: white;
-
-  font-size: 0.72rem;
-  font-weight: 700;
-
-  padding: 5px 11px;
-
-  border-radius: 999px;
-
-  z-index: 50;
-
-  box-shadow:
-    0 6px 16px rgba(239, 68, 68, 0.35);
 }
 
 /* =========================
@@ -242,18 +209,18 @@
   transform: scale(1);
 
   transition:
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.8s ease,
-    box-shadow 0.8s ease;
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s ease,
+    box-shadow 0.9s ease;
 }
 
-/* IMAGE POP OUT EFFECT */
+/* IMAGE POP EFFECT */
 
 .book-card:hover .book-cover {
-  transform: scale(1.12);
+  transform: scale(1.14);
 
   filter:
-    brightness(1.1)
+    brightness(1.12)
     saturate(1.12);
 
   box-shadow:
@@ -359,100 +326,19 @@
 }
 
 /* =========================
-   STATES
-========================= */
-
-.loading,
-.no-books {
-  text-align: center;
-
-  font-size: 1.05rem;
-
-  color: #94a3b8;
-
-  margin-top: 4rem;
-}
-
-/* =========================
-   PDF OVERLAY
-========================= */
-
-.pdf-overlay {
-  position: fixed;
-  inset: 0;
-
-  background: rgba(0, 0, 0, 0.94);
-
-  backdrop-filter: blur(12px);
-
-  z-index: 3200;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 1rem;
-}
-
-/* =========================
-   SCROLL TOP BUTTON
-========================= */
-
-.scroll-top-btn {
-  position: fixed;
-
-  bottom: 24px;
-  right: 24px;
-
-  width: 52px;
-  height: 52px;
-
-  border: none;
-  border-radius: 50%;
-
-  background:
-    linear-gradient(135deg, #3b82f6, #2563eb);
-
-  color: white;
-
-  font-size: 18px;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  z-index: 4000;
-
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.35),
-    0 0 24px rgba(59, 130, 246, 0.35);
-
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.35s ease,
-    opacity 0.35s ease;
-}
-
-.scroll-top-btn:hover {
-  transform: translateY(-5px) scale(1.06);
-
-  box-shadow:
-    0 18px 35px rgba(0, 0, 0, 0.45),
-    0 0 30px rgba(59, 130, 246, 0.55);
-}
-
-/* =========================
    RESPONSIVE
 ========================= */
 
 @media (max-width: 768px) {
 
-  .page-title {
-    font-size: 1.9rem;
+  .sub-nav {
+    gap: 8px;
+    padding: 0.8rem;
   }
 
-  .sub-nav {
-    top: 74px;
-    gap: 8px;
+  .sub-nav button {
+    font-size: 0.78rem;
+    padding: 0.6rem 0.9rem;
   }
 
   .books-grid {
@@ -462,19 +348,6 @@
 
   .book-cover {
     height: 190px;
-  }
-
-  .book-title {
-    font-size: 0.95rem;
-  }
-
-  .book-description {
-    font-size: 0.78rem;
-  }
-
-  .sub-nav button {
-    font-size: 0.8rem;
-    padding: 6px 10px;
   }
 
   .borrowed-actions {
@@ -492,6 +365,24 @@
     padding: 1rem 0.8rem;
   }
 
+  .sub-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+
+    padding-bottom: 0.9rem;
+
+    scrollbar-width: none;
+  }
+
+  .sub-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sub-nav button {
+    flex: 0 0 auto;
+  }
+
   .books-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -502,12 +393,6 @@
 
   .category-title {
     font-size: 1.25rem;
-  }
-
-  .scroll-top-btn {
-    width: 46px;
-    height: 46px;
-    font-size: 16px;
   }
 
   .borrowed-actions {
