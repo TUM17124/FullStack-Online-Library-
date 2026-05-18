@@ -715,7 +715,7 @@ body {
 }
 
 /* MORE PARTICLES */
-@for $i from 1 through 30 {
+@for $i from 1 through 50 {
 
   .particles span:nth-child(#{$i}) {
 
