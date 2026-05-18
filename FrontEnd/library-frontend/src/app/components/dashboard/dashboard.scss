@@ -1,7 +1,7 @@
 /* =========================
    GLOBAL RESET
 ========================= */
-
+@use "sass:math";
 * {
   margin: 0;
   padding: 0;
@@ -688,4 +688,80 @@ body {
     font-size: 0.8rem;
   }
 
+}
+
+/* =========================
+   PARTICLES (DEEP SPACE FEEL)
+========================= */
+
+
+.particles span {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+
+  background:
+  rgba(59,130,246,0.9),
+  rgba(168,85,247,0.9),
+  rgba(14,165,233,0.9);
+
+  box-shadow:
+    0 0 6px rgba(96,165,250,0.8),
+    0 0 12px rgba(96,165,250,0.5);
+
+  animation: floatParticles linear infinite;
+
+  opacity: 0;
+}
+
+/* MORE PARTICLES */
+@for $i from 1 through 80 {
+
+  .particles span:nth-child(#{$i}) {
+
+    left: math.random(100) * 1%;
+    top: math.random(100) * 1%;
+
+    width: (2 + math.random(6)) + px;
+    height: (2 + math.random(6)) + px;
+
+    animation-duration: (3 + math.random(6)) + s;
+    animation-delay: math.random(10) * -1s;
+
+    opacity: math.div(math.random(10), 10);
+
+    filter: blur(math.random(2) + px);
+  }
+}
+
+@keyframes floatParticles {
+
+  0% {
+    transform:
+      translateY(0)
+      translateX(0)
+      scale(0.7);
+
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  50% {
+    transform:
+      translateY(-120px)
+      translateX(40px)
+      scale(1);
+  }
+
+  100% {
+    transform:
+      translateY(-300px)
+      translateX(-60px)
+      scale(0.4);
+
+    opacity: 0;
+  }
 }
