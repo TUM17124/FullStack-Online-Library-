@@ -17,6 +17,7 @@ import {
   query,
   stagger
 } from '@angular/animations';
+import { HeaderComponent } from '../header/header';
 
 export const fadeSlide = trigger('fadeSlide', [
   transition(':enter', [
@@ -48,6 +49,7 @@ export const fadeSlide = trigger('fadeSlide', [
     RouterLink,
     MatCardModule,
     MatIconModule,
+    HeaderComponent,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule

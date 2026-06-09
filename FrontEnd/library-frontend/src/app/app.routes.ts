@@ -19,7 +19,7 @@ export const routes: Routes = [
 
   // Protected routes (require login)
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'books', component: BookListComponent, canActivate: [AuthGuard] },
+  { path: 'books', component: BookListComponent },
   { path: 'borrowed', component: BorrowedBooksComponent, canActivate: [AuthGuard] },
   { path: 'overdue', component: OverdueBooksComponent, canActivate: [AuthGuard] },
   { path: 'privacy', component: PrivacyComponent },
