@@ -1,6 +1,9 @@
 <mat-toolbar color="primary" class="toolbar">
 
-  <span class="title">Library</span>
+  <span class="title">
+    <mat-icon>auto_stories</mat-icon>
+    Practical Coding Library
+  </span>
 
   <span class="spacer"></span>
 
@@ -14,12 +17,36 @@
     <!-- Navigation menu -->
     <div class="nav-menu" [class.open]="menuOpen">
 
-      
-      <button mat-button routerLink="/books" (click)="closeMenu()">Books</button>
-      <button mat-button routerLink="/borrowed" (click)="closeMenu()">My Borrowed</button>
-      <button mat-button routerLink="/overdue" (click)="closeMenu()">Overdue</button>
+      <button mat-button routerLink="/books" (click)="closeMenu()">
+        📚 Books
+      </button>
 
-      <button *ngIf="showLogout" mat-raised-button color="warn" (click)="logout()">Logout</button>
+      <ng-container *ngIf="isLoggedIn">
+        <button mat-button routerLink="/borrowed" (click)="closeMenu()">
+          My Borrowed
+        </button>
+        <button mat-button routerLink="/overdue" (click)="closeMenu()">
+          Overdue
+        </button>
+      </ng-container>
+
+      <!-- Auth Buttons -->
+      <div class="auth-buttons">
+        <ng-container *ngIf="isLoggedIn; else guestButtons">
+          <button mat-raised-button color="warn" (click)="logout()">
+            Logout
+          </button>
+        </ng-container>
+
+        <ng-template #guestButtons>
+          <button mat-button routerLink="/login" (click)="closeMenu()">
+            Login
+          </button>
+          <button mat-raised-button color="accent" routerLink="/register" (click)="closeMenu()">
+            Register
+          </button>
+        </ng-template>
+      </div>
 
     </div>
 
