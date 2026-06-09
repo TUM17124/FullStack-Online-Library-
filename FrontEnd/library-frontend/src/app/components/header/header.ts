@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { HostListener, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -21,26 +22,36 @@ import { filter } from 'rxjs/operators';
   styleUrl: './header.scss'
 })
 export class HeaderComponent implements OnInit {
-
+  showLogout = true;
   menuOpen = false;
-  isLoggedIn = false;
 
-  @ViewChild('navContainer') navContainer!: ElementRef;
+   @ViewChild('navContainer') navContainer!: ElementRef;
 
-  constructor(
-    private router: Router,
-    public authService: AuthService
-  ) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
+    // Check current route on init
+    this.updateLogoutVisibility(this.router.url);
 
-    // Listen to route changes
+    // Listen to navigation events
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.isLoggedIn = this.authService.isLoggedIn();
-      });
+  .pipe(filter(event => event instanceof NavigationEnd))
+  .subscribe((event: NavigationEnd) => {
+
+    // check authentication first
+    if (this.authService.isLoggedIn()) {
+      this.updateLogoutVisibility(event.urlAfterRedirects);
+    } else {
+      // optional: force logout UI state
+      this.showLogout = false;
+    }
+
+  });
+  }
+
+  private updateLogoutVisibility(url: string): void {
+    // Hide logout button only on dashboard
+    this.showLogout = !url.includes('/dashboard');
   }
 
   toggleMenu() {
@@ -54,15 +65,15 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.closeMenu();
-    this.router.navigate(['/']);
   }
 
-  // Close menu when clicking outside
+  // Detect click outside the menu to close it
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
-    if (this.menuOpen && this.navContainer && 
-        !this.navContainer.nativeElement.contains(event.target)) {
+    if (this.menuOpen && !this.navContainer.nativeElement.contains(event.target)) {
       this.menuOpen = false;
-    }
-  }
+    } }
+
+
+
 }
