@@ -88,7 +88,7 @@ class StrictTokenObtainPairView(TokenObtainPairView):
 # BOOK BORROWING & READING
 # ──────────────────────────────────────────────────────────────
 class BorrowBookView(APIView):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def post(self, request, book_id):
         user = request.user
