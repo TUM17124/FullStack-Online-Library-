@@ -142,7 +142,7 @@ class BorrowedBooksView(ListAPIView):
 
 
 class BookListView(ListAPIView):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
     serializer_class = BookSerializer
     queryset = Book.objects.all()
 
